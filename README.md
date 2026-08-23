@@ -1,13 +1,12 @@
 # Marginalia — E-Library (Nuxt 3 + TypeScript)
 
 A digital library site rebuilt in Nuxt 3 / TypeScript, inspired by
-https://genzelib.vercel.app/ — same core pages and features (home
-catalog with category filtering, about, account, login), original
-design.
+https://genzelib.vercel.app/ — original design throughout.
 
 ## Pages
 
-- `/` — Hero, stats bar, category filter chips, book grid
+- `/` — Hero, stats bar, "why Marginalia" features, how-it-works steps, CTA. No book listing here.
+- `/products` — Full catalog: category filter chips + search, book grid (moved here from the homepage)
 - `/about` — Vision, mission, services, contact
 - `/account` — Mock profile + saved/favorite books
 - `/login` — Login form with client-side validation
@@ -17,7 +16,7 @@ design.
 ```
 components/   AppHeader, AppFooter, BookCard, CategoryChips
 data/books.ts mock catalog data (edit or connect to a real API here)
-pages/        index, about, account, login
+pages/        index, products, about, account, login
 assets/css/   design tokens + global styles
 ```
 
@@ -37,10 +36,29 @@ npm run build
 npm run preview
 ```
 
+## Push this to your own GitHub
+
+This folder is already a git repo with one commit. To push it:
+
+```bash
+# 1. Create an empty repo on github.com (no README/license, so it stays empty)
+# 2. Then, inside this folder:
+git remote add origin https://github.com/<your-username>/<repo-name>.git
+git branch -M main
+git push -u origin main
+```
+
+If you don't have a repo yet, either create one at github.com/new,
+or with the GitHub CLI:
+
+```bash
+gh repo create <repo-name> --public --source=. --remote=origin --push
+```
+
 ## Next steps if you want it fully functional
 
 - Replace `data/books.ts` with a real API or database (e.g. a
   Nuxt server route + SQLite/Postgres, or a headless CMS).
 - Wire up `/login` and `/account` to real authentication
   (nuxt-auth-utils or better-auth work well with Nuxt 3).
-- Add a search input alongside the category chips.
+- Deploy to Vercel or Netlify (both support Nuxt 3 out of the box).

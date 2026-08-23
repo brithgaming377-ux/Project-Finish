@@ -5,7 +5,7 @@ defineProps<{ book: Book }>()
 </script>
 
 <template>
-  <article class="card">
+  <NuxtLink :to="`/products/${book.id}`" class="card">
     <div class="cover" :style="{ background: book.spineColor }">
       <span class="cover-title">{{ book.title }}</span>
       <span class="cover-pages">{{ book.pages }}p</span>
@@ -15,11 +15,12 @@ defineProps<{ book: Book }>()
       <p class="author">{{ book.author }}</p>
       <span class="category">{{ book.category }}</span>
     </div>
-  </article>
+  </NuxtLink>
 </template>
 
 <style scoped>
 .card {
+  display: block;
   background: var(--white);
   border: 1px solid var(--line);
   border-radius: var(--radius);

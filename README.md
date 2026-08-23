@@ -62,3 +62,16 @@ gh repo create <repo-name> --public --source=. --remote=origin --push
 - Wire up `/login` and `/account` to real authentication
   (nuxt-auth-utils or better-auth work well with Nuxt 3).
 - Deploy to Vercel or Netlify (both support Nuxt 3 out of the box).
+
+## Routing
+
+`/products` uses Nuxt's file-based dynamic routing:
+
+```
+pages/products/index.vue   ->  /products
+pages/products/[id].vue    ->  /products/:id   (e.g. /products/9)
+```
+
+`[id].vue` reads `route.params.id`, looks the book up in `data/books.ts`,
+and throws a real 404 (`createError({ statusCode: 404, ... })`) if no
+book matches — try visiting `/products/999`.

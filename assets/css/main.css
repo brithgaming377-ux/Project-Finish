@@ -1,0 +1,127 @@
+:root {
+  --ink: #1B1F3B;
+  --ink-soft: #4A4E69;
+  --parchment: #F7F3E8;
+  --parchment-dim: #EFE9D8;
+  --amber: #E8A33D;
+  --amber-deep: #C97F1E;
+  --sage: #6B8F71;
+  --white: #FFFFFF;
+  --line: rgba(27, 31, 59, 0.12);
+
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  --radius: 6px;
+  --shadow: 0 1px 2px rgba(27, 31, 59, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #__nuxt {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0;
+  color: var(--ink);
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber-deep);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  font-weight: 600;
+  font-size: 14.5px;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--parchment);
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  background: #262B52;
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink);
+}
+.btn-ghost:hover {
+  border-color: var(--ink);
+}
+
+.btn-amber {
+  background: var(--amber);
+  color: var(--ink);
+}
+.btn-amber:hover {
+  background: var(--amber-deep);
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

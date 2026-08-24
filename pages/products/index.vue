@@ -1,123 +1,138 @@
 <script setup lang="ts">
 import { books, categories } from '~/data/books'
 
-const activeCategory = ref('All')
-const query = ref('')
+const route = useRoute()
+
+const activeCategory = ref((route.query.category as string) || 'All')
+const query = ref((route.query.q as string) || '')
+const activeLevel = ref<'All' | 'Beginner' | 'Intermediate' | 'Advanced'>('All')
+const sortBy = ref<'relevance' | 'rating' | 'newest' | 'title'>('relevance')
+
+const levels = ['Beginner', 'Intermediate', 'Advanced'] as const
 
 const filteredBooks = computed(() => {
   let list = activeCategory.value === 'All'
     ? books
     : books.filter(b => b.category === activeCategory.value)
 
+  if (activeLevel.value !== 'All') {
+    list = list.filter(b => b.level === activeLevel.value)
+  }
+
   if (query.value.trim()) {
     const q = query.value.trim().toLowerCase()
     list = list.filter(b =>
-      b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q)
+      b.title.toLowerCase().includes(q) ||
+      b.author.toLowerCase().includes(q) ||
+      b.tags.some(t => t.toLowerCase().includes(q))
     )
   }
-  return list
+
+  const sorted = [...list]
+  if (sortBy.value === 'rating') sorted.sort((a, b) => b.rating - a.rating)
+  else if (sortBy.value === 'newest') sorted.sort((a, b) => b.year - a.year)
+  else if (sortBy.value === 'title') sorted.sort((a, b) => a.title.localeCompare(b.title))
+
+  return sorted
 })
 
 function selectCategory(cat: string) {
   activeCategory.value = cat
 }
+
+function clearFilters() {
+  activeCategory.value = 'All'
+  activeLevel.value = 'All'
+  query.value = ''
+  sortBy.value = 'relevance'
+}
 </script>
 
 <template>
-  <div class="container products">
-    <header class="products-head">
-      <p class="eyebrow">Full catalog</p>
-      <h1>Products</h1>
-      <p class="lead">Every book in Marginalia, in one place — filter by subject or search by title.</p>
+  <div class="max-w-6xl mx-auto px-6 py-12">
+    <header class="max-w-2xl mb-8">
+      <p class="font-mono text-xs uppercase tracking-wide text-amber-deep">Full catalog</p>
+      <h1 class="font-display font-semibold text-[clamp(28px,4vw,38px)] mt-2">Products</h1>
+      <p class="text-ink-soft text-[15px] mt-3">Every book in Marginalia, in one place — filter by subject or level, search by title, tag or author.</p>
     </header>
 
-    <div class="controls">
-      <CategoryChips
-        :categories="categories"
-        :active="activeCategory"
-        @select="selectCategory"
-      />
-      <input
-        v-model="query"
-        type="search"
-        class="search"
-        placeholder="Search by title or author…"
-        aria-label="Search books"
-      />
-    </div>
+    <div class="grid lg:grid-cols-[220px_1fr] gap-8">
+      <!-- Sidebar filters -->
+      <aside class="space-y-7">
+        <div>
+          <h3 class="font-mono text-xs uppercase tracking-wide text-ink-soft mb-3">Subject</h3>
+          <div class="flex flex-col gap-1.5">
+            <button
+              class="text-left text-sm px-2.5 py-1.5 rounded-card"
+              :class="activeCategory === 'All' ? 'bg-ink text-parchment' : 'text-ink-soft hover:bg-parchment-dim'"
+              @click="selectCategory('All')"
+            >
+              All subjects
+            </button>
+            <button
+              v-for="cat in categories"
+              :key="cat"
+              class="text-left text-sm px-2.5 py-1.5 rounded-card"
+              :class="activeCategory === cat ? 'bg-ink text-parchment' : 'text-ink-soft hover:bg-parchment-dim'"
+              @click="selectCategory(cat)"
+            >
+              {{ cat }}
+            </button>
+          </div>
+        </div>
 
-    <p class="count">Showing {{ filteredBooks.length }} of {{ books.length }} books</p>
+        <div>
+          <h3 class="font-mono text-xs uppercase tracking-wide text-ink-soft mb-3">Level</h3>
+          <div class="flex flex-col gap-1.5">
+            <button
+              class="text-left text-sm px-2.5 py-1.5 rounded-card"
+              :class="activeLevel === 'All' ? 'bg-ink text-parchment' : 'text-ink-soft hover:bg-parchment-dim'"
+              @click="activeLevel = 'All'"
+            >
+              All levels
+            </button>
+            <button
+              v-for="lvl in levels"
+              :key="lvl"
+              class="text-left text-sm px-2.5 py-1.5 rounded-card"
+              :class="activeLevel === lvl ? 'bg-ink text-parchment' : 'text-ink-soft hover:bg-parchment-dim'"
+              @click="activeLevel = lvl"
+            >
+              {{ lvl }}
+            </button>
+          </div>
+        </div>
 
-    <div v-if="filteredBooks.length" class="grid">
-      <BookCard v-for="book in filteredBooks" :key="book.id" :book="book" />
+        <button class="text-xs font-mono text-ink-soft underline hover:text-ink" @click="clearFilters">
+          Clear all filters
+        </button>
+      </aside>
+
+      <!-- Results -->
+      <div>
+        <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-2">
+          <input
+            v-model="query"
+            type="search"
+            placeholder="Search title, author, tag…"
+            aria-label="Search books"
+            class="flex-1 rounded-full border border-line bg-white px-4 py-2 text-sm min-w-[200px]"
+          />
+          <select v-model="sortBy" aria-label="Sort books" class="rounded-full border border-line bg-white px-4 py-2 text-sm cursor-pointer">
+            <option value="relevance">Sort: Relevance</option>
+            <option value="rating">Sort: Highest rated</option>
+            <option value="newest">Sort: Newest</option>
+            <option value="title">Sort: Title A–Z</option>
+          </select>
+        </div>
+
+        <p class="font-mono text-xs text-ink-soft mb-4">Showing {{ filteredBooks.length }} of {{ books.length }} books</p>
+
+        <div v-if="filteredBooks.length" class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
+          <BookCard v-for="book in filteredBooks" :key="book.id" :book="book" />
+        </div>
+        <p v-else class="text-ink-soft text-[15px] mt-8">No books match your filters. Try clearing them.</p>
+      </div>
     </div>
-    <p v-else class="empty">No books match “{{ query }}”. Try a different search or category.</p>
   </div>
 </template>
-
-<style scoped>
-.products {
-  padding: 56px 24px 80px;
-}
-
-.products-head {
-  max-width: 60ch;
-  margin-bottom: 32px;
-}
-
-.products-head h1 {
-  font-size: clamp(28px, 4vw, 40px);
-  margin-top: 8px;
-}
-
-.lead {
-  margin-top: 12px;
-  color: var(--ink-soft);
-  font-size: 15px;
-}
-
-.controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 8px;
-}
-
-.search {
-  font-family: var(--font-body);
-  font-size: 13.5px;
-  padding: 9px 14px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: var(--white);
-  color: var(--ink);
-  min-width: 220px;
-}
-
-.search:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 1px;
-}
-
-.count {
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  color: var(--ink-soft);
-  margin-top: 16px;
-}
-
-.grid {
-  margin-top: 16px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 18px;
-}
-
-.empty {
-  margin-top: 32px;
-  color: var(--ink-soft);
-  font-size: 14.5px;
-}
-</style>

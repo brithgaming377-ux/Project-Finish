@@ -3,90 +3,30 @@ const year = new Date().getFullYear()
 </script>
 
 <template>
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div class="footer-brand">
-        <span class="brand-text">Marginalia</span>
-        <p class="tagline">Learning anywhere, anytime.</p>
+  <footer class="bg-ink text-parchment mt-20 pt-12">
+    <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-3 gap-8 pb-8">
+      <div>
+        <span class="font-display font-semibold text-xl">Marginalia</span>
+        <p class="text-parchment/60 text-sm mt-2">A free digital library and catalog. Learning anywhere, anytime.</p>
       </div>
 
-      <div class="footer-col">
-        <h4>Quick Links</h4>
-        <NuxtLink to="/">Home</NuxtLink>
-        <NuxtLink to="/products">Products</NuxtLink>
-        <NuxtLink to="/about">About</NuxtLink>
+      <div>
+        <h4 class="font-mono text-xs uppercase tracking-wide text-amber mb-3">Quick links</h4>
+        <div class="flex flex-col gap-2 text-sm text-parchment/75">
+          <NuxtLink to="/" class="hover:text-parchment">Home</NuxtLink>
+          <NuxtLink to="/products" class="hover:text-parchment">Products</NuxtLink>
+          <NuxtLink to="/about" class="hover:text-parchment">About</NuxtLink>
+        </div>
       </div>
 
-      <div class="footer-col">
-        <h4>Contact</h4>
-        <p>Phnom Penh, Cambodia</p>
-        <p>+855 89 416 985</p>
+      <div>
+        <h4 class="font-mono text-xs uppercase tracking-wide text-amber mb-3">Contact</h4>
+        <p class="text-sm text-parchment/75">Phnom Penh, Cambodia</p>
+        <p class="text-sm text-parchment/75 mt-1">+855 89 416 985</p>
       </div>
     </div>
-    <div class="container footer-bottom">
-      <p>&copy; {{ year }} Marginalia E-Library. Built for learning.</p>
+    <div class="border-t border-parchment/10 py-4">
+      <p class="max-w-6xl mx-auto px-6 text-xs text-parchment/50">&copy; {{ year }} Marginalia E-Library. Built for learning.</p>
     </div>
   </footer>
 </template>
-
-<style scoped>
-.footer {
-  background: var(--ink);
-  color: var(--parchment);
-  margin-top: 80px;
-  padding-top: 48px;
-}
-
-.footer-inner {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 32px;
-  padding-bottom: 32px;
-}
-
-.footer-brand .brand-text {
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.tagline {
-  color: rgba(247, 243, 232, 0.65);
-  margin-top: 8px;
-  font-size: 14px;
-}
-
-.footer-col h4 {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--amber);
-  margin-bottom: 12px;
-}
-
-.footer-col a,
-.footer-col p {
-  display: block;
-  font-size: 14px;
-  color: rgba(247, 243, 232, 0.75);
-  margin-bottom: 8px;
-}
-
-.footer-col a:hover {
-  color: var(--parchment);
-}
-
-.footer-bottom {
-  border-top: 1px solid rgba(247, 243, 232, 0.12);
-  padding: 18px 0;
-  font-size: 13px;
-  color: rgba(247, 243, 232, 0.5);
-}
-
-@media (max-width: 640px) {
-  .footer-inner {
-    grid-template-columns: 1fr;
-  }
-}
-</style>

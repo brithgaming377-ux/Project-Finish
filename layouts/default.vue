@@ -1,20 +1,9 @@
 <template>
-  <div class="page">
+  <div class="min-h-screen flex flex-col">
     <AppHeader />
-    <main>
+    <main class="flex-1">
       <slot />
     </main>
     <AppFooter />
   </div>
 </template>
-
-<style scoped>
-.page {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-main {
-  flex: 1;
-}
-</style>

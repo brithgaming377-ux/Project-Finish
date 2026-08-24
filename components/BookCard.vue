@@ -5,87 +5,30 @@ defineProps<{ book: Book }>()
 </script>
 
 <template>
-  <NuxtLink :to="`/products/${book.id}`" class="card">
-    <div class="cover" :style="{ background: book.spineColor }">
-      <span class="cover-title">{{ book.title }}</span>
-      <span class="cover-pages">{{ book.pages }}p</span>
+  <NuxtLink
+    :to="`/products/${book.id}`"
+    class="block bg-white border border-line rounded-card overflow-hidden transition hover:-translate-y-0.5 hover:shadow-card"
+  >
+    <div
+      class="h-36 flex flex-col justify-between p-3.5 text-parchment relative overflow-hidden"
+      :style="{ background: book.spineColor }"
+    >
+      <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" aria-hidden="true" />
+      <span class="relative self-start font-mono text-[9.5px] uppercase tracking-wide bg-black/25 px-1.5 py-0.5 rounded-full">
+        {{ book.level }}
+      </span>
+      <div class="relative">
+        <p class="font-display font-semibold text-[15px] leading-tight">{{ book.title }}</p>
+        <p class="font-mono text-[10.5px] opacity-85 mt-1">{{ book.pages }}p &middot; {{ book.format }}</p>
+      </div>
     </div>
-    <div class="meta">
-      <p class="title">{{ book.title }}</p>
-      <p class="author">{{ book.author }}</p>
-      <span class="category">{{ book.category }}</span>
+    <div class="p-3.5">
+      <p class="text-sm font-semibold leading-tight">{{ book.title }}</p>
+      <p class="text-[13px] text-ink-soft mt-0.5 mb-2.5">{{ book.author }}</p>
+      <div class="flex items-center justify-between gap-2">
+        <span class="font-mono text-[10.5px] uppercase tracking-wide text-amber-deep">{{ book.category }}</span>
+        <StarRating :rating="book.rating" :size="10" />
+      </div>
     </div>
   </NuxtLink>
 </template>
-
-<style scoped>
-.card {
-  display: block;
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(27, 31, 59, 0.1);
-}
-
-.cover {
-  height: 148px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 14px;
-  color: var(--parchment);
-  position: relative;
-}
-
-.cover::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, rgba(255,255,255,0.12), transparent 60%);
-}
-
-.cover-title {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 1.25;
-  position: relative;
-}
-
-.cover-pages {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  opacity: 0.8;
-  position: relative;
-}
-
-.meta {
-  padding: 14px;
-}
-
-.title {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 2px;
-}
-
-.author {
-  font-size: 13px;
-  color: var(--ink-soft);
-  margin-bottom: 8px;
-}
-
-.category {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--amber-deep);
-}
-</style>

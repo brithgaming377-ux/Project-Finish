@@ -19,127 +19,51 @@ function onSubmit() {
 </script>
 
 <template>
-  <div class="container login">
-    <div class="login-card">
-      <p class="eyebrow">Welcome back</p>
-      <h1>Log in to Marginalia</h1>
-      <p class="sub">Access your saved books and reading history.</p>
+  <div class="min-h-[70vh] flex items-center justify-center px-6 py-10">
+    <div class="w-full max-w-[380px] bg-white border border-line rounded-card p-8">
+      <p class="font-mono text-xs uppercase tracking-wide text-amber-deep">Welcome back</p>
+      <h1 class="font-display font-semibold text-2xl mt-2">Log in to Marginalia</h1>
+      <p class="text-[13.5px] text-ink-soft mt-2">Access your saved books and reading history.</p>
 
-      <form v-if="!submitted" class="form" @submit.prevent="onSubmit">
-        <label class="field">
+      <form v-if="!submitted" class="flex flex-col gap-4 mt-6" @submit.prevent="onSubmit">
+        <label class="flex flex-col gap-1.5 text-[13px] font-semibold">
           <span>Email</span>
-          <input v-model="email" type="email" autocomplete="email" placeholder="you@example.com" />
+          <input
+            v-model="email"
+            type="email"
+            autocomplete="email"
+            placeholder="you@example.com"
+            class="text-sm font-normal px-3 py-2.5 rounded-card border border-line bg-parchment focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink"
+          />
         </label>
-        <label class="field">
+        <label class="flex flex-col gap-1.5 text-[13px] font-semibold">
           <span>Password</span>
-          <input v-model="password" type="password" autocomplete="current-password" placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" />
+          <input
+            v-model="password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="••••••••"
+            class="text-sm font-normal px-3 py-2.5 rounded-card border border-line bg-parchment focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink"
+          />
         </label>
 
-        <p v-if="error" class="error" role="alert">{{ error }}</p>
+        <p v-if="error" class="text-[13px] text-red-700" role="alert">{{ error }}</p>
 
-        <button type="submit" class="btn btn-primary submit">Log in</button>
+        <button type="submit" class="w-full justify-center rounded-card bg-ink text-parchment font-semibold text-sm px-5 py-2.5 mt-1 hover:bg-ink-light transition">
+          Log in
+        </button>
       </form>
 
-      <div v-else class="success">
-        <p>You're in — welcome back.</p>
-        <NuxtLink to="/account" class="btn btn-amber">Go to your account</NuxtLink>
+      <div v-else class="mt-6 text-center flex flex-col gap-3.5">
+        <p class="text-sm">You're in — welcome back.</p>
+        <NuxtLink to="/account" class="inline-flex justify-center rounded-card bg-amber text-ink font-semibold text-sm px-5 py-2.5 hover:bg-amber-deep transition">
+          Go to your account
+        </NuxtLink>
       </div>
 
-      <p class="switch">
-        New here? <NuxtLink to="/account">Create a free account</NuxtLink>
+      <p class="text-center text-[13px] text-ink-soft mt-5">
+        New here? <NuxtLink to="/account" class="text-amber-deep font-semibold">Create a free account</NuxtLink>
       </p>
     </div>
   </div>
 </template>
-
-<style scoped>
-.login {
-  min-height: 70vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 24px;
-}
-
-.login-card {
-  width: 100%;
-  max-width: 380px;
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 32px 28px;
-}
-
-.login-card h1 {
-  font-size: 24px;
-  margin-top: 8px;
-}
-
-.sub {
-  margin-top: 8px;
-  font-size: 13.5px;
-  color: var(--ink-soft);
-}
-
-.form {
-  margin-top: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.field input {
-  font-family: var(--font-body);
-  font-size: 14px;
-  padding: 10px 12px;
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-  background: var(--parchment);
-  color: var(--ink);
-}
-
-.field input:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 1px;
-}
-
-.error {
-  font-size: 13px;
-  color: #B3401E;
-  margin: 0;
-}
-
-.submit {
-  margin-top: 4px;
-  width: 100%;
-  justify-content: center;
-}
-
-.success {
-  margin-top: 24px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.switch {
-  margin-top: 20px;
-  font-size: 13px;
-  color: var(--ink-soft);
-  text-align: center;
-}
-
-.switch a {
-  color: var(--amber-deep);
-  font-weight: 600;
-}
-</style>

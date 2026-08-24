@@ -1,0 +1,1457 @@
+[
+  {
+    "id": 1,
+    "title": "Clean Architecture",
+    "author": "R. C. Martin",
+    "category": "Technology",
+    "pages": 432,
+    "year": 2017,
+    "spineColor": "#1B1F3B",
+    "description": "A guide to structuring software systems so that business logic stays independent of frameworks, databases, and delivery mechanisms.",
+    "longDescription": [
+      "Robert C. Martin distills four decades of software design experience into a set of rules and practices for building systems that survive change. The central argument is that architecture is about intent, not tools: frameworks, databases, and UI layers are details that should be kept at the edges of a system, never at its core.",
+      "The book walks through the SOLID principles, component cohesion and coupling, and the boundaries that separate policy from mechanism. Case studies show what happens when those boundaries are ignored — systems that become expensive to change even when the business logic itself is simple.",
+      "It closes with practical advice on organizing a codebase into layers that can be tested, replaced, and understood independently, aimed at engineers who want their systems to still make sense two years after launch."
+    ],
+    "tableOfContents": [
+      "What Is Design and Architecture?",
+      "Programming Paradigms",
+      "Design Principles (SOLID)",
+      "Component Principles",
+      "Architecture",
+      "Boundaries and Layers",
+      "The Clean Architecture",
+      "Case Studies",
+      "The Missing Chapter"
+    ],
+    "tags": [
+      "software design",
+      "engineering practice",
+      "systems thinking"
+    ],
+    "subjects": [
+      "Software Design",
+      "Engineering Practice",
+      "Systems Thinking"
+    ],
+    "callNumber": "QA76107.B1",
+    "level": "Intermediate",
+    "publisher": "Prentice Hall",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-100765432",
+    "fileSizeMb": 5.4,
+    "readingTimeHours": 9.6,
+    "addedDate": "2026-02-02",
+    "edition": 2,
+    "rating": 3.6,
+    "ratingsCount": 73,
+    "reviews": [
+      {
+        "name": "James O.",
+        "rating": 3,
+        "date": "2026-06-16",
+        "comment": "Recommended it to two classmates already."
+      },
+      {
+        "name": "Dara P.",
+        "rating": 4,
+        "date": "2026-06-15",
+        "comment": "One of the better books I've read on this topic this year."
+      },
+      {
+        "name": "Anna B.",
+        "rating": 4,
+        "date": "2026-05-12",
+        "comment": "Clear and well organized — exactly what I needed for coursework."
+      },
+      {
+        "name": "Anna B.",
+        "rating": 4,
+        "date": "2026-03-11",
+        "comment": "Not the easiest read, but the payoff is real."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 7,
+      "checkedOut": 3
+    }
+  },
+  {
+    "id": 2,
+    "title": "The Pragmatic Programmer",
+    "author": "D. Thomas & A. Hunt",
+    "category": "Technology",
+    "pages": 352,
+    "year": 1999,
+    "spineColor": "#6B8F71",
+    "description": "A collection of practical habits and principles for working programmers, covering everything from debugging and testing to communication and career growth.",
+    "longDescription": [
+      "Rather than teaching a language or framework, this book teaches a way of working. It collects field-tested habits — from \"don't repeat yourself\" to \"programming by coincidence\" — into short, quotable tips that hold up regardless of tech stack.",
+      "Topics range from the very technical (automated testing, debugging strategy, orthogonal design) to the very human (communicating with stakeholders, estimating honestly, managing your own career as a craft).",
+      "Two decades after its first edition, it remains one of the most recommended books for developers moving from \"writes working code\" to \"writes code a team can live with.\""
+    ],
+    "tableOfContents": [
+      "A Pragmatic Philosophy",
+      "A Pragmatic Approach",
+      "The Basic Tools",
+      "Pragmatic Paranoia",
+      "Bend or Break",
+      "While You Are Coding",
+      "Before the Project",
+      "Pragmatic Projects"
+    ],
+    "tags": [
+      "career growth",
+      "best practices",
+      "craftsmanship"
+    ],
+    "subjects": [
+      "Career Growth",
+      "Best Practices",
+      "Craftsmanship"
+    ],
+    "callNumber": "QA76114.C2",
+    "level": "Beginner",
+    "publisher": "Addison-Wesley",
+    "language": "English",
+    "format": "PDF",
+    "isbn": "978-101530864",
+    "fileSizeMb": 4.4,
+    "readingTimeHours": 7.8,
+    "addedDate": "2026-03-03",
+    "edition": 3,
+    "rating": 4.7,
+    "ratingsCount": 85,
+    "reviews": [
+      {
+        "name": "Dara P.",
+        "rating": 4,
+        "date": "2026-08-16",
+        "comment": "Good introduction, though a few chapters felt dated."
+      },
+      {
+        "name": "Dara P.",
+        "rating": 5,
+        "date": "2026-06-14",
+        "comment": "Good introduction, though a few chapters felt dated."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 4,
+      "checkedOut": 1
+    }
+  },
+  {
+    "id": 3,
+    "title": "Networks, Crowds & Markets",
+    "author": "Easley & Kleinberg",
+    "category": "Technology",
+    "pages": 512,
+    "year": 2010,
+    "spineColor": "#C97F1E",
+    "description": "An introduction to the mathematics behind connected systems — how networks, incentives, and information spread shape everything from social platforms to financial markets.",
+    "longDescription": [
+      "This textbook bridges economics, sociology, and computing to explain why connected systems behave the way they do. It builds from simple graph theory up to game-theoretic models of auctions, information cascades, and market structure.",
+      "Each chapter pairs formal models with real examples — the spread of a meme, the structure of the web, the pricing of a matching market — making the mathematics feel grounded rather than abstract.",
+      "Suitable as a course text or self-study for anyone who wants a rigorous but accessible foundation in network science."
+    ],
+    "tableOfContents": [
+      "Graphs",
+      "Strong and Weak Ties",
+      "Networks in Their Surrounding Contexts",
+      "Game Theory",
+      "Auctions",
+      "Information Networks",
+      "Cascading Behavior",
+      "The Small-World Phenomenon"
+    ],
+    "tags": [
+      "network science",
+      "game theory",
+      "economics"
+    ],
+    "subjects": [
+      "Network Science",
+      "Game Theory",
+      "Economics"
+    ],
+    "callNumber": "QA76121.D3",
+    "level": "Advanced",
+    "publisher": "Cambridge University Press",
+    "language": "English",
+    "format": "PDF",
+    "isbn": "978-102296296",
+    "fileSizeMb": 6.6,
+    "readingTimeHours": 11.4,
+    "addedDate": "2026-04-04",
+    "edition": 1,
+    "rating": 4,
+    "ratingsCount": 111,
+    "reviews": [
+      {
+        "name": "James O.",
+        "rating": 3,
+        "date": "2026-05-12",
+        "comment": "One of the better books I've read on this topic this year."
+      },
+      {
+        "name": "Sokha K.",
+        "rating": 4,
+        "date": "2026-03-12",
+        "comment": "Good introduction, though a few chapters felt dated."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 3,
+      "checkedOut": 0
+    }
+  },
+  {
+    "id": 4,
+    "title": "Meditations",
+    "author": "Marcus Aurelius",
+    "category": "Philosophy",
+    "pages": 254,
+    "year": 180,
+    "spineColor": "#4A4E69",
+    "description": "The private journal of a Roman emperor reflecting on duty, mortality, and self-discipline — one of the foundational texts of Stoic philosophy.",
+    "longDescription": [
+      "Written as private notes rather than a work meant for publication, Meditations captures an emperor thinking through the same questions any person faces: how to act well, how to face loss, how to stay steady when things go wrong.",
+      "The twelve books move in short, aphoristic passages rather than a linear argument, drawing on Stoic ideas about virtue, impermanence, and the limits of what is within our control.",
+      "Its plainness is part of its staying power — this is a ruler talking to himself, not performing wisdom for an audience, which is part of why it still reads as sincere nearly two thousand years later."
+    ],
+    "tableOfContents": [
+      "Book I: Debts and Lessons",
+      "Book II: On the Banks of the Gran",
+      "Book III: Meditations in Carnuntum",
+      "Book IV–VI: On Virtue",
+      "Book VII–IX: On Impermanence",
+      "Book X–XII: On Duty"
+    ],
+    "tags": [
+      "stoicism",
+      "classics",
+      "self-discipline"
+    ],
+    "subjects": [
+      "Stoicism",
+      "Classics",
+      "Self-Discipline"
+    ],
+    "callNumber": "B128.E4",
+    "level": "Beginner",
+    "publisher": "Penguin Classics",
+    "language": "English (translated)",
+    "format": "EPUB",
+    "isbn": "978-103061728",
+    "fileSizeMb": 3,
+    "readingTimeHours": 5.6,
+    "addedDate": "2026-05-05",
+    "edition": 2,
+    "rating": 4.5,
+    "ratingsCount": 79,
+    "reviews": [
+      {
+        "name": "James O.",
+        "rating": 5,
+        "date": "2026-01-11",
+        "comment": "One of the better books I've read on this topic this year."
+      },
+      {
+        "name": "James O.",
+        "rating": 4,
+        "date": "2026-01-12",
+        "comment": "Dense in places but the core ideas really stuck with me."
+      },
+      {
+        "name": "Dara P.",
+        "rating": 4,
+        "date": "2026-03-15",
+        "comment": "Solid overview — I keep coming back to reference it."
+      },
+      {
+        "name": "Dara P.",
+        "rating": 4,
+        "date": "2026-06-18",
+        "comment": "Took a while to get through but worth it in the end."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 4,
+      "checkedOut": 3
+    }
+  },
+  {
+    "id": 5,
+    "title": "Beyond Good and Evil",
+    "author": "F. Nietzsche",
+    "category": "Philosophy",
+    "pages": 297,
+    "year": 1886,
+    "spineColor": "#8C5E3C",
+    "description": "A critique of traditional morality and philosophy, arguing for a reevaluation of values beyond simple notions of good and evil.",
+    "longDescription": [
+      "Nietzsche opens by questioning the assumptions underneath centuries of philosophy — the idea that truth, morality, and \"the good\" are fixed, discoverable things rather than products of history and psychology.",
+      "Across nine parts he attacks dogmatism in philosophy, examines the psychology behind moral judgments, and sketches his idea of the \"free spirit\" unconstrained by inherited values.",
+      "It is dense and aphoristic by design, meant to be argued with rather than simply absorbed — a book that rewards slow, skeptical reading."
+    ],
+    "tableOfContents": [
+      "On the Prejudices of Philosophers",
+      "The Free Spirit",
+      "The Religious Mood",
+      "Apophthegms and Interludes",
+      "Natural History of Morals",
+      "We Scholars",
+      "Our Virtues",
+      "Peoples and Fatherlands",
+      "What Is Noble?"
+    ],
+    "tags": [
+      "ethics",
+      "classics",
+      "critical theory"
+    ],
+    "subjects": [
+      "Ethics",
+      "Classics",
+      "Critical Theory"
+    ],
+    "callNumber": "B135.F5",
+    "level": "Advanced",
+    "publisher": "Vintage",
+    "language": "English (translated)",
+    "format": "EPUB",
+    "isbn": "978-103827160",
+    "fileSizeMb": 3.9,
+    "readingTimeHours": 6.6,
+    "addedDate": "2026-06-06",
+    "edition": 3,
+    "rating": 3.9,
+    "ratingsCount": 148,
+    "reviews": [
+      {
+        "name": "Vuthy S.",
+        "rating": 5,
+        "date": "2026-01-11",
+        "comment": "Solid overview — I keep coming back to reference it."
+      },
+      {
+        "name": "Chenda M.",
+        "rating": 3,
+        "date": "2026-02-18",
+        "comment": "One of the better books I've read on this topic this year."
+      },
+      {
+        "name": "Dara P.",
+        "rating": 3,
+        "date": "2026-08-13",
+        "comment": "One of the better books I've read on this topic this year."
+      },
+      {
+        "name": "Sokha K.",
+        "rating": 5,
+        "date": "2026-03-12",
+        "comment": "One of the better books I've read on this topic this year."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 5,
+      "checkedOut": 3
+    }
+  },
+  {
+    "id": 6,
+    "title": "The Republic",
+    "author": "Plato",
+    "category": "Philosophy",
+    "pages": 416,
+    "year": -375,
+    "spineColor": "#3F6C51",
+    "description": "A Socratic dialogue examining justice, the ideal state, and the nature of a well-ordered soul.",
+    "longDescription": [
+      "Framed as a conversation led by Socrates, The Republic asks a deceptively simple question — what is justice? — and follows it into a sweeping account of the ideal city-state, education, and the structure of the human soul.",
+      "Famous passages include the Allegory of the Cave, the theory of Forms, and the argument that philosophers, not warriors or merchants, are best suited to govern.",
+      "It remains a foundational text of Western political philosophy, still assigned in courses on ethics, politics, and epistemology."
+    ],
+    "tableOfContents": [
+      "Book I: What Is Justice?",
+      "Book II–IV: The Just City",
+      "Book V–VII: Philosopher-Kings and the Cave",
+      "Book VIII–IX: The Decline of States",
+      "Book X: Poetry and the Afterlife"
+    ],
+    "tags": [
+      "classics",
+      "political philosophy",
+      "ethics"
+    ],
+    "subjects": [
+      "Classics",
+      "Political Philosophy",
+      "Ethics"
+    ],
+    "callNumber": "B142.G6",
+    "level": "Advanced",
+    "publisher": "Oxford World's Classics",
+    "language": "English (translated)",
+    "format": "PDF",
+    "isbn": "978-104592592",
+    "fileSizeMb": 4.7,
+    "readingTimeHours": 9.2,
+    "addedDate": "2026-07-07",
+    "edition": 1,
+    "rating": 3.9,
+    "ratingsCount": 270,
+    "reviews": [
+      {
+        "name": "Dara P.",
+        "rating": 3,
+        "date": "2026-07-13",
+        "comment": "Recommended it to two classmates already."
+      },
+      {
+        "name": "Sokha K.",
+        "rating": 5,
+        "date": "2026-03-15",
+        "comment": "Clear and well organized — exactly what I needed for coursework."
+      },
+      {
+        "name": "James O.",
+        "rating": 4,
+        "date": "2026-05-10",
+        "comment": "Good introduction, though a few chapters felt dated."
+      },
+      {
+        "name": "Michael T.",
+        "rating": 4,
+        "date": "2026-01-14",
+        "comment": "Solid overview — I keep coming back to reference it."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 8,
+      "checkedOut": 5
+    }
+  },
+  {
+    "id": 7,
+    "title": "A Brief History of Time",
+    "author": "S. Hawking",
+    "category": "Science",
+    "pages": 256,
+    "year": 1988,
+    "spineColor": "#1B1F3B",
+    "description": "An accessible tour of cosmology — from the Big Bang to black holes — written for readers without a physics background.",
+    "longDescription": [
+      "Stephen Hawking set out to explain the biggest questions in cosmology — where the universe came from, what a black hole actually is, whether time had a beginning — without requiring a physics degree to follow along.",
+      "The book moves from the history of astronomy through general relativity and quantum mechanics to Hawking's own work on black holes and the origin of the universe, using almost no equations.",
+      "It became one of the best-selling science books ever published, credited with bringing cosmology into mainstream conversation."
+    ],
+    "tableOfContents": [
+      "Our Picture of the Universe",
+      "Space and Time",
+      "The Expanding Universe",
+      "The Uncertainty Principle",
+      "Elementary Particles",
+      "Black Holes",
+      "The Origin of the Universe",
+      "The Arrow of Time"
+    ],
+    "tags": [
+      "cosmology",
+      "physics",
+      "popular science"
+    ],
+    "subjects": [
+      "Cosmology",
+      "Physics",
+      "Popular Science"
+    ],
+    "callNumber": "Q149.H7",
+    "level": "Beginner",
+    "publisher": "Bantam Books",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-105358024",
+    "fileSizeMb": 3,
+    "readingTimeHours": 5.7,
+    "addedDate": "2026-08-08",
+    "edition": 2,
+    "rating": 4.8,
+    "ratingsCount": 69,
+    "reviews": [
+      {
+        "name": "Michael T.",
+        "rating": 5,
+        "date": "2026-08-17",
+        "comment": "Dense in places but the core ideas really stuck with me."
+      },
+      {
+        "name": "Chenda M.",
+        "rating": 5,
+        "date": "2026-07-15",
+        "comment": "Took a while to get through but worth it in the end."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 6,
+      "checkedOut": 1
+    }
+  },
+  {
+    "id": 8,
+    "title": "The Selfish Gene",
+    "author": "R. Dawkins",
+    "category": "Science",
+    "pages": 384,
+    "year": 1976,
+    "spineColor": "#6B8F71",
+    "description": "A gene-centered view of evolution, arguing that genes, not individuals or species, are the primary unit of natural selection.",
+    "longDescription": [
+      "Richard Dawkins reframes evolution from the point of view of the gene: organisms, in this telling, are vehicles genes build to replicate themselves, and much of animal (and human) behavior can be understood through that lens.",
+      "The book introduces ideas like the \"extended phenotype\" and coins the term \"meme\" as a cultural analogue to the gene, extending the argument beyond biology into culture.",
+      "It remains one of the most influential and most argued-about popular science books of the last fifty years."
+    ],
+    "tableOfContents": [
+      "Why Are People?",
+      "The Replicators",
+      "Immortal Coils",
+      "The Gene Machine",
+      "Aggression",
+      "Genesmanship",
+      "Family Planning",
+      "Battle of the Generations",
+      "Memes: The New Replicators"
+    ],
+    "tags": [
+      "evolution",
+      "biology",
+      "popular science"
+    ],
+    "subjects": [
+      "Evolution",
+      "Biology",
+      "Popular Science"
+    ],
+    "callNumber": "Q156.I8",
+    "level": "Intermediate",
+    "publisher": "Oxford University Press",
+    "language": "English",
+    "format": "PDF",
+    "isbn": "978-106123456",
+    "fileSizeMb": 4.8,
+    "readingTimeHours": 8.5,
+    "addedDate": "2026-01-09",
+    "edition": 3,
+    "rating": 4.5,
+    "ratingsCount": 262,
+    "reviews": [
+      {
+        "name": "Anna B.",
+        "rating": 4,
+        "date": "2026-06-14",
+        "comment": "Took a while to get through but worth it in the end."
+      },
+      {
+        "name": "Lina R.",
+        "rating": 5,
+        "date": "2026-05-12",
+        "comment": "Good introduction, though a few chapters felt dated."
+      },
+      {
+        "name": "Anna B.",
+        "rating": 5,
+        "date": "2026-02-14",
+        "comment": "Took a while to get through but worth it in the end."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 8,
+      "checkedOut": 3
+    }
+  },
+  {
+    "id": 9,
+    "title": "Cosmos",
+    "author": "C. Sagan",
+    "category": "Science",
+    "pages": 396,
+    "year": 1980,
+    "spineColor": "#C97F1E",
+    "description": "A sweeping journey through astronomy, biology, and the history of scientific discovery, written to make the universe feel within reach.",
+    "longDescription": [
+      "Carl Sagan wrote Cosmos as a companion to his television series of the same name, tracing the history of science and the structure of the universe with a sense of wonder rather than dry recitation of facts.",
+      "It moves fluidly between the origins of life on Earth, the scale of the cosmos, the history of astronomy, and the risks and promise of scientific civilization — tied together by Sagan's recurring theme that we are, in his words, \"starstuff contemplating the stars.\"",
+      "Decades later it remains a touchstone for popular science writing, admired as much for its prose as its content."
+    ],
+    "tableOfContents": [
+      "The Shores of the Cosmic Ocean",
+      "One Voice in the Cosmic Fugue",
+      "The Harmony of the Worlds",
+      "Heaven and Hell",
+      "Blues for a Red Planet",
+      "Travelers' Tales",
+      "The Backbone of Night",
+      "Encyclopaedia Galactica"
+    ],
+    "tags": [
+      "astronomy",
+      "popular science",
+      "history of science"
+    ],
+    "subjects": [
+      "Astronomy",
+      "Popular Science",
+      "History Of Science"
+    ],
+    "callNumber": "Q163.J9",
+    "level": "Beginner",
+    "publisher": "Random House",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-106888888",
+    "fileSizeMb": 4.8,
+    "readingTimeHours": 8.8,
+    "addedDate": "2026-02-01",
+    "edition": 1,
+    "rating": 3.6,
+    "ratingsCount": 247,
+    "reviews": [
+      {
+        "name": "Chenda M.",
+        "rating": 3,
+        "date": "2026-08-18",
+        "comment": "Good introduction, though a few chapters felt dated."
+      },
+      {
+        "name": "Michael T.",
+        "rating": 5,
+        "date": "2026-08-14",
+        "comment": "One of the better books I've read on this topic this year."
+      },
+      {
+        "name": "Chenda M.",
+        "rating": 4,
+        "date": "2026-04-12",
+        "comment": "Clear and well organized — exactly what I needed for coursework."
+      },
+      {
+        "name": "Chenda M.",
+        "rating": 4,
+        "date": "2026-03-10",
+        "comment": "Good introduction, though a few chapters felt dated."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 7,
+      "checkedOut": 5
+    }
+  },
+  {
+    "id": 10,
+    "title": "Dare to Lead",
+    "author": "B. Brown",
+    "category": "Leadership",
+    "pages": 320,
+    "year": 2018,
+    "spineColor": "#4A4E69",
+    "description": "A framework for leading with courage and vulnerability, drawn from research on what separates brave leaders from the rest.",
+    "longDescription": [
+      "Brené Brown applies her research on vulnerability and shame to the workplace, arguing that \"armored\" leadership — defensiveness, perfectionism, never admitting uncertainty — quietly costs organizations trust and performance.",
+      "The book is built around four skill sets that can be taught and measured: rumbling with vulnerability, living into values, braving trust, and learning to rise after setbacks.",
+      "It draws on interviews with leaders across industries and includes practical language teams can use to talk about difficult moments honestly."
+    ],
+    "tableOfContents": [
+      "The Heart of Daring Leadership",
+      "Rumbling with Vulnerability",
+      "The Armored Leader",
+      "Living into Our Values",
+      "Braving Trust",
+      "Learning to Rise"
+    ],
+    "tags": [
+      "leadership",
+      "management",
+      "workplace culture"
+    ],
+    "subjects": [
+      "Leadership",
+      "Management",
+      "Workplace Culture"
+    ],
+    "callNumber": "HD170.K10",
+    "level": "Intermediate",
+    "publisher": "Random House Business",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-107654321",
+    "fileSizeMb": 3.7,
+    "readingTimeHours": 7.1,
+    "addedDate": "2026-03-02",
+    "edition": 2,
+    "rating": 4.2,
+    "ratingsCount": 276,
+    "reviews": [
+      {
+        "name": "Lina R.",
+        "rating": 4,
+        "date": "2026-02-17",
+        "comment": "Not the easiest read, but the payoff is real."
+      },
+      {
+        "name": "Lina R.",
+        "rating": 4,
+        "date": "2026-07-17",
+        "comment": "Took a while to get through but worth it in the end."
+      },
+      {
+        "name": "Sokha K.",
+        "rating": 5,
+        "date": "2026-07-11",
+        "comment": "Not the easiest read, but the payoff is real."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 3,
+      "checkedOut": 0
+    }
+  },
+  {
+    "id": 11,
+    "title": "Good to Great",
+    "author": "J. Collins",
+    "category": "Leadership",
+    "pages": 300,
+    "year": 2001,
+    "spineColor": "#8C5E3C",
+    "description": "A research-based look at what allows some companies to make the leap from average performance to sustained excellence.",
+    "longDescription": [
+      "Jim Collins and his research team studied companies that sustained dramatically improved performance for at least fifteen years, comparing each to a similar company that never made the leap.",
+      "The findings — \"Level 5\" leadership, getting the right people on the bus before deciding direction, the \"hedgehog concept,\" a culture of discipline — became widely cited shorthand in business writing.",
+      "It is written for practitioners rather than academics, heavy on case studies of real (if sometimes dated) companies."
+    ],
+    "tableOfContents": [
+      "Good Is the Enemy of Great",
+      "Level 5 Leadership",
+      "First Who, Then What",
+      "Confront the Brutal Facts",
+      "The Hedgehog Concept",
+      "A Culture of Discipline",
+      "Technology Accelerators",
+      "The Flywheel"
+    ],
+    "tags": [
+      "business strategy",
+      "management",
+      "case studies"
+    ],
+    "subjects": [
+      "Business Strategy",
+      "Management",
+      "Case Studies"
+    ],
+    "callNumber": "HD177.L11",
+    "level": "Intermediate",
+    "publisher": "HarperBusiness",
+    "language": "English",
+    "format": "PDF",
+    "isbn": "978-108419753",
+    "fileSizeMb": 3.9,
+    "readingTimeHours": 6.7,
+    "addedDate": "2026-04-03",
+    "edition": 3,
+    "rating": 4,
+    "ratingsCount": 238,
+    "reviews": [
+      {
+        "name": "Dara P.",
+        "rating": 3,
+        "date": "2026-01-10",
+        "comment": "Clear and well organized — exactly what I needed for coursework."
+      },
+      {
+        "name": "Sokha K.",
+        "rating": 3,
+        "date": "2026-01-10",
+        "comment": "Took a while to get through but worth it in the end."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 4,
+      "checkedOut": 3
+    }
+  },
+  {
+    "id": 12,
+    "title": "The Five Dysfunctions of a Team",
+    "author": "P. Lencioni",
+    "category": "Leadership",
+    "pages": 229,
+    "year": 2002,
+    "spineColor": "#3F6C51",
+    "description": "A leadership fable illustrating the common breakdowns — from lack of trust to inattention to results — that keep teams from performing.",
+    "longDescription": [
+      "Told as a business fable about a fictional startup executive team, the book dramatizes five compounding failures: absence of trust, fear of conflict, lack of commitment, avoidance of accountability, and inattention to results.",
+      "Each dysfunction builds on the one before it, forming a pyramid model that has become a common shorthand in management training.",
+      "The second half of the book distills the story into a practical model and assessment teams can use on themselves."
+    ],
+    "tableOfContents": [
+      "Underachievement",
+      "Lighting the Fire",
+      "Heavy Lifting",
+      "Traction",
+      "The Model",
+      "Team Assessment"
+    ],
+    "tags": [
+      "teamwork",
+      "management",
+      "organizational behavior"
+    ],
+    "subjects": [
+      "Teamwork",
+      "Management",
+      "Organizational Behavior"
+    ],
+    "callNumber": "HD184.M12",
+    "level": "Beginner",
+    "publisher": "Jossey-Bass",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-109185185",
+    "fileSizeMb": 3.2,
+    "readingTimeHours": 5.1,
+    "addedDate": "2026-05-04",
+    "edition": 1,
+    "rating": 3.9,
+    "ratingsCount": 46,
+    "reviews": [
+      {
+        "name": "Chenda M.",
+        "rating": 4,
+        "date": "2026-05-11",
+        "comment": "Not the easiest read, but the payoff is real."
+      },
+      {
+        "name": "Lina R.",
+        "rating": 4,
+        "date": "2026-02-16",
+        "comment": "Not the easiest read, but the payoff is real."
+      },
+      {
+        "name": "Vuthy S.",
+        "rating": 3,
+        "date": "2026-07-17",
+        "comment": "Solid overview — I keep coming back to reference it."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 4,
+      "checkedOut": 3
+    }
+  },
+  {
+    "id": 13,
+    "title": "Fluent Forever",
+    "author": "G. Wyner",
+    "category": "Language",
+    "pages": 336,
+    "year": 2014,
+    "spineColor": "#1B1F3B",
+    "description": "A practical method for learning any language quickly, using memory techniques, pronunciation training, and spaced repetition.",
+    "longDescription": [
+      "Gabriel Wyner, an opera singer who learned several languages fluently as an adult, breaks language learning into a system: train your ear and mouth first, build vocabulary through image association rather than translation, and use spaced repetition to make it stick.",
+      "The book is unusually concrete — it explains how to build your own flashcard decks, which sounds to prioritize, and how to sequence grammar so it reinforces rather than overwhelms.",
+      "It is aimed at self-directed adult learners rather than classroom settings."
+    ],
+    "tableOfContents": [
+      "Why Forever?",
+      "How to Learn (and Keep) Any Language",
+      "Sounds",
+      "Words",
+      "Grammar",
+      "Building a Practice"
+    ],
+    "tags": [
+      "language learning",
+      "self-study",
+      "memory techniques"
+    ],
+    "subjects": [
+      "Language Learning",
+      "Self-Study",
+      "Memory Techniques"
+    ],
+    "callNumber": "P191.N13",
+    "level": "Beginner",
+    "publisher": "Harmony",
+    "language": "English",
+    "format": "PDF",
+    "isbn": "978-109950617",
+    "fileSizeMb": 3.9,
+    "readingTimeHours": 7.5,
+    "addedDate": "2026-06-05",
+    "edition": 2,
+    "rating": 4.1,
+    "ratingsCount": 172,
+    "reviews": [
+      {
+        "name": "Sokha K.",
+        "rating": 4,
+        "date": "2026-04-11",
+        "comment": "Not the easiest read, but the payoff is real."
+      },
+      {
+        "name": "Sokha K.",
+        "rating": 4,
+        "date": "2026-02-17",
+        "comment": "Dense in places but the core ideas really stuck with me."
+      },
+      {
+        "name": "Lina R.",
+        "rating": 3,
+        "date": "2026-07-16",
+        "comment": "Good introduction, though a few chapters felt dated."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 3,
+      "checkedOut": 0
+    }
+  },
+  {
+    "id": 14,
+    "title": "The Elements of Style",
+    "author": "Strunk & White",
+    "category": "Language",
+    "pages": 105,
+    "year": 1959,
+    "spineColor": "#6B8F71",
+    "description": "A compact, enduring guide to clear and correct English writing, covering grammar, usage, and composition principles.",
+    "longDescription": [
+      "Originally a set of course notes by William Strunk Jr., later expanded by E. B. White, this slim book distills English usage into direct rules: omit needless words, use the active voice, keep related words together.",
+      "It is opinionated by design — some of its stricter rules are debated by modern linguists — but its brevity and clarity have made it a standard reference for generations of writers.",
+      "Best read as a set of defaults to internalize rather than laws to follow without exception."
+    ],
+    "tableOfContents": [
+      "Elementary Rules of Usage",
+      "Elementary Principles of Composition",
+      "A Few Matters of Form",
+      "Words and Expressions Commonly Misused",
+      "An Approach to Style"
+    ],
+    "tags": [
+      "writing",
+      "grammar",
+      "style guide"
+    ],
+    "subjects": [
+      "Writing",
+      "Grammar",
+      "Style Guide"
+    ],
+    "callNumber": "P198.O14",
+    "level": "Beginner",
+    "publisher": "Pearson",
+    "language": "English",
+    "format": "PDF",
+    "isbn": "978-110716049",
+    "fileSizeMb": 1.4,
+    "readingTimeHours": 2.3,
+    "addedDate": "2026-07-06",
+    "edition": 3,
+    "rating": 3.9,
+    "ratingsCount": 275,
+    "reviews": [
+      {
+        "name": "Vuthy S.",
+        "rating": 4,
+        "date": "2026-06-10",
+        "comment": "Clear and well organized — exactly what I needed for coursework."
+      },
+      {
+        "name": "Michael T.",
+        "rating": 4,
+        "date": "2026-01-11",
+        "comment": "Took a while to get through but worth it in the end."
+      },
+      {
+        "name": "Anna B.",
+        "rating": 3,
+        "date": "2026-01-12",
+        "comment": "Solid overview — I keep coming back to reference it."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 6,
+      "checkedOut": 3
+    }
+  },
+  {
+    "id": 15,
+    "title": "Khmer for Beginners",
+    "author": "R. K. Headley",
+    "category": "Language",
+    "pages": 288,
+    "year": 1997,
+    "spineColor": "#C97F1E",
+    "description": "An introductory course in spoken and written Khmer, covering script, pronunciation, and everyday vocabulary.",
+    "longDescription": [
+      "Designed as a structured course rather than a phrasebook, this text introduces the Khmer script alongside spoken pronunciation from the first lesson, rather than relying on romanization throughout.",
+      "Lessons build from greetings and numbers up through everyday conversation, with grammar notes and exercises after each unit.",
+      "It is commonly used in university Khmer-language programs and by long-term residents learning to read as well as speak."
+    ],
+    "tableOfContents": [
+      "The Khmer Script",
+      "Greetings and Introductions",
+      "Numbers and Time",
+      "Family and Daily Life",
+      "Shopping and Directions",
+      "Reading Practice"
+    ],
+    "tags": [
+      "khmer",
+      "language learning",
+      "script"
+    ],
+    "subjects": [
+      "Khmer",
+      "Language Learning",
+      "Script"
+    ],
+    "callNumber": "P205.P15",
+    "level": "Beginner",
+    "publisher": "Dunwoody Press",
+    "language": "English / Khmer",
+    "format": "PDF",
+    "isbn": "978-111481481",
+    "fileSizeMb": 3.4,
+    "readingTimeHours": 6.4,
+    "addedDate": "2026-08-07",
+    "edition": 1,
+    "rating": 3.7,
+    "ratingsCount": 279,
+    "reviews": [
+      {
+        "name": "Dara P.",
+        "rating": 4,
+        "date": "2026-06-15",
+        "comment": "Recommended it to two classmates already."
+      },
+      {
+        "name": "Vuthy S.",
+        "rating": 4,
+        "date": "2026-06-14",
+        "comment": "Recommended it to two classmates already."
+      },
+      {
+        "name": "Anna B.",
+        "rating": 4,
+        "date": "2026-05-14",
+        "comment": "Clear and well organized — exactly what I needed for coursework."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 7,
+      "checkedOut": 5
+    }
+  },
+  {
+    "id": 16,
+    "title": "Sapiens",
+    "author": "Y. N. Harari",
+    "category": "History",
+    "pages": 443,
+    "year": 2011,
+    "spineColor": "#4A4E69",
+    "description": "A sweeping account of human history, from the cognitive revolution to the present, exploring how shared myths shaped civilization.",
+    "longDescription": [
+      "Yuval Noah Harari traces Homo sapiens from an unremarkable savanna primate to the dominant species on the planet, organizing the story around three revolutions: cognitive, agricultural, and scientific.",
+      "His central claim is that large-scale human cooperation depends on shared fictions — money, nations, religions, corporations — that exist only because enough people believe in them together.",
+      "The book is written for a general audience and moves quickly across enormous stretches of time, favoring big ideas over exhaustive detail."
+    ],
+    "tableOfContents": [
+      "The Cognitive Revolution",
+      "The Agricultural Revolution",
+      "The Unification of Humankind",
+      "The Scientific Revolution"
+    ],
+    "tags": [
+      "anthropology",
+      "big history",
+      "popular nonfiction"
+    ],
+    "subjects": [
+      "Anthropology",
+      "Big History",
+      "Popular Nonfiction"
+    ],
+    "callNumber": "D212.Q16",
+    "level": "Beginner",
+    "publisher": "Harper",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-112246913",
+    "fileSizeMb": 5,
+    "readingTimeHours": 9.8,
+    "addedDate": "2026-01-08",
+    "edition": 2,
+    "rating": 4.3,
+    "ratingsCount": 40,
+    "reviews": [
+      {
+        "name": "Vuthy S.",
+        "rating": 4,
+        "date": "2026-06-16",
+        "comment": "Not the easiest read, but the payoff is real."
+      },
+      {
+        "name": "Vuthy S.",
+        "rating": 5,
+        "date": "2026-06-17",
+        "comment": "Recommended it to two classmates already."
+      },
+      {
+        "name": "Anna B.",
+        "rating": 5,
+        "date": "2026-07-15",
+        "comment": "Solid overview — I keep coming back to reference it."
+      },
+      {
+        "name": "Anna B.",
+        "rating": 5,
+        "date": "2026-05-18",
+        "comment": "Not the easiest read, but the payoff is real."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 6,
+      "checkedOut": 1
+    }
+  },
+  {
+    "id": 17,
+    "title": "Guns, Germs and Steel",
+    "author": "J. Diamond",
+    "category": "History",
+    "pages": 480,
+    "year": 1997,
+    "spineColor": "#8C5E3C",
+    "description": "An argument for how geography and environment, rather than inherent differences between peoples, shaped the course of world history.",
+    "longDescription": [
+      "Jared Diamond asks why some societies developed guns, germs, and steel earlier than others, and argues the answer lies mostly in geography and access to domesticable plants and animals — not in differences between peoples.",
+      "The book covers agriculture, disease, writing systems, and technology, tracing how early advantages compounded over thousands of years into the inequalities of the modern world.",
+      "It won the Pulitzer Prize and remains widely read, though some of its arguments have been challenged by later historians and anthropologists."
+    ],
+    "tableOfContents": [
+      "Up to the Starting Line",
+      "The Rise and Spread of Food Production",
+      "From Food to Guns, Germs and Steel",
+      "Around the World in Five Chapters"
+    ],
+    "tags": [
+      "world history",
+      "geography",
+      "anthropology"
+    ],
+    "subjects": [
+      "World History",
+      "Geography",
+      "Anthropology"
+    ],
+    "callNumber": "D219.R17",
+    "level": "Intermediate",
+    "publisher": "W. W. Norton",
+    "language": "English",
+    "format": "PDF",
+    "isbn": "978-113012345",
+    "fileSizeMb": 5.7,
+    "readingTimeHours": 10.7,
+    "addedDate": "2026-02-09",
+    "edition": 3,
+    "rating": 4.6,
+    "ratingsCount": 158,
+    "reviews": [
+      {
+        "name": "Sokha K.",
+        "rating": 4,
+        "date": "2026-03-14",
+        "comment": "One of the better books I've read on this topic this year."
+      },
+      {
+        "name": "Lina R.",
+        "rating": 4,
+        "date": "2026-05-12",
+        "comment": "Clear and well organized — exactly what I needed for coursework."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 4,
+      "checkedOut": 1
+    }
+  },
+  {
+    "id": 18,
+    "title": "A History of Cambodia",
+    "author": "D. Chandler",
+    "category": "History",
+    "pages": 328,
+    "year": 1983,
+    "spineColor": "#3F6C51",
+    "description": "A comprehensive survey of Cambodian history, from the Angkor era through the twentieth century.",
+    "longDescription": [
+      "David Chandler's survey covers Cambodia from the Angkor kingdom through French colonization, independence, and the twentieth-century upheavals that followed, drawing on both Khmer and colonial-era sources.",
+      "It is widely used as a university text and remains one of the most accessible single-volume histories of the country available in English.",
+      "Later editions extend the account into the postwar and contemporary period."
+    ],
+    "tableOfContents": [
+      "Early Cambodia",
+      "The Angkorian Period",
+      "Cambodia Under French Rule",
+      "Independence and Sihanouk",
+      "War and Its Aftermath",
+      "Toward the Present"
+    ],
+    "tags": [
+      "cambodia",
+      "southeast asia",
+      "world history"
+    ],
+    "subjects": [
+      "Cambodia",
+      "Southeast Asia",
+      "World History"
+    ],
+    "callNumber": "D226.S18",
+    "level": "Intermediate",
+    "publisher": "Westview Press",
+    "language": "English",
+    "format": "PDF",
+    "isbn": "978-113777777",
+    "fileSizeMb": 4.1,
+    "readingTimeHours": 7.3,
+    "addedDate": "2026-03-01",
+    "edition": 1,
+    "rating": 4.1,
+    "ratingsCount": 208,
+    "reviews": [
+      {
+        "name": "James O.",
+        "rating": 4,
+        "date": "2026-04-12",
+        "comment": "Good introduction, though a few chapters felt dated."
+      },
+      {
+        "name": "Lina R.",
+        "rating": 4,
+        "date": "2026-03-14",
+        "comment": "Clear and well organized — exactly what I needed for coursework."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 5,
+      "checkedOut": 4
+    }
+  },
+  {
+    "id": 19,
+    "title": "Deep Work",
+    "author": "C. Newport",
+    "category": "Other",
+    "pages": 296,
+    "year": 2016,
+    "spineColor": "#1B1F3B",
+    "description": "An argument for the value of focused, undistracted effort in a world of constant interruption, with strategies for cultivating it.",
+    "longDescription": [
+      "Cal Newport defines \"deep work\" as focused, cognitively demanding effort performed without distraction, and argues it is both increasingly rare and increasingly valuable as knowledge work becomes more fragmented by notifications and shallow tasks.",
+      "The first half makes the case for why deep work matters; the second half offers concrete rules — scheduling focus blocks, quitting social media strategically, embracing boredom — for building the habit.",
+      "It draws on examples from academics, writers, and executives who structure their days around protected focus time."
+    ],
+    "tableOfContents": [
+      "Deep Work Is Valuable",
+      "Deep Work Is Rare",
+      "Deep Work Is Meaningful",
+      "Work Deeply",
+      "Embrace Boredom",
+      "Quit Social Media",
+      "Drain the Shallows"
+    ],
+    "tags": [
+      "productivity",
+      "focus",
+      "knowledge work"
+    ],
+    "subjects": [
+      "Productivity",
+      "Focus",
+      "Knowledge Work"
+    ],
+    "callNumber": "BF233.T19",
+    "level": "Beginner",
+    "publisher": "Grand Central Publishing",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-114543209",
+    "fileSizeMb": 3.8,
+    "readingTimeHours": 6.6,
+    "addedDate": "2026-04-02",
+    "edition": 2,
+    "rating": 3.6,
+    "ratingsCount": 130,
+    "reviews": [
+      {
+        "name": "James O.",
+        "rating": 4,
+        "date": "2026-03-14",
+        "comment": "Solid overview — I keep coming back to reference it."
+      },
+      {
+        "name": "Anna B.",
+        "rating": 3,
+        "date": "2026-04-18",
+        "comment": "Clear and well organized — exactly what I needed for coursework."
+      },
+      {
+        "name": "Michael T.",
+        "rating": 4,
+        "date": "2026-08-10",
+        "comment": "One of the better books I've read on this topic this year."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 3,
+      "checkedOut": 1
+    }
+  },
+  {
+    "id": 20,
+    "title": "Atomic Habits",
+    "author": "J. Clear",
+    "category": "Other",
+    "pages": 320,
+    "year": 2018,
+    "spineColor": "#6B8F71",
+    "description": "A practical framework for building good habits and breaking bad ones, built around small, compounding changes.",
+    "longDescription": [
+      "James Clear argues that meaningful change comes not from big, dramatic goals but from small habits repeated consistently — improving by 1% at a time compounds into large results over months and years.",
+      "The book introduces the \"Four Laws of Behavior Change\" (make it obvious, attractive, easy, and satisfying) as a practical framework for designing new habits and breaking existing ones.",
+      "It is heavy on concrete tactics — habit stacking, environment design, identity-based habits — rather than motivational theory alone."
+    ],
+    "tableOfContents": [
+      "The Fundamentals",
+      "The 1st Law: Make It Obvious",
+      "The 2nd Law: Make It Attractive",
+      "The 3rd Law: Make It Easy",
+      "The 4th Law: Make It Satisfying",
+      "Advanced Tactics"
+    ],
+    "tags": [
+      "habits",
+      "productivity",
+      "self-improvement"
+    ],
+    "subjects": [
+      "Habits",
+      "Productivity",
+      "Self-Improvement"
+    ],
+    "callNumber": "BF240.U20",
+    "level": "Beginner",
+    "publisher": "Avery",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-115308642",
+    "fileSizeMb": 3.8,
+    "readingTimeHours": 7.1,
+    "addedDate": "2026-05-03",
+    "edition": 3,
+    "rating": 3.7,
+    "ratingsCount": 48,
+    "reviews": [
+      {
+        "name": "Anna B.",
+        "rating": 3,
+        "date": "2026-04-10",
+        "comment": "Recommended it to two classmates already."
+      },
+      {
+        "name": "Sokha K.",
+        "rating": 4,
+        "date": "2026-01-14",
+        "comment": "Dense in places but the core ideas really stuck with me."
+      },
+      {
+        "name": "Lina R.",
+        "rating": 3,
+        "date": "2026-05-16",
+        "comment": "Took a while to get through but worth it in the end."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 5,
+      "checkedOut": 1
+    }
+  },
+  {
+    "id": 21,
+    "title": "On Writing Well",
+    "author": "W. Zinsser",
+    "category": "Other",
+    "pages": 336,
+    "year": 1976,
+    "spineColor": "#C97F1E",
+    "description": "A classic guide to writing clear, simple nonfiction prose, covering everything from technique to attitude.",
+    "longDescription": [
+      "William Zinsser's guide focuses specifically on nonfiction — memoir, journalism, business writing, science writing — arguing that the central goal is always clarity, achieved by cutting clutter and finding your own voice.",
+      "Unlike more rule-bound style guides, Zinsser emphasizes attitude and confidence as much as mechanics, encouraging writers to write about what genuinely interests them.",
+      "It has been in print continuously since the 1970s and is regularly assigned in journalism and writing courses."
+    ],
+    "tableOfContents": [
+      "Principles",
+      "Methods",
+      "Forms",
+      "Attitudes"
+    ],
+    "tags": [
+      "writing",
+      "nonfiction",
+      "style"
+    ],
+    "subjects": [
+      "Writing",
+      "Nonfiction",
+      "Style"
+    ],
+    "callNumber": "BF247.V21",
+    "level": "Beginner",
+    "publisher": "Harper Perennial",
+    "language": "English",
+    "format": "PDF",
+    "isbn": "978-116074074",
+    "fileSizeMb": 4.1,
+    "readingTimeHours": 7.5,
+    "addedDate": "2026-06-04",
+    "edition": 1,
+    "rating": 3.8,
+    "ratingsCount": 65,
+    "reviews": [
+      {
+        "name": "Lina R.",
+        "rating": 3,
+        "date": "2026-08-13",
+        "comment": "One of the better books I've read on this topic this year."
+      },
+      {
+        "name": "Dara P.",
+        "rating": 5,
+        "date": "2026-03-12",
+        "comment": "Clear and well organized — exactly what I needed for coursework."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 5,
+      "checkedOut": 4
+    }
+  }
+]

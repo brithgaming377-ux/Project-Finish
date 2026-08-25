@@ -29,6 +29,10 @@ defineProps<{ book: Book }>()
         <span class="font-mono text-[10.5px] uppercase tracking-wide text-amber-deep">{{ book.category }}</span>
         <StarRating :rating="book.rating" :size="10" />
       </div>
+      <div class="flex items-center justify-between gap-2 mt-2 pt-2 border-t border-line">
+        <span class="font-display font-semibold text-[13px]">${{ book.price.toFixed(2) }}</span>
+        <span v-if="book.exchangeable" class="font-mono text-[9.5px] uppercase tracking-wide text-sage">Exchangeable</span>
+      </div>
     </div>
   </NuxtLink>
 </template>

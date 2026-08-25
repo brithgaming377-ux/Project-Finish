@@ -44,6 +44,8 @@
     "readingTimeHours": 9.6,
     "addedDate": "2026-02-02",
     "edition": 2,
+    "price": 20.9,
+    "exchangeable": true,
     "rating": 3.6,
     "ratingsCount": 73,
     "reviews": [
@@ -121,6 +123,8 @@
     "readingTimeHours": 7.8,
     "addedDate": "2026-03-03",
     "edition": 3,
+    "price": 22.76,
+    "exchangeable": false,
     "rating": 4.7,
     "ratingsCount": 85,
     "reviews": [
@@ -186,6 +190,8 @@
     "readingTimeHours": 11.4,
     "addedDate": "2026-04-04",
     "edition": 1,
+    "price": 11.14,
+    "exchangeable": false,
     "rating": 4,
     "ratingsCount": 111,
     "reviews": [
@@ -249,6 +255,8 @@
     "readingTimeHours": 5.6,
     "addedDate": "2026-05-05",
     "edition": 2,
+    "price": 15.11,
+    "exchangeable": true,
     "rating": 4.5,
     "ratingsCount": 79,
     "reviews": [
@@ -327,6 +335,8 @@
     "readingTimeHours": 6.6,
     "addedDate": "2026-06-06",
     "edition": 3,
+    "price": 18.86,
+    "exchangeable": true,
     "rating": 3.9,
     "ratingsCount": 148,
     "reviews": [
@@ -401,6 +411,8 @@
     "readingTimeHours": 9.2,
     "addedDate": "2026-07-07",
     "edition": 1,
+    "price": 10.19,
+    "exchangeable": false,
     "rating": 3.9,
     "ratingsCount": 270,
     "reviews": [
@@ -478,6 +490,8 @@
     "readingTimeHours": 5.7,
     "addedDate": "2026-08-08",
     "edition": 2,
+    "price": 6.52,
+    "exchangeable": true,
     "rating": 4.8,
     "ratingsCount": 69,
     "reviews": [
@@ -544,6 +558,8 @@
     "readingTimeHours": 8.5,
     "addedDate": "2026-01-09",
     "edition": 3,
+    "price": 20.19,
+    "exchangeable": false,
     "rating": 4.5,
     "ratingsCount": 262,
     "reviews": [
@@ -615,6 +631,8 @@
     "readingTimeHours": 8.8,
     "addedDate": "2026-02-01",
     "edition": 1,
+    "price": 8.25,
+    "exchangeable": false,
     "rating": 3.6,
     "ratingsCount": 247,
     "reviews": [
@@ -690,6 +708,8 @@
     "readingTimeHours": 7.1,
     "addedDate": "2026-03-02",
     "edition": 2,
+    "price": 24.27,
+    "exchangeable": true,
     "rating": 4.2,
     "ratingsCount": 276,
     "reviews": [
@@ -761,6 +781,8 @@
     "readingTimeHours": 6.7,
     "addedDate": "2026-04-03",
     "edition": 3,
+    "price": 14.08,
+    "exchangeable": false,
     "rating": 4,
     "ratingsCount": 238,
     "reviews": [
@@ -824,6 +846,8 @@
     "readingTimeHours": 5.1,
     "addedDate": "2026-05-04",
     "edition": 1,
+    "price": 24.3,
+    "exchangeable": false,
     "rating": 3.9,
     "ratingsCount": 46,
     "reviews": [
@@ -893,6 +917,8 @@
     "readingTimeHours": 7.5,
     "addedDate": "2026-06-05",
     "edition": 2,
+    "price": 8.45,
+    "exchangeable": true,
     "rating": 4.1,
     "ratingsCount": 172,
     "reviews": [
@@ -961,6 +987,8 @@
     "readingTimeHours": 2.3,
     "addedDate": "2026-07-06",
     "edition": 3,
+    "price": 23.71,
+    "exchangeable": true,
     "rating": 3.9,
     "ratingsCount": 275,
     "reviews": [
@@ -1030,6 +1058,8 @@
     "readingTimeHours": 6.4,
     "addedDate": "2026-08-07",
     "edition": 1,
+    "price": 23.79,
+    "exchangeable": true,
     "rating": 3.7,
     "ratingsCount": 279,
     "reviews": [
@@ -1097,6 +1127,8 @@
     "readingTimeHours": 9.8,
     "addedDate": "2026-01-08",
     "edition": 2,
+    "price": 8.71,
+    "exchangeable": false,
     "rating": 4.3,
     "ratingsCount": 40,
     "reviews": [
@@ -1170,6 +1202,8 @@
     "readingTimeHours": 10.7,
     "addedDate": "2026-02-09",
     "edition": 3,
+    "price": 11.1,
+    "exchangeable": false,
     "rating": 4.6,
     "ratingsCount": 158,
     "reviews": [
@@ -1233,6 +1267,8 @@
     "readingTimeHours": 7.3,
     "addedDate": "2026-03-01",
     "edition": 1,
+    "price": 8.79,
+    "exchangeable": false,
     "rating": 4.1,
     "ratingsCount": 208,
     "reviews": [
@@ -1297,6 +1333,8 @@
     "readingTimeHours": 6.6,
     "addedDate": "2026-04-02",
     "edition": 2,
+    "price": 18.62,
+    "exchangeable": true,
     "rating": 3.6,
     "ratingsCount": 130,
     "reviews": [
@@ -1366,6 +1404,8 @@
     "readingTimeHours": 7.1,
     "addedDate": "2026-05-03",
     "edition": 3,
+    "price": 8.28,
+    "exchangeable": true,
     "rating": 3.7,
     "ratingsCount": 48,
     "reviews": [
@@ -1433,6 +1473,8 @@
     "readingTimeHours": 7.5,
     "addedDate": "2026-06-04",
     "edition": 1,
+    "price": 20.42,
+    "exchangeable": false,
     "rating": 3.8,
     "ratingsCount": 65,
     "reviews": [
@@ -1452,6 +1494,614 @@
     "availability": {
       "digitalCopies": 5,
       "checkedOut": 4
+    }
+  },
+  {
+    "id": 22,
+    "title": "Designing Data-Intensive Applications",
+    "author": "M. Kleppmann",
+    "category": "Technology",
+    "pages": 616,
+    "year": 2017,
+    "spineColor": "#4A4E69",
+    "description": "A deep look at the ideas behind reliable, scalable data systems — databases, queues, and the tradeoffs between them.",
+    "longDescription": [
+      "Martin Kleppmann maps the landscape of modern data systems — relational and NoSQL databases, message queues, batch and stream processing — around the shared problems they all have to solve: reliability, scalability, and maintainability.",
+      "Rather than promoting one tool, the book explains the underlying tradeoffs (consistency vs. availability, latency vs. throughput) so readers can reason about unfamiliar systems instead of memorizing product features.",
+      "It has become a standard reference for engineers designing backend systems at scale."
+    ],
+    "tableOfContents": [
+      "Reliable, Scalable, and Maintainable Applications",
+      "Data Models and Query Languages",
+      "Storage and Retrieval",
+      "Replication",
+      "Partitioning",
+      "Transactions",
+      "The Trouble with Distributed Systems",
+      "Batch Processing",
+      "Stream Processing"
+    ],
+    "tags": [
+      "databases",
+      "distributed systems",
+      "backend engineering"
+    ],
+    "subjects": [
+      "Databases",
+      "Distributed Systems",
+      "Backend Engineering"
+    ],
+    "callNumber": "QA76254.W22",
+    "level": "Advanced",
+    "publisher": "O'Reilly Media",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-116839506",
+    "fileSizeMb": 7.7,
+    "readingTimeHours": 13.7,
+    "addedDate": "2026-07-05",
+    "edition": 2,
+    "price": 16.38,
+    "exchangeable": true,
+    "rating": 4.8,
+    "ratingsCount": 150,
+    "reviews": [
+      {
+        "name": "Vuthy S.",
+        "rating": 4,
+        "date": "2026-01-14",
+        "comment": "Solid overview — I keep coming back to reference it."
+      },
+      {
+        "name": "Michael T.",
+        "rating": 4,
+        "date": "2026-04-17",
+        "comment": "Good introduction, though a few chapters felt dated."
+      },
+      {
+        "name": "Dara P.",
+        "rating": 5,
+        "date": "2026-08-13",
+        "comment": "Clear and well organized — exactly what I needed for coursework."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 5,
+      "checkedOut": 2
+    }
+  },
+  {
+    "id": 23,
+    "title": "Nicomachean Ethics",
+    "author": "Aristotle",
+    "category": "Philosophy",
+    "pages": 288,
+    "year": -340,
+    "spineColor": "#8C5E3C",
+    "description": "Aristotle's inquiry into what it means to live well, centered on virtue, practical wisdom, and the idea of a flourishing life.",
+    "longDescription": [
+      "Aristotle asks what the highest human good is, and argues it is eudaimonia — often translated as \"flourishing\" or \"living well\" — achieved through a lifetime of virtuous activity guided by reason.",
+      "The book develops his doctrine of the mean, where virtue sits between excess and deficiency, and examines specific virtues like courage, temperance, and justice in detail.",
+      "It remains foundational to virtue ethics, one of the three major traditions in Western moral philosophy alongside consequentialism and deontology."
+    ],
+    "tableOfContents": [
+      "The Good for Man",
+      "Moral Virtue",
+      "The Doctrine of the Mean",
+      "Justice",
+      "Intellectual Virtue",
+      "Friendship",
+      "Pleasure and Happiness"
+    ],
+    "tags": [
+      "ethics",
+      "classics",
+      "virtue"
+    ],
+    "subjects": [
+      "Ethics",
+      "Classics",
+      "Virtue"
+    ],
+    "callNumber": "B261.X23",
+    "level": "Advanced",
+    "publisher": "Oxford World's Classics",
+    "language": "English (translated)",
+    "format": "PDF",
+    "isbn": "978-117604938",
+    "fileSizeMb": 3.9,
+    "readingTimeHours": 6.4,
+    "addedDate": "2026-08-06",
+    "edition": 3,
+    "price": 19.1,
+    "exchangeable": false,
+    "rating": 4.7,
+    "ratingsCount": 79,
+    "reviews": [
+      {
+        "name": "Sokha K.",
+        "rating": 5,
+        "date": "2026-06-13",
+        "comment": "Good introduction, though a few chapters felt dated."
+      },
+      {
+        "name": "Vuthy S.",
+        "rating": 5,
+        "date": "2026-04-14",
+        "comment": "Good introduction, though a few chapters felt dated."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 7,
+      "checkedOut": 2
+    }
+  },
+  {
+    "id": 24,
+    "title": "Silent Spring",
+    "author": "R. Carson",
+    "category": "Science",
+    "pages": 368,
+    "year": 1962,
+    "spineColor": "#3F6C51",
+    "description": "A landmark study of the environmental damage caused by synthetic pesticides, widely credited with starting the modern environmental movement.",
+    "longDescription": [
+      "Rachel Carson documented the effects of DDT and other pesticides on birds, insects, and ecosystems, challenging the chemical industry's claims of safety with careful, accessible science writing.",
+      "The book's title refers to a spring without birdsong — a warning about what unchecked pesticide use could do to the natural world.",
+      "It led directly to a US government review of pesticide policy and is widely credited with catalyzing the modern environmental movement."
+    ],
+    "tableOfContents": [
+      "A Fable for Tomorrow",
+      "The Obligation to Endure",
+      "Elixirs of Death",
+      "Surface Waters and Underground Seas",
+      "Realms of the Soil",
+      "Needless Havoc",
+      "The Human Price",
+      "The Other Road"
+    ],
+    "tags": [
+      "environment",
+      "ecology",
+      "science writing"
+    ],
+    "subjects": [
+      "Environment",
+      "Ecology",
+      "Science Writing"
+    ],
+    "callNumber": "Q268.Y24",
+    "level": "Beginner",
+    "publisher": "Houghton Mifflin",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-118370370",
+    "fileSizeMb": 4.8,
+    "readingTimeHours": 8.2,
+    "addedDate": "2026-01-07",
+    "edition": 1,
+    "price": 12.79,
+    "exchangeable": true,
+    "rating": 3.6,
+    "ratingsCount": 76,
+    "reviews": [
+      {
+        "name": "Sokha K.",
+        "rating": 4,
+        "date": "2026-08-17",
+        "comment": "One of the better books I've read on this topic this year."
+      },
+      {
+        "name": "Vuthy S.",
+        "rating": 4,
+        "date": "2026-07-13",
+        "comment": "Took a while to get through but worth it in the end."
+      },
+      {
+        "name": "Chenda M.",
+        "rating": 4,
+        "date": "2026-03-11",
+        "comment": "Recommended it to two classmates already."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 4,
+      "checkedOut": 1
+    }
+  },
+  {
+    "id": 25,
+    "title": "The Innovator's Dilemma",
+    "author": "C. Christensen",
+    "category": "Leadership",
+    "pages": 286,
+    "year": 1997,
+    "spineColor": "#1B1F3B",
+    "description": "An explanation of why well-managed, successful companies can fail when disruptive technologies reshape their industries.",
+    "longDescription": [
+      "Clayton Christensen studies why great companies — well-run, customer-focused, and profitable — repeatedly lose to smaller competitors building simpler, cheaper \"disruptive\" technologies.",
+      "The core insight is that the same practices that make companies excellent at serving existing customers make it hard for them to invest in innovations their current customers do not yet want.",
+      "It introduced \"disruptive innovation\" into mainstream business vocabulary and remains widely cited in strategy and product management."
+    ],
+    "tableOfContents": [
+      "How Great Companies Can Fail",
+      "Value Networks and Innovation",
+      "Disruptive Technologies in the Disk Drive Industry",
+      "What Goes Up, Can't Go Down",
+      "Give Responsibility to Organizations That Can Fit the Innovation",
+      "Performance Provided, Market Demand, and the Product Life Cycle"
+    ],
+    "tags": [
+      "business strategy",
+      "innovation",
+      "technology management"
+    ],
+    "subjects": [
+      "Business Strategy",
+      "Innovation",
+      "Technology Management"
+    ],
+    "callNumber": "HD275.Z25",
+    "level": "Intermediate",
+    "publisher": "Harvard Business Review Press",
+    "language": "English",
+    "format": "PDF",
+    "isbn": "978-119135802",
+    "fileSizeMb": 3.9,
+    "readingTimeHours": 6.4,
+    "addedDate": "2026-02-08",
+    "edition": 2,
+    "price": 18.07,
+    "exchangeable": true,
+    "rating": 4.8,
+    "ratingsCount": 182,
+    "reviews": [
+      {
+        "name": "Chenda M.",
+        "rating": 5,
+        "date": "2026-04-12",
+        "comment": "One of the better books I've read on this topic this year."
+      },
+      {
+        "name": "Anna B.",
+        "rating": 5,
+        "date": "2026-03-12",
+        "comment": "Clear and well organized — exactly what I needed for coursework."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 5,
+      "checkedOut": 2
+    }
+  },
+  {
+    "id": 26,
+    "title": "Practical Chinese Reader",
+    "author": "Liu Xun",
+    "category": "Language",
+    "pages": 312,
+    "year": 1981,
+    "spineColor": "#C97F1E",
+    "description": "A classic structured course in Mandarin Chinese, moving from pinyin and basic characters through everyday conversation.",
+    "longDescription": [
+      "One of the most widely used Mandarin textbooks internationally, this course introduces pinyin pronunciation, basic characters, and grammar through short dialogues rooted in everyday situations.",
+      "Each lesson builds vocabulary and grammar incrementally, with exercises designed for classroom use as well as self-study.",
+      "Later editions have been updated with contemporary vocabulary, but the structured, dialogue-driven approach remains largely unchanged."
+    ],
+    "tableOfContents": [
+      "Pinyin and Tones",
+      "Greetings",
+      "Numbers and Dates",
+      "Family and Friends",
+      "Shopping and Travel",
+      "Reading Practice"
+    ],
+    "tags": [
+      "mandarin",
+      "language learning",
+      "grammar"
+    ],
+    "subjects": [
+      "Mandarin",
+      "Language Learning",
+      "Grammar"
+    ],
+    "callNumber": "P282.A26",
+    "level": "Beginner",
+    "publisher": "Sinolingua",
+    "language": "English / Chinese",
+    "format": "PDF",
+    "isbn": "978-119901234",
+    "fileSizeMb": 4.1,
+    "readingTimeHours": 6.9,
+    "addedDate": "2026-03-09",
+    "edition": 3,
+    "price": 7.29,
+    "exchangeable": false,
+    "rating": 3.6,
+    "ratingsCount": 226,
+    "reviews": [
+      {
+        "name": "Sokha K.",
+        "rating": 3,
+        "date": "2026-01-13",
+        "comment": "Good introduction, though a few chapters felt dated."
+      },
+      {
+        "name": "Dara P.",
+        "rating": 3,
+        "date": "2026-04-14",
+        "comment": "Dense in places but the core ideas really stuck with me."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 4,
+      "checkedOut": 1
+    }
+  },
+  {
+    "id": 27,
+    "title": "The Silk Roads",
+    "author": "P. Frankopan",
+    "category": "History",
+    "pages": 636,
+    "year": 2015,
+    "spineColor": "#8C5E3C",
+    "description": "A history of the world told through the trade routes connecting Asia, the Middle East, and Europe, rather than a Western-centered narrative.",
+    "longDescription": [
+      "Peter Frankopan retells world history with the trade routes between East and West — the \"Silk Roads\" — at the center, rather than treating Europe as the default vantage point.",
+      "The book traces how goods, religions, diseases, and ideas moved along these routes for over two thousand years, shaping empires from Persia to Rome to the Mongol khanates.",
+      "It closes by arguing that the regions along these historic routes are once again becoming central to global politics and economics."
+    ],
+    "tableOfContents": [
+      "The Creation of the Silk Road",
+      "The Road of Faiths",
+      "The Road to a Christian East",
+      "The Road to Revolution",
+      "The Road to Genocide",
+      "The Road to the Cold War",
+      "The Road to the Future"
+    ],
+    "tags": [
+      "world history",
+      "trade",
+      "geopolitics"
+    ],
+    "subjects": [
+      "World History",
+      "Trade",
+      "Geopolitics"
+    ],
+    "callNumber": "D289.B27",
+    "level": "Intermediate",
+    "publisher": "Bloomsbury",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-120666666",
+    "fileSizeMb": 8,
+    "readingTimeHours": 14.1,
+    "addedDate": "2026-04-01",
+    "edition": 1,
+    "price": 15.58,
+    "exchangeable": false,
+    "rating": 4.3,
+    "ratingsCount": 150,
+    "reviews": [
+      {
+        "name": "Dara P.",
+        "rating": 5,
+        "date": "2026-06-11",
+        "comment": "Good introduction, though a few chapters felt dated."
+      },
+      {
+        "name": "Anna B.",
+        "rating": 5,
+        "date": "2026-02-14",
+        "comment": "Not the easiest read, but the payoff is real."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 8,
+      "checkedOut": 4
+    }
+  },
+  {
+    "id": 28,
+    "title": "Thinking, Fast and Slow",
+    "author": "D. Kahneman",
+    "category": "Other",
+    "pages": 499,
+    "year": 2011,
+    "spineColor": "#4A4E69",
+    "description": "A Nobel laureate's account of the two systems that drive human thought — one fast and intuitive, one slow and deliberate — and where each goes wrong.",
+    "longDescription": [
+      "Daniel Kahneman summarizes decades of research into judgment and decision-making, organized around two modes of thought: System 1 (fast, automatic, intuitive) and System 2 (slow, effortful, deliberate).",
+      "The book catalogs the biases and heuristics that emerge from over-relying on System 1 — anchoring, availability, loss aversion — with implications for economics, medicine, and everyday choices.",
+      "It played a major role in popularizing behavioral economics and remains one of the most cited books in the field."
+    ],
+    "tableOfContents": [
+      "Two Systems",
+      "Heuristics and Biases",
+      "Overconfidence",
+      "Choices",
+      "Two Selves"
+    ],
+    "tags": [
+      "psychology",
+      "decision-making",
+      "behavioral economics"
+    ],
+    "subjects": [
+      "Psychology",
+      "Decision-Making",
+      "Behavioral Economics"
+    ],
+    "callNumber": "BF296.C28",
+    "level": "Intermediate",
+    "publisher": "Farrar, Straus and Giroux",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-121432098",
+    "fileSizeMb": 5.8,
+    "readingTimeHours": 11.1,
+    "addedDate": "2026-05-02",
+    "edition": 2,
+    "price": 6.98,
+    "exchangeable": true,
+    "rating": 4.7,
+    "ratingsCount": 73,
+    "reviews": [
+      {
+        "name": "James O.",
+        "rating": 5,
+        "date": "2026-02-18",
+        "comment": "Recommended it to two classmates already."
+      },
+      {
+        "name": "James O.",
+        "rating": 4,
+        "date": "2026-08-15",
+        "comment": "Recommended it to two classmates already."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 4,
+      "checkedOut": 2
+    }
+  },
+  {
+    "id": 29,
+    "title": "Introduction to Algorithms",
+    "author": "Cormen, Leiserson, Rivest, Stein",
+    "category": "Technology",
+    "pages": 1312,
+    "year": 2009,
+    "spineColor": "#C97F1E",
+    "description": "The standard reference textbook on algorithms and data structures, covering design techniques, analysis, and a huge range of classic problems.",
+    "longDescription": [
+      "Known widely as \"CLRS\" after its authors, this is the most commonly assigned algorithms textbook in university computer science programs, covering everything from sorting and searching to graph algorithms and NP-completeness.",
+      "Each algorithm is presented with pseudocode, correctness arguments, and rigorous complexity analysis, making it as much a reference as a teaching text.",
+      "Its comprehensiveness makes it dense, but it remains the book most engineers reach for when they need a precise, authoritative treatment of a classic algorithm."
+    ],
+    "tableOfContents": [
+      "Foundations",
+      "Sorting and Order Statistics",
+      "Data Structures",
+      "Advanced Design and Analysis Techniques",
+      "Advanced Data Structures",
+      "Graph Algorithms",
+      "Selected Topics",
+      "NP-Completeness"
+    ],
+    "tags": [
+      "algorithms",
+      "data structures",
+      "computer science"
+    ],
+    "subjects": [
+      "Algorithms",
+      "Data Structures",
+      "Computer Science"
+    ],
+    "callNumber": "QA76303.D29",
+    "level": "Advanced",
+    "publisher": "MIT Press",
+    "language": "English",
+    "format": "PDF",
+    "isbn": "978-122197530",
+    "fileSizeMb": 15,
+    "readingTimeHours": 29.2,
+    "addedDate": "2026-06-03",
+    "edition": 3,
+    "price": 23.99,
+    "exchangeable": true,
+    "rating": 3.9,
+    "ratingsCount": 295,
+    "reviews": [
+      {
+        "name": "Vuthy S.",
+        "rating": 4,
+        "date": "2026-05-11",
+        "comment": "Dense in places but the core ideas really stuck with me."
+      },
+      {
+        "name": "Vuthy S.",
+        "rating": 4,
+        "date": "2026-02-16",
+        "comment": "Took a while to get through but worth it in the end."
+      },
+      {
+        "name": "Vuthy S.",
+        "rating": 3,
+        "date": "2026-06-11",
+        "comment": "Recommended it to two classmates already."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 7,
+      "checkedOut": 5
+    }
+  },
+  {
+    "id": 30,
+    "title": "Man's Search for Meaning",
+    "author": "V. Frankl",
+    "category": "Philosophy",
+    "pages": 165,
+    "year": 1946,
+    "spineColor": "#6B8F71",
+    "description": "A psychiatrist's account of surviving Nazi concentration camps, and the theory of meaning-centered psychology he developed from it.",
+    "longDescription": [
+      "Viktor Frankl, a psychiatrist and Holocaust survivor, recounts his experience in Nazi concentration camps and the observations that led him to develop logotherapy — the idea that the primary human drive is not pleasure but the search for meaning.",
+      "The first half is memoir; the second half outlines his psychological theory, arguing that meaning can be found even in suffering, through work, love, or the attitude one takes toward unavoidable hardship.",
+      "It remains widely read both as a memoir of survival and as an introduction to existential psychology."
+    ],
+    "tableOfContents": [
+      "Experiences in a Concentration Camp",
+      "Logotherapy in a Nutshell",
+      "The Case for a Tragic Optimism"
+    ],
+    "tags": [
+      "psychology",
+      "memoir",
+      "meaning"
+    ],
+    "subjects": [
+      "Psychology",
+      "Memoir",
+      "Meaning"
+    ],
+    "callNumber": "B310.E30",
+    "level": "Beginner",
+    "publisher": "Beacon Press",
+    "language": "English (translated)",
+    "format": "EPUB",
+    "isbn": "978-122962963",
+    "fileSizeMb": 2,
+    "readingTimeHours": 3.7,
+    "addedDate": "2026-07-04",
+    "edition": 1,
+    "price": 9.85,
+    "exchangeable": true,
+    "rating": 3.9,
+    "ratingsCount": 223,
+    "reviews": [
+      {
+        "name": "Dara P.",
+        "rating": 4,
+        "date": "2026-07-16",
+        "comment": "Not the easiest read, but the payoff is real."
+      },
+      {
+        "name": "Michael T.",
+        "rating": 4,
+        "date": "2026-07-16",
+        "comment": "Took a while to get through but worth it in the end."
+      }
+    ],
+    "availability": {
+      "digitalCopies": 3,
+      "checkedOut": 1
     }
   }
 ]

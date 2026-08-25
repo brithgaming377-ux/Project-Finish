@@ -1,31 +1,84 @@
 <script setup lang="ts">
+const route = useRoute()
+const router = useRouter()
+const { login } = useAuth()
+const { push } = useToast()
+
+const name = ref('')
 const email = ref('')
-const password = ref('')
+const role = ref<'user' | 'admin'>('user')
 const error = ref('')
-const submitted = ref(false)
+
+function redirectTarget() {
+  const target = route.query.redirect
+  return typeof target === 'string' && target.startsWith('/') ? target : '/account'
+}
 
 function onSubmit() {
   error.value = ''
-  if (!email.value || !password.value) {
-    error.value = 'Enter both your email and password.'
+  if (!name.value || !email.value) {
+    error.value = 'Enter your name and email.'
     return
   }
   if (!email.value.includes('@')) {
     error.value = 'That email address doesn\u2019t look right.'
     return
   }
-  submitted.value = true
+  login(name.value, email.value, role.value)
+  push(`Signed in as ${role.value === 'admin' ? 'Admin' : 'Reader'}.`)
+  router.push(redirectTarget())
+}
+
+function quickLogin(asRole: 'user' | 'admin') {
+  const demo = asRole === 'admin'
+    ? { name: 'Admin', email: 'admin@marginalia.app' }
+    : { name: 'Reader', email: 'reader@marginalia.app' }
+  login(demo.name, demo.email, asRole)
+  push(`Signed in as ${asRole === 'admin' ? 'Admin' : 'Reader'} (demo).`)
+  router.push(redirectTarget())
 }
 </script>
 
 <template>
-  <div class="min-h-[70vh] flex items-center justify-center px-6 py-10">
-    <div class="w-full max-w-[380px] bg-white border border-line rounded-card p-8">
+  <div class="min-h-[70vh] flex items-center justify-center px-6 py-12">
+    <div class="w-full max-w-[400px] bg-white border border-line rounded-card shadow-premium p-8">
       <p class="font-mono text-xs uppercase tracking-wide text-amber-deep">Welcome back</p>
       <h1 class="font-display font-semibold text-2xl mt-2">Log in to Marginalia</h1>
-      <p class="text-[13.5px] text-ink-soft mt-2">Access your saved books and reading history.</p>
+      <p class="text-[13.5px] text-ink-soft mt-2">This is a demo — no real password required.</p>
 
-      <form v-if="!submitted" class="flex flex-col gap-4 mt-6" @submit.prevent="onSubmit">
+      <div class="flex gap-2 mt-6">
+        <button
+          type="button"
+          class="flex-1 rounded-card border border-line py-2.5 text-sm font-semibold hover:border-ink transition"
+          @click="quickLogin('user')"
+        >
+          Continue as Reader
+        </button>
+        <button
+          type="button"
+          class="flex-1 rounded-card border border-line py-2.5 text-sm font-semibold hover:border-ink transition"
+          @click="quickLogin('admin')"
+        >
+          Continue as Admin
+        </button>
+      </div>
+
+      <div class="flex items-center gap-3 my-6">
+        <div class="h-px flex-1 bg-line" />
+        <span class="text-xs text-ink-soft font-mono">or sign in manually</span>
+        <div class="h-px flex-1 bg-line" />
+      </div>
+
+      <form class="flex flex-col gap-4" @submit.prevent="onSubmit">
+        <label class="flex flex-col gap-1.5 text-[13px] font-semibold">
+          <span>Name</span>
+          <input
+            v-model="name"
+            type="text"
+            placeholder="Your name"
+            class="text-sm font-normal px-3 py-2.5 rounded-card border border-line bg-parchment-dim focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink"
+          />
+        </label>
         <label class="flex flex-col gap-1.5 text-[13px] font-semibold">
           <span>Email</span>
           <input
@@ -33,37 +86,30 @@ function onSubmit() {
             type="email"
             autocomplete="email"
             placeholder="you@example.com"
-            class="text-sm font-normal px-3 py-2.5 rounded-card border border-line bg-parchment focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink"
-          />
-        </label>
-        <label class="flex flex-col gap-1.5 text-[13px] font-semibold">
-          <span>Password</span>
-          <input
-            v-model="password"
-            type="password"
-            autocomplete="current-password"
-            placeholder="••••••••"
-            class="text-sm font-normal px-3 py-2.5 rounded-card border border-line bg-parchment focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink"
+            class="text-sm font-normal px-3 py-2.5 rounded-card border border-line bg-parchment-dim focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink"
           />
         </label>
 
-        <p v-if="error" class="text-[13px] text-red-700" role="alert">{{ error }}</p>
+        <fieldset class="flex flex-col gap-1.5 text-[13px] font-semibold">
+          <span>Role</span>
+          <div class="flex gap-4 text-sm font-normal">
+            <label class="flex items-center gap-1.5">
+              <input v-model="role" type="radio" value="user" />
+              Reader
+            </label>
+            <label class="flex items-center gap-1.5">
+              <input v-model="role" type="radio" value="admin" />
+              Admin
+            </label>
+          </div>
+        </fieldset>
 
-        <button type="submit" class="w-full justify-center rounded-card bg-ink text-parchment font-semibold text-sm px-5 py-2.5 mt-1 hover:bg-ink-light transition">
+        <p v-if="error" class="text-[13px] text-rose" role="alert">{{ error }}</p>
+
+        <button type="submit" class="w-full justify-center rounded-card bg-ink text-white font-semibold text-sm px-5 py-2.5 mt-1 hover:bg-ink-light transition">
           Log in
         </button>
       </form>
-
-      <div v-else class="mt-6 text-center flex flex-col gap-3.5">
-        <p class="text-sm">You're in — welcome back.</p>
-        <NuxtLink to="/account" class="inline-flex justify-center rounded-card bg-amber text-ink font-semibold text-sm px-5 py-2.5 hover:bg-amber-deep transition">
-          Go to your account
-        </NuxtLink>
-      </div>
-
-      <p class="text-center text-[13px] text-ink-soft mt-5">
-        New here? <NuxtLink to="/account" class="text-amber-deep font-semibold">Create a free account</NuxtLink>
-      </p>
     </div>
   </div>
 </template>

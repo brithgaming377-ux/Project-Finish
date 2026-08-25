@@ -232,7 +232,106 @@ const base = [
     ],
     toc: ['Principles', 'Methods', 'Forms', 'Attitudes'],
     tags: ['writing', 'nonfiction', 'style'],
-    level: 'Beginner', publisher: 'Harper Perennial', language: 'English', format: 'PDF' }
+    level: 'Beginner', publisher: 'Harper Perennial', language: 'English', format: 'PDF' },
+
+  { id: 22, title: 'Designing Data-Intensive Applications', author: 'M. Kleppmann', category: 'Technology', pages: 616, year: 2017, color: '#4A4E69',
+    description: 'A deep look at the ideas behind reliable, scalable data systems — databases, queues, and the tradeoffs between them.',
+    long: [
+      'Martin Kleppmann maps the landscape of modern data systems — relational and NoSQL databases, message queues, batch and stream processing — around the shared problems they all have to solve: reliability, scalability, and maintainability.',
+      'Rather than promoting one tool, the book explains the underlying tradeoffs (consistency vs. availability, latency vs. throughput) so readers can reason about unfamiliar systems instead of memorizing product features.',
+      'It has become a standard reference for engineers designing backend systems at scale.'
+    ],
+    toc: ['Reliable, Scalable, and Maintainable Applications', 'Data Models and Query Languages', 'Storage and Retrieval', 'Replication', 'Partitioning', 'Transactions', 'The Trouble with Distributed Systems', 'Batch Processing', 'Stream Processing'],
+    tags: ['databases', 'distributed systems', 'backend engineering'],
+    level: 'Advanced', publisher: "O'Reilly Media", language: 'English', format: 'EPUB' },
+
+  { id: 23, title: 'Nicomachean Ethics', author: 'Aristotle', category: 'Philosophy', pages: 288, year: -340, color: '#8C5E3C',
+    description: "Aristotle's inquiry into what it means to live well, centered on virtue, practical wisdom, and the idea of a flourishing life.",
+    long: [
+      'Aristotle asks what the highest human good is, and argues it is eudaimonia — often translated as "flourishing" or "living well" — achieved through a lifetime of virtuous activity guided by reason.',
+      'The book develops his doctrine of the mean, where virtue sits between excess and deficiency, and examines specific virtues like courage, temperance, and justice in detail.',
+      'It remains foundational to virtue ethics, one of the three major traditions in Western moral philosophy alongside consequentialism and deontology.'
+    ],
+    toc: ['The Good for Man', 'Moral Virtue', 'The Doctrine of the Mean', 'Justice', 'Intellectual Virtue', 'Friendship', 'Pleasure and Happiness'],
+    tags: ['ethics', 'classics', 'virtue'],
+    level: 'Advanced', publisher: 'Oxford World\'s Classics', language: 'English (translated)', format: 'PDF' },
+
+  { id: 24, title: 'Silent Spring', author: 'R. Carson', category: 'Science', pages: 368, year: 1962, color: '#3F6C51',
+    description: 'A landmark study of the environmental damage caused by synthetic pesticides, widely credited with starting the modern environmental movement.',
+    long: [
+      'Rachel Carson documented the effects of DDT and other pesticides on birds, insects, and ecosystems, challenging the chemical industry\'s claims of safety with careful, accessible science writing.',
+      'The book\'s title refers to a spring without birdsong — a warning about what unchecked pesticide use could do to the natural world.',
+      'It led directly to a US government review of pesticide policy and is widely credited with catalyzing the modern environmental movement.'
+    ],
+    toc: ['A Fable for Tomorrow', 'The Obligation to Endure', 'Elixirs of Death', 'Surface Waters and Underground Seas', 'Realms of the Soil', 'Needless Havoc', 'The Human Price', 'The Other Road'],
+    tags: ['environment', 'ecology', 'science writing'],
+    level: 'Beginner', publisher: 'Houghton Mifflin', language: 'English', format: 'EPUB' },
+
+  { id: 25, title: 'The Innovator\'s Dilemma', author: 'C. Christensen', category: 'Leadership', pages: 286, year: 1997, color: '#1B1F3B',
+    description: 'An explanation of why well-managed, successful companies can fail when disruptive technologies reshape their industries.',
+    long: [
+      'Clayton Christensen studies why great companies — well-run, customer-focused, and profitable — repeatedly lose to smaller competitors building simpler, cheaper "disruptive" technologies.',
+      'The core insight is that the same practices that make companies excellent at serving existing customers make it hard for them to invest in innovations their current customers do not yet want.',
+      'It introduced "disruptive innovation" into mainstream business vocabulary and remains widely cited in strategy and product management.'
+    ],
+    toc: ['How Great Companies Can Fail', 'Value Networks and Innovation', 'Disruptive Technologies in the Disk Drive Industry', 'What Goes Up, Can\'t Go Down', 'Give Responsibility to Organizations That Can Fit the Innovation', 'Performance Provided, Market Demand, and the Product Life Cycle'],
+    tags: ['business strategy', 'innovation', 'technology management'],
+    level: 'Intermediate', publisher: 'Harvard Business Review Press', language: 'English', format: 'PDF' },
+
+  { id: 26, title: 'Practical Chinese Reader', author: 'Liu Xun', category: 'Language', pages: 312, year: 1981, color: '#C97F1E',
+    description: 'A classic structured course in Mandarin Chinese, moving from pinyin and basic characters through everyday conversation.',
+    long: [
+      'One of the most widely used Mandarin textbooks internationally, this course introduces pinyin pronunciation, basic characters, and grammar through short dialogues rooted in everyday situations.',
+      'Each lesson builds vocabulary and grammar incrementally, with exercises designed for classroom use as well as self-study.',
+      'Later editions have been updated with contemporary vocabulary, but the structured, dialogue-driven approach remains largely unchanged.'
+    ],
+    toc: ['Pinyin and Tones', 'Greetings', 'Numbers and Dates', 'Family and Friends', 'Shopping and Travel', 'Reading Practice'],
+    tags: ['mandarin', 'language learning', 'grammar'],
+    level: 'Beginner', publisher: 'Sinolingua', language: 'English / Chinese', format: 'PDF' },
+
+  { id: 27, title: 'The Silk Roads', author: 'P. Frankopan', category: 'History', pages: 636, year: 2015, color: '#8C5E3C',
+    description: 'A history of the world told through the trade routes connecting Asia, the Middle East, and Europe, rather than a Western-centered narrative.',
+    long: [
+      'Peter Frankopan retells world history with the trade routes between East and West — the "Silk Roads" — at the center, rather than treating Europe as the default vantage point.',
+      'The book traces how goods, religions, diseases, and ideas moved along these routes for over two thousand years, shaping empires from Persia to Rome to the Mongol khanates.',
+      'It closes by arguing that the regions along these historic routes are once again becoming central to global politics and economics.'
+    ],
+    toc: ['The Creation of the Silk Road', 'The Road of Faiths', 'The Road to a Christian East', 'The Road to Revolution', 'The Road to Genocide', 'The Road to the Cold War', 'The Road to the Future'],
+    tags: ['world history', 'trade', 'geopolitics'],
+    level: 'Intermediate', publisher: 'Bloomsbury', language: 'English', format: 'EPUB' },
+
+  { id: 28, title: 'Thinking, Fast and Slow', author: 'D. Kahneman', category: 'Other', pages: 499, year: 2011, color: '#4A4E69',
+    description: 'A Nobel laureate\'s account of the two systems that drive human thought — one fast and intuitive, one slow and deliberate — and where each goes wrong.',
+    long: [
+      'Daniel Kahneman summarizes decades of research into judgment and decision-making, organized around two modes of thought: System 1 (fast, automatic, intuitive) and System 2 (slow, effortful, deliberate).',
+      'The book catalogs the biases and heuristics that emerge from over-relying on System 1 — anchoring, availability, loss aversion — with implications for economics, medicine, and everyday choices.',
+      'It played a major role in popularizing behavioral economics and remains one of the most cited books in the field.'
+    ],
+    toc: ['Two Systems', 'Heuristics and Biases', 'Overconfidence', 'Choices', 'Two Selves'],
+    tags: ['psychology', 'decision-making', 'behavioral economics'],
+    level: 'Intermediate', publisher: 'Farrar, Straus and Giroux', language: 'English', format: 'EPUB' },
+
+  { id: 29, title: 'Introduction to Algorithms', author: 'Cormen, Leiserson, Rivest, Stein', category: 'Technology', pages: 1312, year: 2009, color: '#C97F1E',
+    description: 'The standard reference textbook on algorithms and data structures, covering design techniques, analysis, and a huge range of classic problems.',
+    long: [
+      'Known widely as "CLRS" after its authors, this is the most commonly assigned algorithms textbook in university computer science programs, covering everything from sorting and searching to graph algorithms and NP-completeness.',
+      'Each algorithm is presented with pseudocode, correctness arguments, and rigorous complexity analysis, making it as much a reference as a teaching text.',
+      'Its comprehensiveness makes it dense, but it remains the book most engineers reach for when they need a precise, authoritative treatment of a classic algorithm.'
+    ],
+    toc: ['Foundations', 'Sorting and Order Statistics', 'Data Structures', 'Advanced Design and Analysis Techniques', 'Advanced Data Structures', 'Graph Algorithms', 'Selected Topics', 'NP-Completeness'],
+    tags: ['algorithms', 'data structures', 'computer science'],
+    level: 'Advanced', publisher: 'MIT Press', language: 'English', format: 'PDF' },
+
+  { id: 30, title: 'Man\'s Search for Meaning', author: 'V. Frankl', category: 'Philosophy', pages: 165, year: 1946, color: '#6B8F71',
+    description: 'A psychiatrist\'s account of surviving Nazi concentration camps, and the theory of meaning-centered psychology he developed from it.',
+    long: [
+      'Viktor Frankl, a psychiatrist and Holocaust survivor, recounts his experience in Nazi concentration camps and the observations that led him to develop logotherapy — the idea that the primary human drive is not pleasure but the search for meaning.',
+      'The first half is memoir; the second half outlines his psychological theory, arguing that meaning can be found even in suffering, through work, love, or the attitude one takes toward unavoidable hardship.',
+      'It remains widely read both as a memoir of survival and as an introduction to existential psychology.'
+    ],
+    toc: ['Experiences in a Concentration Camp', 'Logotherapy in a Nutshell', 'The Case for a Tragic Optimism'],
+    tags: ['psychology', 'memoir', 'meaning'],
+    level: 'Beginner', publisher: 'Beacon Press', language: 'English (translated)', format: 'EPUB' }
 ]
 
 const reviewNames = ['Dara P.', 'Sokha K.', 'Michael T.', 'Lina R.', 'Vuthy S.', 'Anna B.', 'James O.', 'Chenda M.']
@@ -269,6 +368,8 @@ const enriched = base.map((b, i) => {
   const digitalCopies = 3 + Math.floor(seededRand(seed + 30) * 6)
   const checkedOut = Math.floor(seededRand(seed + 31) * digitalCopies)
   const categoryPrefix = { Technology: 'QA76', Philosophy: 'B', Science: 'Q', Leadership: 'HD', Language: 'P', History: 'D', Other: 'BF' }[b.category] || 'Z'
+  const price = Math.round((6.5 + seededRand(seed + 50) * 18) * 100) / 100
+  const exchangeable = seededRand(seed + 51) > 0.35
 
   return {
     id: b.id,
@@ -293,6 +394,8 @@ const enriched = base.map((b, i) => {
     readingTimeHours: Math.round((b.pages / 45) * 10) / 10,
     addedDate: `2026-0${1 + (b.id % 8)}-0${1 + (b.id % 9)}`,
     edition: 1 + (b.id % 3),
+    price,
+    exchangeable,
     rating,
     ratingsCount,
     reviews,

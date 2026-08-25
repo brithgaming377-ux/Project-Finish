@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { books, categories } from '~/data/books'
+import { categories } from '~/data/books'
+import { useCatalog } from '~/composables/useCatalog'
 
+const { books } = useCatalog()
 const route = useRoute()
 
 const activeCategory = ref((route.query.category as string) || 'All')
@@ -12,8 +14,8 @@ const levels = ['Beginner', 'Intermediate', 'Advanced'] as const
 
 const filteredBooks = computed(() => {
   let list = activeCategory.value === 'All'
-    ? books
-    : books.filter(b => b.category === activeCategory.value)
+    ? books.value
+    : books.value.filter(b => b.category === activeCategory.value)
 
   if (activeLevel.value !== 'All') {
     list = list.filter(b => b.level === activeLevel.value)
@@ -24,7 +26,8 @@ const filteredBooks = computed(() => {
     list = list.filter(b =>
       b.title.toLowerCase().includes(q) ||
       b.author.toLowerCase().includes(q) ||
-      b.tags.some(t => t.toLowerCase().includes(q))
+      b.tags.some(t => t.toLowerCase().includes(q)) ||
+      b.subjects.some(t => t.toLowerCase().includes(q))
     )
   }
 

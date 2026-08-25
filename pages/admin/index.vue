@@ -1,0 +1,87 @@
+<script setup lang="ts">
+definePageMeta({ middleware: 'admin' })
+
+import { useCatalog } from '~/composables/useCatalog'
+
+const { books, deleteBook } = useCatalog()
+const { push: toast } = useToast()
+
+const query = ref('')
+const confirmingId = ref<number | null>(null)
+
+const filtered = computed(() => {
+  if (!query.value.trim()) return books.value
+  const q = query.value.trim().toLowerCase()
+  return books.value.filter(b => b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q))
+})
+
+function askDelete(id: number) {
+  confirmingId.value = id
+}
+
+function confirmDelete(id: number, title: string) {
+  deleteBook(id)
+  confirmingId.value = null
+  toast(`Deleted "${title}".`)
+}
+</script>
+
+<template>
+  <div class="max-w-6xl mx-auto px-6 py-12 pb-20">
+    <header class="flex items-start justify-between gap-4 flex-wrap mb-8">
+      <div>
+        <p class="font-mono text-xs uppercase tracking-wide text-amber-deep">Admin</p>
+        <h1 class="font-display font-semibold text-[clamp(26px,3.6vw,34px)] mt-2">Catalog management</h1>
+        <p class="text-ink-soft text-[15px] mt-2">{{ books.length }} books total. Add, edit, or remove titles from the catalog.</p>
+      </div>
+      <NuxtLink to="/admin/new" class="rounded-card bg-ink text-white font-semibold text-sm px-5 py-2.5 hover:bg-ink-light transition inline-flex items-center gap-2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Add new book
+      </NuxtLink>
+    </header>
+
+    <input
+      v-model="query"
+      type="search"
+      placeholder="Search by title or author…"
+      class="w-full max-w-sm rounded-full border border-line bg-white px-4 py-2 text-sm mb-6"
+    />
+
+    <div class="bg-white border border-line rounded-card overflow-hidden">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-line text-left text-ink-soft font-mono text-[11px] uppercase tracking-wide">
+            <th class="px-4 py-3 font-medium">Title</th>
+            <th class="px-4 py-3 font-medium hidden sm:table-cell">Subject</th>
+            <th class="px-4 py-3 font-medium hidden md:table-cell">Price</th>
+            <th class="px-4 py-3 font-medium hidden md:table-cell">Rating</th>
+            <th class="px-4 py-3 font-medium text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="b in filtered" :key="b.id" class="border-b border-line last:border-0 hover:bg-parchment-dim">
+            <td class="px-4 py-3">
+              <NuxtLink :to="`/products/${b.id}`" class="font-semibold hover:underline">{{ b.title }}</NuxtLink>
+              <p class="text-xs text-ink-soft">{{ b.author }}</p>
+            </td>
+            <td class="px-4 py-3 hidden sm:table-cell text-ink-soft">{{ b.category }}</td>
+            <td class="px-4 py-3 hidden md:table-cell font-mono">${{ b.price.toFixed(2) }}</td>
+            <td class="px-4 py-3 hidden md:table-cell font-mono">{{ b.rating.toFixed(1) }}</td>
+            <td class="px-4 py-3">
+              <div v-if="confirmingId !== b.id" class="flex items-center justify-end gap-3">
+                <NuxtLink :to="`/admin/${b.id}/edit`" class="text-amber-deep font-semibold text-xs hover:underline">Edit</NuxtLink>
+                <button type="button" class="text-rose font-semibold text-xs hover:underline" @click="askDelete(b.id)">Delete</button>
+              </div>
+              <div v-else class="flex items-center justify-end gap-2">
+                <span class="text-xs text-ink-soft">Confirm?</span>
+                <button type="button" class="text-rose font-semibold text-xs hover:underline" @click="confirmDelete(b.id, b.title)">Yes, delete</button>
+                <button type="button" class="text-ink-soft text-xs hover:underline" @click="confirmingId = null">Cancel</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p v-if="!filtered.length" class="text-center text-ink-soft text-sm py-10">No books match your search.</p>
+    </div>
+  </div>
+</template>

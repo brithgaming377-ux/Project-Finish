@@ -35,6 +35,8 @@ export interface Book {
   readingTimeHours: number
   addedDate: string
   edition: number
+  price: number
+  exchangeable: boolean
   rating: number
   ratingsCount: number
   reviews: Review[]

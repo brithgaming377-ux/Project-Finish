@@ -1,24 +1,40 @@
 <script setup lang="ts">
-import { getBookById, getRelatedBooks, availableCopies, formatYear } from '~/data/books'
+import { formatYear } from '~/data/books'
+import { useCatalog } from '~/composables/useCatalog'
+import { useLibrary } from '~/composables/useLibrary'
+import { useAuth } from '~/composables/useAuth'
 
 const route = useRoute()
+const router = useRouter()
 const id = computed(() => Number(route.params.id))
-const book = computed(() => getBookById(id.value))
+
+const { getById, books } = useCatalog()
+const book = computed(() => getById(id.value))
 
 if (!book.value) {
   throw createError({ statusCode: 404, statusMessage: 'Book not found', fatal: true })
 }
 
-const related = computed(() => book.value ? getRelatedBooks(book.value) : [])
+const related = computed(() => {
+  if (!book.value) return []
+  return books.value.filter(b => b.category === book.value!.category && b.id !== book.value!.id).slice(0, 4)
+})
 
 useHead(() => ({
   title: book.value ? `${book.value.title} — Marginalia` : 'Marginalia'
 }))
 
-const saved = ref(false)
-const activeTab = ref<'description' | 'contents' | 'reviews' | 'citation'>('description')
+const { isAdmin, isLoggedIn } = useAuth()
+const { isSaved, isBorrowed, isPurchased, toggleSave, borrow, returnBook, purchase, exchange, state } = useLibrary()
+const { push: toast } = useToast()
 
-const copiesLeft = computed(() => book.value ? availableCopies(book.value) : 0)
+const activeTab = ref<'description' | 'contents' | 'reviews' | 'citation'>('description')
+const showExchangePanel = ref(false)
+
+const copiesLeft = computed(() => {
+  if (!book.value) return 0
+  return Math.max(book.value.availability.digitalCopies - book.value.availability.checkedOut, 0)
+})
 
 const ratingBreakdown = computed(() => {
   if (!book.value) return []
@@ -32,8 +48,7 @@ const ratingBreakdown = computed(() => {
 const apaCitation = computed(() => {
   if (!book.value) return ''
   const b = book.value
-  const yearLabel = formatYear(b.year)
-  return `${b.author} (${yearLabel}). ${b.title} (${b.edition === 1 ? '1st' : b.edition + 'th'} ed.). ${b.publisher}.`
+  return `${b.author} (${formatYear(b.year)}). ${b.title} (${b.edition === 1 ? '1st' : b.edition + 'th'} ed.). ${b.publisher}.`
 })
 
 const tabs = [
@@ -42,6 +57,55 @@ const tabs = [
   { id: 'reviews', label: 'Reviews' },
   { id: 'citation', label: 'Cite this' }
 ] as const
+
+function requireLogin(action: () => void) {
+  if (!isLoggedIn.value) {
+    router.push({ path: '/login', query: { redirect: route.fullPath } })
+    return
+  }
+  action()
+}
+
+function onSave() {
+  requireLogin(() => {
+    toggleSave(id.value)
+    toast(isSaved(id.value) ? 'Saved to your account.' : 'Removed from saved.')
+  })
+}
+
+function onBorrow() {
+  requireLogin(() => {
+    if (copiesLeft.value === 0) {
+      toast('No copies available right now.', 'error')
+      return
+    }
+    borrow(id.value)
+    toast('Borrowed — due back in 14 days.')
+  })
+}
+
+function onReturn() {
+  returnBook(id.value)
+  toast('Returned. Thanks!')
+}
+
+function onBuy() {
+  requireLogin(() => {
+    purchase(id.value)
+    toast(`Purchased for $${book.value!.price.toFixed(2)}.`)
+  })
+}
+
+// Other borrowed books eligible to trade for this one
+const swappableBooks = computed(() =>
+  books.value.filter(b => state.value.borrowed.some(r => r.bookId === b.id) && b.id !== id.value)
+)
+
+function onExchange(otherId: number) {
+  exchange(otherId, id.value)
+  toast('Exchanged successfully.')
+  showExchangePanel.value = false
+}
 </script>
 
 <template>
@@ -55,13 +119,21 @@ const tabs = [
       <NuxtLink :to="`/products?category=${book.category}`" class="hover:text-ink hover:underline">{{ book.category }}</NuxtLink>
       <span>/</span>
       <span class="text-ink font-semibold">{{ book.title }}</span>
+      <NuxtLink
+        v-if="isAdmin"
+        :to="`/admin/${book.id}/edit`"
+        class="ml-auto inline-flex items-center gap-1.5 text-amber-deep font-semibold hover:underline"
+      >
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Edit in admin
+      </NuxtLink>
     </nav>
 
     <div class="grid lg:grid-cols-[260px_1fr] gap-12">
-      <!-- Sidebar: cover, availability, actions, facts -->
+      <!-- Sidebar -->
       <aside class="lg:sticky lg:top-24 self-start flex flex-col gap-4">
         <div
-          class="h-[300px] rounded-card p-5 flex flex-col justify-between text-parchment shadow-cover"
+          class="h-[300px] rounded-card p-5 flex flex-col justify-between text-white shadow-cover"
           :style="{ background: book.spineColor }"
         >
           <span class="self-start font-mono text-[10px] uppercase tracking-wide bg-black/25 px-2 py-0.5 rounded-full">{{ book.level }}</span>
@@ -72,27 +144,87 @@ const tabs = [
         </div>
 
         <div class="flex items-center gap-2 text-[13px] text-ink-soft">
-          <span class="w-2 h-2 rounded-full shrink-0" :class="copiesLeft > 0 ? 'bg-sage' : 'bg-amber-deep'" />
+          <span class="w-2 h-2 rounded-full shrink-0" :class="copiesLeft > 0 ? 'bg-sage' : 'bg-rose'" />
           <span v-if="copiesLeft > 0">{{ copiesLeft }} of {{ book.availability.digitalCopies }} copies available</span>
           <span v-else>All copies currently checked out</span>
         </div>
 
+        <div class="flex items-baseline justify-between">
+          <span class="font-display font-semibold text-2xl">${{ book.price.toFixed(2) }}</span>
+          <span v-if="isPurchased(book.id)" class="font-mono text-[11px] text-sage">Owned</span>
+        </div>
+
         <div class="flex flex-col gap-2">
           <button
-            class="rounded-card font-semibold text-sm px-5 py-2.5 transition text-center"
-            :class="saved ? 'border border-line text-ink hover:border-ink' : 'bg-amber text-ink hover:bg-amber-deep'"
+            class="rounded-card bg-amber text-ink font-semibold text-sm px-5 py-2.5 hover:bg-amber-deep transition disabled:opacity-50 disabled:cursor-not-allowed"
             type="button"
-            @click="saved = !saved"
+            :disabled="isPurchased(book.id)"
+            @click="onBuy"
           >
-            {{ saved ? 'Saved ✓' : 'Save to my account' }}
+            {{ isPurchased(book.id) ? 'Purchased ✓' : 'Buy this book' }}
           </button>
+
           <button
-            class="rounded-card bg-ink text-parchment font-semibold text-sm px-5 py-2.5 hover:bg-ink-light transition disabled:opacity-50 disabled:cursor-not-allowed"
+            v-if="!isBorrowed(book.id)"
+            class="rounded-card bg-ink text-white font-semibold text-sm px-5 py-2.5 hover:bg-ink-light transition disabled:opacity-50 disabled:cursor-not-allowed"
             type="button"
             :disabled="copiesLeft === 0"
+            @click="onBorrow"
           >
             {{ copiesLeft > 0 ? 'Borrow this book' : 'Join waitlist' }}
           </button>
+          <button
+            v-else
+            class="rounded-card border border-line text-ink font-semibold text-sm px-5 py-2.5 hover:border-ink transition"
+            type="button"
+            @click="onReturn"
+          >
+            Return borrowed copy
+          </button>
+
+          <div class="flex gap-2">
+            <button
+              class="flex-1 rounded-card font-semibold text-sm px-4 py-2.5 transition text-center border"
+              :class="isSaved(book.id) ? 'border-ink text-ink' : 'border-line text-ink-soft hover:border-ink hover:text-ink'"
+              type="button"
+              @click="onSave"
+            >
+              {{ isSaved(book.id) ? 'Saved ✓' : 'Save' }}
+            </button>
+            <button
+              v-if="book.exchangeable"
+              class="flex-1 rounded-card border border-line text-ink-soft text-sm font-semibold px-4 py-2.5 hover:border-ink hover:text-ink transition"
+              type="button"
+              @click="showExchangePanel = !showExchangePanel"
+            >
+              Exchange
+            </button>
+          </div>
+
+          <NuxtLink
+            :to="`/products/${book.id}/read`"
+            class="rounded-card border border-amber-deep text-amber-deep font-semibold text-sm px-5 py-2.5 text-center hover:bg-amber hover:text-ink hover:border-amber transition flex items-center justify-center gap-2"
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Read now
+          </NuxtLink>
+        </div>
+
+        <!-- Exchange panel -->
+        <div v-if="showExchangePanel" class="border border-line rounded-card p-3.5 bg-parchment-dim">
+          <p class="text-xs font-semibold mb-2">Trade a borrowed book for this one:</p>
+          <div v-if="swappableBooks.length" class="flex flex-col gap-1.5">
+            <button
+              v-for="b in swappableBooks"
+              :key="b.id"
+              class="text-left text-xs bg-white border border-line rounded-card px-2.5 py-2 hover:border-ink transition"
+              type="button"
+              @click="onExchange(b.id)"
+            >
+              {{ b.title }}
+            </button>
+          </div>
+          <p v-else class="text-xs text-ink-soft">You don't have any borrowed books to trade yet.</p>
         </div>
 
         <dl class="flex flex-col gap-2.5 pt-3.5 border-t border-line text-[12.5px]">
@@ -181,7 +313,7 @@ const tabs = [
           <ul class="flex flex-col gap-5">
             <li v-for="(rev, i) in book.reviews" :key="i">
               <div class="flex items-center gap-3">
-                <span class="w-9 h-9 rounded-full bg-ink text-parchment flex items-center justify-center font-display font-semibold text-[13px] shrink-0">{{ rev.name.charAt(0) }}</span>
+                <span class="w-9 h-9 rounded-full bg-ink text-white flex items-center justify-center font-display font-semibold text-[13px] shrink-0">{{ rev.name.charAt(0) }}</span>
                 <div>
                   <p class="text-[13.5px] font-semibold">{{ rev.name }}</p>
                   <StarRating :rating="rev.rating" :size="11" />

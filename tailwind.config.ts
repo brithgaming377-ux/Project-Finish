@@ -11,20 +11,24 @@ export default <Partial<Config>>{
     extend: {
       colors: {
         ink: {
-          DEFAULT: '#1B1F3B',
-          soft: '#4A4E69',
-          light: '#262B52'
+          DEFAULT: '#14162B',
+          soft: '#5B5F73',
+          light: '#242640'
         },
         parchment: {
-          DEFAULT: '#F7F3E8',
-          dim: '#EFE9D8'
+          DEFAULT: '#FFFFFF',
+          dim: '#F6F7FA'
         },
         amber: {
-          DEFAULT: '#E8A33D',
-          deep: '#C97F1E'
+          DEFAULT: '#C9A227',
+          deep: '#A6821A'
         },
-        sage: '#6B8F71',
-        line: 'rgba(27, 31, 59, 0.12)'
+        sage: '#3F8F5F',
+        rose: {
+          DEFAULT: '#C24444',
+          deep: '#A13636'
+        },
+        line: '#E7E8EE'
       },
       fontFamily: {
         display: ['Fraunces', 'serif'],
@@ -32,11 +36,12 @@ export default <Partial<Config>>{
         mono: ['"IBM Plex Mono"', 'monospace']
       },
       borderRadius: {
-        card: '6px'
+        card: '8px'
       },
       boxShadow: {
-        cover: '0 10px 26px rgba(27, 31, 59, 0.16)',
-        card: '0 8px 20px rgba(27, 31, 59, 0.1)'
+        cover: '0 12px 28px rgba(20, 22, 43, 0.14)',
+        card: '0 8px 24px rgba(20, 22, 43, 0.08)',
+        premium: '0 1px 2px rgba(20, 22, 43, 0.04), 0 12px 24px -8px rgba(20, 22, 43, 0.1)'
       }
     }
   },

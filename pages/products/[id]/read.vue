@@ -27,7 +27,10 @@ const pages = computed(() => {
   if (!book.value) return []
   const b = book.value
   const list: { heading: string; body: string }[] = [
-    { heading: 'Title Page', body: `${b.title}\nby ${b.author}\n\n${b.publisher} — ${b.edition === 1 ? '1st' : b.edition + 'th'} edition` }
+    {
+      heading: 'Title Page',
+      body: `${b.title}\nby ${b.author}\n\n${b.publisher} — ${b.edition === 1 ? '1st' : b.edition + 'th'} edition`
+    }
   ]
   b.tableOfContents.forEach((chapter, i) => {
     const paragraph = b.longDescription[i % b.longDescription.length]
@@ -67,20 +70,50 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
     <!-- Toolbar -->
     <div class="bg-ink text-white border-b border-white/10">
       <div class="max-w-6xl mx-auto px-5 py-3 flex items-center gap-4 flex-wrap">
-        <NuxtLink :to="`/products/${book.id}`" class="flex items-center gap-1.5 text-sm text-white/70 hover:text-white shrink-0">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <NuxtLink
+          :to="`/products/${book.id}`"
+          class="flex items-center gap-1.5 text-sm text-white/70 hover:text-white shrink-0"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M15 19l-7-7 7-7"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
           Exit reader
         </NuxtLink>
 
         <p class="font-display font-semibold text-sm truncate max-w-[240px]">{{ book.title }}</p>
 
         <div class="flex items-center gap-2 ml-auto">
-          <button class="p-1.5 rounded hover:bg-white/10" type="button" aria-label="Zoom out" @click="zoom = Math.max(70, zoom - 10)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <button
+            class="p-1.5 rounded hover:bg-white/10"
+            type="button"
+            aria-label="Zoom out"
+            @click="zoom = Math.max(70, zoom - 10)"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
           </button>
           <span class="font-mono text-xs w-10 text-center">{{ zoom }}%</span>
-          <button class="p-1.5 rounded hover:bg-white/10" type="button" aria-label="Zoom in" @click="zoom = Math.min(150, zoom + 10)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <button
+            class="p-1.5 rounded hover:bg-white/10"
+            type="button"
+            aria-label="Zoom in"
+            @click="zoom = Math.min(150, zoom + 10)"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 5v14M5 12h14"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
           </button>
 
           <div class="w-px h-5 bg-white/15 mx-1" />
@@ -104,7 +137,9 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 
           <div class="w-px h-5 bg-white/15 mx-1" />
 
-          <span class="font-mono text-xs text-white/60">{{ pageIndex + 1 }} / {{ totalPages }}</span>
+          <span class="font-mono text-xs text-white/60"
+            >{{ pageIndex + 1 }} / {{ totalPages }}</span
+          >
         </div>
       </div>
     </div>
@@ -115,7 +150,9 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
         class="bg-white rounded shadow-2xl w-full max-w-2xl px-10 py-14 sm:px-14"
         :style="{ transform: `scale(${zoom / 100})`, transformOrigin: 'top center' }"
       >
-        <p class="font-mono text-[11px] text-ink-soft uppercase tracking-wide mb-6">{{ book.title }}</p>
+        <p class="font-mono text-[11px] text-ink-soft uppercase tracking-wide mb-6">
+          {{ book.title }}
+        </p>
         <h2
           class="font-semibold text-2xl mb-6"
           :class="fontFamily === 'serif' ? 'font-display' : 'font-body'"
@@ -140,7 +177,15 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
         :disabled="pageIndex === 0"
         @click="prev"
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M15 19l-7-7 7-7"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
         Previous
       </button>
 
@@ -160,7 +205,15 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
         @click="next"
       >
         Next
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M9 5l7 7-7 7"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
       </button>
     </div>
   </div>

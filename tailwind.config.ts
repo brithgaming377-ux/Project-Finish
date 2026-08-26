@@ -1,23 +1,18 @@
 import type { Config } from 'tailwindcss'
 
 export default <Partial<Config>>{
-  content: [
-    './components/**/*.{vue,js,ts}',
-    './layouts/**/*.vue',
-    './pages/**/*.vue',
-    './app.vue'
-  ],
+  content: ['./components/**/*.{vue,js,ts}', './layouts/**/*.vue', './pages/**/*.vue', './app.vue'],
   theme: {
     extend: {
       colors: {
         ink: {
-          DEFAULT: '#14162B',
-          soft: '#5B5F73',
-          light: '#242640'
+          DEFAULT: '#17192D',
+          soft: '#64677A',
+          light: '#292C47'
         },
         parchment: {
-          DEFAULT: '#FFFFFF',
-          dim: '#F6F7FA'
+          DEFAULT: '#FCFCFD',
+          dim: '#F5F5F7'
         },
         amber: {
           DEFAULT: '#C9A227',
@@ -31,17 +26,17 @@ export default <Partial<Config>>{
         line: '#E7E8EE'
       },
       fontFamily: {
-        display: ['Fraunces', 'serif'],
-        body: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['"DM Serif Display"', 'Georgia', 'serif'],
+        body: ['Manrope', 'system-ui', 'sans-serif'],
         mono: ['"IBM Plex Mono"', 'monospace']
       },
       borderRadius: {
         card: '8px'
       },
       boxShadow: {
-        cover: '0 12px 28px rgba(20, 22, 43, 0.14)',
-        card: '0 8px 24px rgba(20, 22, 43, 0.08)',
-        premium: '0 1px 2px rgba(20, 22, 43, 0.04), 0 12px 24px -8px rgba(20, 22, 43, 0.1)'
+        cover: '0 18px 34px rgba(23, 25, 45, 0.22)',
+        card: '0 14px 32px rgba(23, 25, 45, 0.10)',
+        premium: '0 1px 2px rgba(23, 25, 45, 0.04), 0 18px 36px -14px rgba(23, 25, 45, 0.18)'
       }
     }
   },

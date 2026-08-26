@@ -52,12 +52,12 @@ export function useLibrary() {
   }
 
   const isSaved = (id: number) => state.value.saved.includes(id)
-  const isBorrowed = (id: number) => state.value.borrowed.some(r => r.bookId === id)
+  const isBorrowed = (id: number) => state.value.borrowed.some((r) => r.bookId === id)
   const isPurchased = (id: number) => state.value.purchased.includes(id)
 
   function toggleSave(id: number) {
     state.value.saved = isSaved(id)
-      ? state.value.saved.filter(x => x !== id)
+      ? state.value.saved.filter((x) => x !== id)
       : [...state.value.saved, id]
     persist(state.value)
   }
@@ -65,12 +65,15 @@ export function useLibrary() {
   function borrow(id: number, days = 14) {
     if (isBorrowed(id)) return
     const today = new Date().toISOString().slice(0, 10)
-    state.value.borrowed = [...state.value.borrowed, { bookId: id, borrowedOn: today, dueOn: addDays(today, days) }]
+    state.value.borrowed = [
+      ...state.value.borrowed,
+      { bookId: id, borrowedOn: today, dueOn: addDays(today, days) }
+    ]
     persist(state.value)
   }
 
   function returnBook(id: number) {
-    state.value.borrowed = state.value.borrowed.filter(r => r.bookId !== id)
+    state.value.borrowed = state.value.borrowed.filter((r) => r.bookId !== id)
     persist(state.value)
   }
 
@@ -86,5 +89,15 @@ export function useLibrary() {
     borrow(newId)
   }
 
-  return { state, isSaved, isBorrowed, isPurchased, toggleSave, borrow, returnBook, purchase, exchange }
+  return {
+    state,
+    isSaved,
+    isBorrowed,
+    isPurchased,
+    toggleSave,
+    borrow,
+    returnBook,
+    purchase,
+    exchange
+  }
 }

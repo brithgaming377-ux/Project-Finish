@@ -5,6 +5,11 @@ function toneClasses(tone: string) {
   if (tone === 'error') return 'bg-rose text-white'
   return 'bg-ink text-white'
 }
+
+function runAction(id: number, action?: () => void) {
+  action?.()
+  dismiss(id)
+}
 </script>
 
 <template>
@@ -24,9 +29,47 @@ function toneClasses(tone: string) {
         :class="toneClasses(t.tone)"
         @click="dismiss(t.id)"
       >
-        <svg v-if="t.tone === 'success'" width="16" height="16" viewBox="0 0 24 24" fill="none" class="shrink-0"><path d="M4.5 12.75l6 6 9-13.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <svg v-else-if="t.tone === 'error'" width="16" height="16" viewBox="0 0 24 24" fill="none" class="shrink-0"><path d="M12 9v3.75m0 3.75h.008M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span>{{ t.message }}</span>
+        <svg
+          v-if="t.tone === 'success'"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          class="shrink-0"
+        >
+          <path
+            d="M4.5 12.75l6 6 9-13.5"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <svg
+          v-else-if="t.tone === 'error'"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          class="shrink-0"
+        >
+          <path
+            d="M12 9v3.75m0 3.75h.008M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <span class="flex-1">{{ t.message }}</span>
+        <button
+          v-if="t.actionLabel"
+          type="button"
+          class="rounded-md border border-white/40 px-2 py-1 text-xs font-bold hover:bg-white/15"
+          @click.stop="runAction(t.id, t.action)"
+        >
+          {{ t.actionLabel }}
+        </button>
       </div>
     </TransitionGroup>
   </div>

@@ -4,9 +4,9 @@
     "title": "Clean Architecture",
     "author": "R. C. Martin",
     "category": "Technology",
-    "pages": 432,
-    "year": 2017,
+    "level": "Intermediate",
     "spineColor": "#1B1F3B",
+    "coverUrl": "https://down-id.img.susercontent.com/file/id-11134207-7ra0h-mdo30rwus2h866",
     "description": "A guide to structuring software systems so that business logic stays independent of frameworks, databases, and delivery mechanisms.",
     "longDescription": [
       "Robert C. Martin distills four decades of software design experience into a set of rules and practices for building systems that survive change. The central argument is that architecture is about intent, not tools: frameworks, databases, and UI layers are details that should be kept at the edges of a system, never at its core.",
@@ -24,28 +24,25 @@
       "Case Studies",
       "The Missing Chapter"
     ],
-    "tags": [
-      "software design",
-      "engineering practice",
-      "systems thinking"
-    ],
-    "subjects": [
-      "Software Design",
-      "Engineering Practice",
-      "Systems Thinking"
-    ],
-    "callNumber": "QA76107.B1",
-    "level": "Intermediate",
+    "tags": ["software design", "engineering practice", "systems thinking"],
+    "subjects": ["Software Design", "Engineering Practice", "Systems Thinking"],
+    "pages": 432,
+    "readingTimeHours": 9.6,
+    "year": 2017,
+    "edition": 2,
     "publisher": "Prentice Hall",
     "language": "English",
     "format": "EPUB",
     "isbn": "978-100765432",
     "fileSizeMb": 5.4,
-    "readingTimeHours": 9.6,
+    "callNumber": "QA76107.B1",
     "addedDate": "2026-02-02",
-    "edition": 2,
     "price": 20.9,
     "exchangeable": true,
+    "availability": {
+      "digitalCopies": 7,
+      "checkedOut": 3
+    },
     "rating": 3.6,
     "ratingsCount": 73,
     "reviews": [
@@ -73,20 +70,16 @@
         "date": "2026-03-11",
         "comment": "Not the easiest read, but the payoff is real."
       }
-    ],
-    "availability": {
-      "digitalCopies": 7,
-      "checkedOut": 3
-    }
+    ]
   },
   {
     "id": 2,
     "title": "The Pragmatic Programmer",
     "author": "D. Thomas & A. Hunt",
     "category": "Technology",
-    "pages": 352,
-    "year": 1999,
+    "level": "Beginner",
     "spineColor": "#6B8F71",
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcJ8-HrZ26wMVsjaMbfme-j4VHOlIROGu02IZSK8MpsRfDswQ1Bf-vU0Po&s=10",
     "description": "A collection of practical habits and principles for working programmers, covering everything from debugging and testing to communication and career growth.",
     "longDescription": [
       "Rather than teaching a language or framework, this book teaches a way of working. It collects field-tested habits — from \"don't repeat yourself\" to \"programming by coincidence\" — into short, quotable tips that hold up regardless of tech stack.",
@@ -103,28 +96,25 @@
       "Before the Project",
       "Pragmatic Projects"
     ],
-    "tags": [
-      "career growth",
-      "best practices",
-      "craftsmanship"
-    ],
-    "subjects": [
-      "Career Growth",
-      "Best Practices",
-      "Craftsmanship"
-    ],
-    "callNumber": "QA76114.C2",
-    "level": "Beginner",
+    "tags": ["career growth", "best practices", "craftsmanship"],
+    "subjects": ["Career Growth", "Best Practices", "Craftsmanship"],
+    "pages": 352,
+    "readingTimeHours": 7.8,
+    "year": 1999,
+    "edition": 3,
     "publisher": "Addison-Wesley",
     "language": "English",
     "format": "PDF",
     "isbn": "978-101530864",
     "fileSizeMb": 4.4,
-    "readingTimeHours": 7.8,
+    "callNumber": "QA76114.C2",
     "addedDate": "2026-03-03",
-    "edition": 3,
     "price": 22.76,
     "exchangeable": false,
+    "availability": {
+      "digitalCopies": 4,
+      "checkedOut": 1
+    },
     "rating": 4.7,
     "ratingsCount": 85,
     "reviews": [
@@ -140,20 +130,16 @@
         "date": "2026-06-14",
         "comment": "Good introduction, though a few chapters felt dated."
       }
-    ],
-    "availability": {
-      "digitalCopies": 4,
-      "checkedOut": 1
-    }
+    ]
   },
   {
     "id": 3,
     "title": "Networks, Crowds & Markets",
     "author": "Easley & Kleinberg",
     "category": "Technology",
-    "pages": 512,
-    "year": 2010,
+    "level": "Advanced",
     "spineColor": "#C97F1E",
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx9-9NTJ2WmNxLscZTeCBaJl4duekXP3puRx4gBwD6DNzc0jym21smLye5&s=10",
     "description": "An introduction to the mathematics behind connected systems — how networks, incentives, and information spread shape everything from social platforms to financial markets.",
     "longDescription": [
       "This textbook bridges economics, sociology, and computing to explain why connected systems behave the way they do. It builds from simple graph theory up to game-theoretic models of auctions, information cascades, and market structure.",
@@ -170,28 +156,25 @@
       "Cascading Behavior",
       "The Small-World Phenomenon"
     ],
-    "tags": [
-      "network science",
-      "game theory",
-      "economics"
-    ],
-    "subjects": [
-      "Network Science",
-      "Game Theory",
-      "Economics"
-    ],
-    "callNumber": "QA76121.D3",
-    "level": "Advanced",
+    "tags": ["network science", "game theory", "economics"],
+    "subjects": ["Network Science", "Game Theory", "Economics"],
+    "pages": 512,
+    "readingTimeHours": 11.4,
+    "year": 2010,
+    "edition": 1,
     "publisher": "Cambridge University Press",
     "language": "English",
     "format": "PDF",
     "isbn": "978-102296296",
     "fileSizeMb": 6.6,
-    "readingTimeHours": 11.4,
+    "callNumber": "QA76121.D3",
     "addedDate": "2026-04-04",
-    "edition": 1,
     "price": 11.14,
     "exchangeable": false,
+    "availability": {
+      "digitalCopies": 3,
+      "checkedOut": 0
+    },
     "rating": 4,
     "ratingsCount": 111,
     "reviews": [
@@ -207,20 +190,16 @@
         "date": "2026-03-12",
         "comment": "Good introduction, though a few chapters felt dated."
       }
-    ],
-    "availability": {
-      "digitalCopies": 3,
-      "checkedOut": 0
-    }
+    ]
   },
   {
     "id": 4,
     "title": "Meditations",
     "author": "Marcus Aurelius",
     "category": "Philosophy",
-    "pages": 254,
-    "year": 180,
+    "level": "Beginner",
     "spineColor": "#4A4E69",
+    "coverUrl": "https://cloud.firebrandtech.com/api/v2/image/111/9781577154617/CoverArtHigh/XL",
     "description": "The private journal of a Roman emperor reflecting on duty, mortality, and self-discipline — one of the foundational texts of Stoic philosophy.",
     "longDescription": [
       "Written as private notes rather than a work meant for publication, Meditations captures an emperor thinking through the same questions any person faces: how to act well, how to face loss, how to stay steady when things go wrong.",
@@ -235,28 +214,25 @@
       "Book VII–IX: On Impermanence",
       "Book X–XII: On Duty"
     ],
-    "tags": [
-      "stoicism",
-      "classics",
-      "self-discipline"
-    ],
-    "subjects": [
-      "Stoicism",
-      "Classics",
-      "Self-Discipline"
-    ],
-    "callNumber": "B128.E4",
-    "level": "Beginner",
+    "tags": ["stoicism", "classics", "self-discipline"],
+    "subjects": ["Stoicism", "Classics", "Self-Discipline"],
+    "pages": 254,
+    "readingTimeHours": 5.6,
+    "year": 180,
+    "edition": 2,
     "publisher": "Penguin Classics",
     "language": "English (translated)",
     "format": "EPUB",
     "isbn": "978-103061728",
     "fileSizeMb": 3,
-    "readingTimeHours": 5.6,
+    "callNumber": "B128.E4",
     "addedDate": "2026-05-05",
-    "edition": 2,
     "price": 15.11,
     "exchangeable": true,
+    "availability": {
+      "digitalCopies": 4,
+      "checkedOut": 3
+    },
     "rating": 4.5,
     "ratingsCount": 79,
     "reviews": [
@@ -284,20 +260,16 @@
         "date": "2026-06-18",
         "comment": "Took a while to get through but worth it in the end."
       }
-    ],
-    "availability": {
-      "digitalCopies": 4,
-      "checkedOut": 3
-    }
+    ]
   },
   {
     "id": 5,
     "title": "Beyond Good and Evil",
     "author": "F. Nietzsche",
     "category": "Philosophy",
-    "pages": 297,
-    "year": 1886,
+    "level": "Advanced",
     "spineColor": "#8C5E3C",
+    "coverUrl": "https://autribooks.com/cdn/shop/files/BeyondGoodandEvilcover.jpg?v=1748517158&width=1400",
     "description": "A critique of traditional morality and philosophy, arguing for a reevaluation of values beyond simple notions of good and evil.",
     "longDescription": [
       "Nietzsche opens by questioning the assumptions underneath centuries of philosophy — the idea that truth, morality, and \"the good\" are fixed, discoverable things rather than products of history and psychology.",
@@ -315,28 +287,25 @@
       "Peoples and Fatherlands",
       "What Is Noble?"
     ],
-    "tags": [
-      "ethics",
-      "classics",
-      "critical theory"
-    ],
-    "subjects": [
-      "Ethics",
-      "Classics",
-      "Critical Theory"
-    ],
-    "callNumber": "B135.F5",
-    "level": "Advanced",
+    "tags": ["ethics", "classics", "critical theory"],
+    "subjects": ["Ethics", "Classics", "Critical Theory"],
+    "pages": 297,
+    "readingTimeHours": 6.6,
+    "year": 1886,
+    "edition": 3,
     "publisher": "Vintage",
     "language": "English (translated)",
     "format": "EPUB",
     "isbn": "978-103827160",
     "fileSizeMb": 3.9,
-    "readingTimeHours": 6.6,
+    "callNumber": "B135.F5",
     "addedDate": "2026-06-06",
-    "edition": 3,
     "price": 18.86,
     "exchangeable": true,
+    "availability": {
+      "digitalCopies": 5,
+      "checkedOut": 3
+    },
     "rating": 3.9,
     "ratingsCount": 148,
     "reviews": [
@@ -364,20 +333,16 @@
         "date": "2026-03-12",
         "comment": "One of the better books I've read on this topic this year."
       }
-    ],
-    "availability": {
-      "digitalCopies": 5,
-      "checkedOut": 3
-    }
+    ]
   },
   {
     "id": 6,
     "title": "The Republic",
     "author": "Plato",
     "category": "Philosophy",
-    "pages": 416,
-    "year": -375,
+    "level": "Advanced",
     "spineColor": "#3F6C51",
+    "coverUrl": "https://cdn.kobo.com/book-images/057dd369-10e3-483e-87d8-42844a95dd1a/1200/1200/False/the-republic-190.jpg",
     "description": "A Socratic dialogue examining justice, the ideal state, and the nature of a well-ordered soul.",
     "longDescription": [
       "Framed as a conversation led by Socrates, The Republic asks a deceptively simple question — what is justice? — and follows it into a sweeping account of the ideal city-state, education, and the structure of the human soul.",
@@ -391,28 +356,25 @@
       "Book VIII–IX: The Decline of States",
       "Book X: Poetry and the Afterlife"
     ],
-    "tags": [
-      "classics",
-      "political philosophy",
-      "ethics"
-    ],
-    "subjects": [
-      "Classics",
-      "Political Philosophy",
-      "Ethics"
-    ],
-    "callNumber": "B142.G6",
-    "level": "Advanced",
+    "tags": ["classics", "political philosophy", "ethics"],
+    "subjects": ["Classics", "Political Philosophy", "Ethics"],
+    "pages": 416,
+    "readingTimeHours": 9.2,
+    "year": -375,
+    "edition": 1,
     "publisher": "Oxford World's Classics",
     "language": "English (translated)",
     "format": "PDF",
     "isbn": "978-104592592",
     "fileSizeMb": 4.7,
-    "readingTimeHours": 9.2,
+    "callNumber": "B142.G6",
     "addedDate": "2026-07-07",
-    "edition": 1,
     "price": 10.19,
     "exchangeable": false,
+    "availability": {
+      "digitalCopies": 8,
+      "checkedOut": 5
+    },
     "rating": 3.9,
     "ratingsCount": 270,
     "reviews": [
@@ -440,20 +402,16 @@
         "date": "2026-01-14",
         "comment": "Solid overview — I keep coming back to reference it."
       }
-    ],
-    "availability": {
-      "digitalCopies": 8,
-      "checkedOut": 5
-    }
+    ]
   },
   {
     "id": 7,
     "title": "A Brief History of Time",
     "author": "S. Hawking",
     "category": "Science",
-    "pages": 256,
-    "year": 1988,
+    "level": "Beginner",
     "spineColor": "#1B1F3B",
+    "coverUrl": "https://m.media-amazon.com/images/I/91ebghaV-eL.jpg",
     "description": "An accessible tour of cosmology — from the Big Bang to black holes — written for readers without a physics background.",
     "longDescription": [
       "Stephen Hawking set out to explain the biggest questions in cosmology — where the universe came from, what a black hole actually is, whether time had a beginning — without requiring a physics degree to follow along.",
@@ -470,28 +428,25 @@
       "The Origin of the Universe",
       "The Arrow of Time"
     ],
-    "tags": [
-      "cosmology",
-      "physics",
-      "popular science"
-    ],
-    "subjects": [
-      "Cosmology",
-      "Physics",
-      "Popular Science"
-    ],
-    "callNumber": "Q149.H7",
-    "level": "Beginner",
+    "tags": ["cosmology", "physics", "popular science"],
+    "subjects": ["Cosmology", "Physics", "Popular Science"],
+    "pages": 256,
+    "readingTimeHours": 5.7,
+    "year": 1988,
+    "edition": 2,
     "publisher": "Bantam Books",
     "language": "English",
     "format": "EPUB",
     "isbn": "978-105358024",
     "fileSizeMb": 3,
-    "readingTimeHours": 5.7,
+    "callNumber": "Q149.H7",
     "addedDate": "2026-08-08",
-    "edition": 2,
     "price": 6.52,
     "exchangeable": true,
+    "availability": {
+      "digitalCopies": 6,
+      "checkedOut": 1
+    },
     "rating": 4.8,
     "ratingsCount": 69,
     "reviews": [
@@ -507,20 +462,16 @@
         "date": "2026-07-15",
         "comment": "Took a while to get through but worth it in the end."
       }
-    ],
-    "availability": {
-      "digitalCopies": 6,
-      "checkedOut": 1
-    }
+    ]
   },
   {
     "id": 8,
     "title": "The Selfish Gene",
     "author": "R. Dawkins",
     "category": "Science",
-    "pages": 384,
-    "year": 1976,
+    "level": "Intermediate",
     "spineColor": "#6B8F71",
+    "coverUrl": "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1463949436i/29807115.jpg",
     "description": "A gene-centered view of evolution, arguing that genes, not individuals or species, are the primary unit of natural selection.",
     "longDescription": [
       "Richard Dawkins reframes evolution from the point of view of the gene: organisms, in this telling, are vehicles genes build to replicate themselves, and much of animal (and human) behavior can be understood through that lens.",
@@ -538,28 +489,25 @@
       "Battle of the Generations",
       "Memes: The New Replicators"
     ],
-    "tags": [
-      "evolution",
-      "biology",
-      "popular science"
-    ],
-    "subjects": [
-      "Evolution",
-      "Biology",
-      "Popular Science"
-    ],
-    "callNumber": "Q156.I8",
-    "level": "Intermediate",
+    "tags": ["evolution", "biology", "popular science"],
+    "subjects": ["Evolution", "Biology", "Popular Science"],
+    "pages": 384,
+    "readingTimeHours": 8.5,
+    "year": 1976,
+    "edition": 3,
     "publisher": "Oxford University Press",
     "language": "English",
     "format": "PDF",
     "isbn": "978-106123456",
     "fileSizeMb": 4.8,
-    "readingTimeHours": 8.5,
+    "callNumber": "Q156.I8",
     "addedDate": "2026-01-09",
-    "edition": 3,
     "price": 20.19,
     "exchangeable": false,
+    "availability": {
+      "digitalCopies": 8,
+      "checkedOut": 3
+    },
     "rating": 4.5,
     "ratingsCount": 262,
     "reviews": [
@@ -581,20 +529,16 @@
         "date": "2026-02-14",
         "comment": "Took a while to get through but worth it in the end."
       }
-    ],
-    "availability": {
-      "digitalCopies": 8,
-      "checkedOut": 3
-    }
+    ]
   },
   {
     "id": 9,
     "title": "Cosmos",
     "author": "C. Sagan",
     "category": "Science",
-    "pages": 396,
-    "year": 1980,
+    "level": "Beginner",
     "spineColor": "#C97F1E",
+    "coverUrl": "https://pictures.abebooks.com/isbn/9780354045315-us.jpg",
     "description": "A sweeping journey through astronomy, biology, and the history of scientific discovery, written to make the universe feel within reach.",
     "longDescription": [
       "Carl Sagan wrote Cosmos as a companion to his television series of the same name, tracing the history of science and the structure of the universe with a sense of wonder rather than dry recitation of facts.",
@@ -611,28 +555,25 @@
       "The Backbone of Night",
       "Encyclopaedia Galactica"
     ],
-    "tags": [
-      "astronomy",
-      "popular science",
-      "history of science"
-    ],
-    "subjects": [
-      "Astronomy",
-      "Popular Science",
-      "History Of Science"
-    ],
-    "callNumber": "Q163.J9",
-    "level": "Beginner",
+    "tags": ["astronomy", "popular science", "history of science"],
+    "subjects": ["Astronomy", "Popular Science", "History Of Science"],
+    "pages": 396,
+    "readingTimeHours": 8.8,
+    "year": 1980,
+    "edition": 1,
     "publisher": "Random House",
     "language": "English",
     "format": "EPUB",
     "isbn": "978-106888888",
     "fileSizeMb": 4.8,
-    "readingTimeHours": 8.8,
+    "callNumber": "Q163.J9",
     "addedDate": "2026-02-01",
-    "edition": 1,
     "price": 8.25,
     "exchangeable": false,
+    "availability": {
+      "digitalCopies": 7,
+      "checkedOut": 5
+    },
     "rating": 3.6,
     "ratingsCount": 247,
     "reviews": [
@@ -660,20 +601,16 @@
         "date": "2026-03-10",
         "comment": "Good introduction, though a few chapters felt dated."
       }
-    ],
-    "availability": {
-      "digitalCopies": 7,
-      "checkedOut": 5
-    }
+    ]
   },
   {
     "id": 10,
     "title": "Dare to Lead",
     "author": "B. Brown",
     "category": "Leadership",
-    "pages": 320,
-    "year": 2018,
+    "level": "Intermediate",
     "spineColor": "#4A4E69",
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgCcrJl7Ts4tKEW_iHO_WjxxCQ0z5ooN8OKsaL44rDJo6BPR0Jwy8hjrs&s=10",
     "description": "A framework for leading with courage and vulnerability, drawn from research on what separates brave leaders from the rest.",
     "longDescription": [
       "Brené Brown applies her research on vulnerability and shame to the workplace, arguing that \"armored\" leadership — defensiveness, perfectionism, never admitting uncertainty — quietly costs organizations trust and performance.",
@@ -688,28 +625,25 @@
       "Braving Trust",
       "Learning to Rise"
     ],
-    "tags": [
-      "leadership",
-      "management",
-      "workplace culture"
-    ],
-    "subjects": [
-      "Leadership",
-      "Management",
-      "Workplace Culture"
-    ],
-    "callNumber": "HD170.K10",
-    "level": "Intermediate",
+    "tags": ["leadership", "management", "workplace culture"],
+    "subjects": ["Leadership", "Management", "Workplace Culture"],
+    "pages": 320,
+    "readingTimeHours": 7.1,
+    "year": 2018,
+    "edition": 2,
     "publisher": "Random House Business",
     "language": "English",
     "format": "EPUB",
     "isbn": "978-107654321",
     "fileSizeMb": 3.7,
-    "readingTimeHours": 7.1,
+    "callNumber": "HD170.K10",
     "addedDate": "2026-03-02",
-    "edition": 2,
     "price": 24.27,
     "exchangeable": true,
+    "availability": {
+      "digitalCopies": 3,
+      "checkedOut": 0
+    },
     "rating": 4.2,
     "ratingsCount": 276,
     "reviews": [
@@ -731,20 +665,16 @@
         "date": "2026-07-11",
         "comment": "Not the easiest read, but the payoff is real."
       }
-    ],
-    "availability": {
-      "digitalCopies": 3,
-      "checkedOut": 0
-    }
+    ]
   },
   {
     "id": 11,
     "title": "Good to Great",
     "author": "J. Collins",
     "category": "Leadership",
-    "pages": 300,
-    "year": 2001,
+    "level": "Intermediate",
     "spineColor": "#8C5E3C",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/en/0/03/Cover_Good_2_Gr8.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original",
     "description": "A research-based look at what allows some companies to make the leap from average performance to sustained excellence.",
     "longDescription": [
       "Jim Collins and his research team studied companies that sustained dramatically improved performance for at least fifteen years, comparing each to a similar company that never made the leap.",
@@ -761,28 +691,25 @@
       "Technology Accelerators",
       "The Flywheel"
     ],
-    "tags": [
-      "business strategy",
-      "management",
-      "case studies"
-    ],
-    "subjects": [
-      "Business Strategy",
-      "Management",
-      "Case Studies"
-    ],
-    "callNumber": "HD177.L11",
-    "level": "Intermediate",
+    "tags": ["business strategy", "management", "case studies"],
+    "subjects": ["Business Strategy", "Management", "Case Studies"],
+    "pages": 300,
+    "readingTimeHours": 6.7,
+    "year": 2001,
+    "edition": 3,
     "publisher": "HarperBusiness",
     "language": "English",
     "format": "PDF",
     "isbn": "978-108419753",
     "fileSizeMb": 3.9,
-    "readingTimeHours": 6.7,
+    "callNumber": "HD177.L11",
     "addedDate": "2026-04-03",
-    "edition": 3,
     "price": 14.08,
     "exchangeable": false,
+    "availability": {
+      "digitalCopies": 4,
+      "checkedOut": 3
+    },
     "rating": 4,
     "ratingsCount": 238,
     "reviews": [
@@ -798,20 +725,16 @@
         "date": "2026-01-10",
         "comment": "Took a while to get through but worth it in the end."
       }
-    ],
-    "availability": {
-      "digitalCopies": 4,
-      "checkedOut": 3
-    }
+    ]
   },
   {
     "id": 12,
     "title": "The Five Dysfunctions of a Team",
     "author": "P. Lencioni",
     "category": "Leadership",
-    "pages": 229,
-    "year": 2002,
+    "level": "Beginner",
     "spineColor": "#3F6C51",
+    "coverUrl": "https://internalchange.com/wp-content/uploads/The-Five-Dysfunctions-of-a-Team-by-Patrick-Lencioni.jpg",
     "description": "A leadership fable illustrating the common breakdowns — from lack of trust to inattention to results — that keep teams from performing.",
     "longDescription": [
       "Told as a business fable about a fictional startup executive team, the book dramatizes five compounding failures: absence of trust, fear of conflict, lack of commitment, avoidance of accountability, and inattention to results.",
@@ -826,28 +749,25 @@
       "The Model",
       "Team Assessment"
     ],
-    "tags": [
-      "teamwork",
-      "management",
-      "organizational behavior"
-    ],
-    "subjects": [
-      "Teamwork",
-      "Management",
-      "Organizational Behavior"
-    ],
-    "callNumber": "HD184.M12",
-    "level": "Beginner",
+    "tags": ["teamwork", "management", "organizational behavior"],
+    "subjects": ["Teamwork", "Management", "Organizational Behavior"],
+    "pages": 229,
+    "readingTimeHours": 5.1,
+    "year": 2002,
+    "edition": 1,
     "publisher": "Jossey-Bass",
     "language": "English",
     "format": "EPUB",
     "isbn": "978-109185185",
     "fileSizeMb": 3.2,
-    "readingTimeHours": 5.1,
+    "callNumber": "HD184.M12",
     "addedDate": "2026-05-04",
-    "edition": 1,
     "price": 24.3,
     "exchangeable": false,
+    "availability": {
+      "digitalCopies": 4,
+      "checkedOut": 3
+    },
     "rating": 3.9,
     "ratingsCount": 46,
     "reviews": [
@@ -869,20 +789,16 @@
         "date": "2026-07-17",
         "comment": "Solid overview — I keep coming back to reference it."
       }
-    ],
-    "availability": {
-      "digitalCopies": 4,
-      "checkedOut": 3
-    }
+    ]
   },
   {
     "id": 13,
     "title": "Fluent Forever",
     "author": "G. Wyner",
     "category": "Language",
-    "pages": 336,
-    "year": 2014,
+    "level": "Beginner",
     "spineColor": "#1B1F3B",
+    "coverUrl": "https://fluent-forever.com/wp-content/uploads/2016/03/Fluent-Forever-book.gif",
     "description": "A practical method for learning any language quickly, using memory techniques, pronunciation training, and spaced repetition.",
     "longDescription": [
       "Gabriel Wyner, an opera singer who learned several languages fluently as an adult, breaks language learning into a system: train your ear and mouth first, build vocabulary through image association rather than translation, and use spaced repetition to make it stick.",
@@ -897,28 +813,25 @@
       "Grammar",
       "Building a Practice"
     ],
-    "tags": [
-      "language learning",
-      "self-study",
-      "memory techniques"
-    ],
-    "subjects": [
-      "Language Learning",
-      "Self-Study",
-      "Memory Techniques"
-    ],
-    "callNumber": "P191.N13",
-    "level": "Beginner",
+    "tags": ["language learning", "self-study", "memory techniques"],
+    "subjects": ["Language Learning", "Self-Study", "Memory Techniques"],
+    "pages": 336,
+    "readingTimeHours": 7.5,
+    "year": 2014,
+    "edition": 2,
     "publisher": "Harmony",
     "language": "English",
     "format": "PDF",
     "isbn": "978-109950617",
     "fileSizeMb": 3.9,
-    "readingTimeHours": 7.5,
+    "callNumber": "P191.N13",
     "addedDate": "2026-06-05",
-    "edition": 2,
     "price": 8.45,
     "exchangeable": true,
+    "availability": {
+      "digitalCopies": 3,
+      "checkedOut": 0
+    },
     "rating": 4.1,
     "ratingsCount": 172,
     "reviews": [
@@ -940,20 +853,16 @@
         "date": "2026-07-16",
         "comment": "Good introduction, though a few chapters felt dated."
       }
-    ],
-    "availability": {
-      "digitalCopies": 3,
-      "checkedOut": 0
-    }
+    ]
   },
   {
     "id": 14,
     "title": "The Elements of Style",
     "author": "Strunk & White",
     "category": "Language",
-    "pages": 105,
-    "year": 1959,
+    "level": "Beginner",
     "spineColor": "#6B8F71",
+    "coverUrl": "https://m.media-amazon.com/images/I/618IdTzhEML._AC_UF894,1000_QL80_.jpg",
     "description": "A compact, enduring guide to clear and correct English writing, covering grammar, usage, and composition principles.",
     "longDescription": [
       "Originally a set of course notes by William Strunk Jr., later expanded by E. B. White, this slim book distills English usage into direct rules: omit needless words, use the active voice, keep related words together.",
@@ -967,28 +876,25 @@
       "Words and Expressions Commonly Misused",
       "An Approach to Style"
     ],
-    "tags": [
-      "writing",
-      "grammar",
-      "style guide"
-    ],
-    "subjects": [
-      "Writing",
-      "Grammar",
-      "Style Guide"
-    ],
-    "callNumber": "P198.O14",
-    "level": "Beginner",
+    "tags": ["writing", "grammar", "style guide"],
+    "subjects": ["Writing", "Grammar", "Style Guide"],
+    "pages": 105,
+    "readingTimeHours": 2.3,
+    "year": 1959,
+    "edition": 3,
     "publisher": "Pearson",
     "language": "English",
     "format": "PDF",
     "isbn": "978-110716049",
     "fileSizeMb": 1.4,
-    "readingTimeHours": 2.3,
+    "callNumber": "P198.O14",
     "addedDate": "2026-07-06",
-    "edition": 3,
     "price": 23.71,
     "exchangeable": true,
+    "availability": {
+      "digitalCopies": 6,
+      "checkedOut": 3
+    },
     "rating": 3.9,
     "ratingsCount": 275,
     "reviews": [
@@ -1010,20 +916,16 @@
         "date": "2026-01-12",
         "comment": "Solid overview — I keep coming back to reference it."
       }
-    ],
-    "availability": {
-      "digitalCopies": 6,
-      "checkedOut": 3
-    }
+    ]
   },
   {
     "id": 15,
     "title": "Khmer for Beginners",
     "author": "R. K. Headley",
     "category": "Language",
-    "pages": 288,
-    "year": 1997,
+    "level": "Beginner",
     "spineColor": "#C97F1E",
+    "coverUrl": "https://m.media-amazon.com/images/I/81Aj1KlLYYL._UF1000,1000_QL80_.jpg",
     "description": "An introductory course in spoken and written Khmer, covering script, pronunciation, and everyday vocabulary.",
     "longDescription": [
       "Designed as a structured course rather than a phrasebook, this text introduces the Khmer script alongside spoken pronunciation from the first lesson, rather than relying on romanization throughout.",
@@ -1038,28 +940,25 @@
       "Shopping and Directions",
       "Reading Practice"
     ],
-    "tags": [
-      "khmer",
-      "language learning",
-      "script"
-    ],
-    "subjects": [
-      "Khmer",
-      "Language Learning",
-      "Script"
-    ],
-    "callNumber": "P205.P15",
-    "level": "Beginner",
+    "tags": ["khmer", "language learning", "script"],
+    "subjects": ["Khmer", "Language Learning", "Script"],
+    "pages": 288,
+    "readingTimeHours": 6.4,
+    "year": 1997,
+    "edition": 1,
     "publisher": "Dunwoody Press",
     "language": "English / Khmer",
     "format": "PDF",
     "isbn": "978-111481481",
     "fileSizeMb": 3.4,
-    "readingTimeHours": 6.4,
+    "callNumber": "P205.P15",
     "addedDate": "2026-08-07",
-    "edition": 1,
     "price": 23.79,
     "exchangeable": true,
+    "availability": {
+      "digitalCopies": 7,
+      "checkedOut": 5
+    },
     "rating": 3.7,
     "ratingsCount": 279,
     "reviews": [
@@ -1081,20 +980,16 @@
         "date": "2026-05-14",
         "comment": "Clear and well organized — exactly what I needed for coursework."
       }
-    ],
-    "availability": {
-      "digitalCopies": 7,
-      "checkedOut": 5
-    }
+    ]
   },
   {
     "id": 16,
     "title": "Sapiens",
     "author": "Y. N. Harari",
     "category": "History",
-    "pages": 443,
-    "year": 2011,
+    "level": "Beginner",
     "spineColor": "#4A4E69",
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_YsIeZPXMfaLCGTlWDT50oYIMyBDS8RgltPL2vIXrV5E1XdaDEo6hOVpM&s=10",
     "description": "A sweeping account of human history, from the cognitive revolution to the present, exploring how shared myths shaped civilization.",
     "longDescription": [
       "Yuval Noah Harari traces Homo sapiens from an unremarkable savanna primate to the dominant species on the planet, organizing the story around three revolutions: cognitive, agricultural, and scientific.",
@@ -1107,28 +1002,25 @@
       "The Unification of Humankind",
       "The Scientific Revolution"
     ],
-    "tags": [
-      "anthropology",
-      "big history",
-      "popular nonfiction"
-    ],
-    "subjects": [
-      "Anthropology",
-      "Big History",
-      "Popular Nonfiction"
-    ],
-    "callNumber": "D212.Q16",
-    "level": "Beginner",
+    "tags": ["anthropology", "big history", "popular nonfiction"],
+    "subjects": ["Anthropology", "Big History", "Popular Nonfiction"],
+    "pages": 443,
+    "readingTimeHours": 9.8,
+    "year": 2011,
+    "edition": 2,
     "publisher": "Harper",
     "language": "English",
     "format": "EPUB",
     "isbn": "978-112246913",
     "fileSizeMb": 5,
-    "readingTimeHours": 9.8,
+    "callNumber": "D212.Q16",
     "addedDate": "2026-01-08",
-    "edition": 2,
     "price": 8.71,
     "exchangeable": false,
+    "availability": {
+      "digitalCopies": 6,
+      "checkedOut": 1
+    },
     "rating": 4.3,
     "ratingsCount": 40,
     "reviews": [
@@ -1156,20 +1048,16 @@
         "date": "2026-05-18",
         "comment": "Not the easiest read, but the payoff is real."
       }
-    ],
-    "availability": {
-      "digitalCopies": 6,
-      "checkedOut": 1
-    }
+    ]
   },
   {
     "id": 17,
     "title": "Guns, Germs and Steel",
     "author": "J. Diamond",
     "category": "History",
-    "pages": 480,
-    "year": 1997,
+    "level": "Intermediate",
     "spineColor": "#8C5E3C",
+    "coverUrl": "https://cdn.britannica.com/03/266903-050-91923E39/The-book-Guns-Germs-and-Steel-by-Jared-Diamond-photographed-at-Barnes-and-Noble-January-2025.jpg",
     "description": "An argument for how geography and environment, rather than inherent differences between peoples, shaped the course of world history.",
     "longDescription": [
       "Jared Diamond asks why some societies developed guns, germs, and steel earlier than others, and argues the answer lies mostly in geography and access to domesticable plants and animals — not in differences between peoples.",
@@ -1182,28 +1070,25 @@
       "From Food to Guns, Germs and Steel",
       "Around the World in Five Chapters"
     ],
-    "tags": [
-      "world history",
-      "geography",
-      "anthropology"
-    ],
-    "subjects": [
-      "World History",
-      "Geography",
-      "Anthropology"
-    ],
-    "callNumber": "D219.R17",
-    "level": "Intermediate",
+    "tags": ["world history", "geography", "anthropology"],
+    "subjects": ["World History", "Geography", "Anthropology"],
+    "pages": 480,
+    "readingTimeHours": 10.7,
+    "year": 1997,
+    "edition": 3,
     "publisher": "W. W. Norton",
     "language": "English",
     "format": "PDF",
     "isbn": "978-113012345",
     "fileSizeMb": 5.7,
-    "readingTimeHours": 10.7,
+    "callNumber": "D219.R17",
     "addedDate": "2026-02-09",
-    "edition": 3,
     "price": 11.1,
     "exchangeable": false,
+    "availability": {
+      "digitalCopies": 4,
+      "checkedOut": 1
+    },
     "rating": 4.6,
     "ratingsCount": 158,
     "reviews": [
@@ -1219,20 +1104,16 @@
         "date": "2026-05-12",
         "comment": "Clear and well organized — exactly what I needed for coursework."
       }
-    ],
-    "availability": {
-      "digitalCopies": 4,
-      "checkedOut": 1
-    }
+    ]
   },
   {
     "id": 18,
     "title": "A History of Cambodia",
     "author": "D. Chandler",
     "category": "History",
-    "pages": 328,
-    "year": 1983,
+    "level": "Intermediate",
     "spineColor": "#3F6C51",
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG7IqjswOXhz2VGxqiQ0b4vfob5yX6qjx3y400GBVAoXeHJW3h6E-mXOYk&s=10",
     "description": "A comprehensive survey of Cambodian history, from the Angkor era through the twentieth century.",
     "longDescription": [
       "David Chandler's survey covers Cambodia from the Angkor kingdom through French colonization, independence, and the twentieth-century upheavals that followed, drawing on both Khmer and colonial-era sources.",
@@ -1247,28 +1128,25 @@
       "War and Its Aftermath",
       "Toward the Present"
     ],
-    "tags": [
-      "cambodia",
-      "southeast asia",
-      "world history"
-    ],
-    "subjects": [
-      "Cambodia",
-      "Southeast Asia",
-      "World History"
-    ],
-    "callNumber": "D226.S18",
-    "level": "Intermediate",
+    "tags": ["cambodia", "southeast asia", "world history"],
+    "subjects": ["Cambodia", "Southeast Asia", "World History"],
+    "pages": 328,
+    "readingTimeHours": 7.3,
+    "year": 1983,
+    "edition": 1,
     "publisher": "Westview Press",
     "language": "English",
     "format": "PDF",
     "isbn": "978-113777777",
     "fileSizeMb": 4.1,
-    "readingTimeHours": 7.3,
+    "callNumber": "D226.S18",
     "addedDate": "2026-03-01",
-    "edition": 1,
     "price": 8.79,
     "exchangeable": false,
+    "availability": {
+      "digitalCopies": 5,
+      "checkedOut": 4
+    },
     "rating": 4.1,
     "ratingsCount": 208,
     "reviews": [
@@ -1284,20 +1162,16 @@
         "date": "2026-03-14",
         "comment": "Clear and well organized — exactly what I needed for coursework."
       }
-    ],
-    "availability": {
-      "digitalCopies": 5,
-      "checkedOut": 4
-    }
+    ]
   },
   {
     "id": 19,
     "title": "Deep Work",
     "author": "C. Newport",
     "category": "Other",
-    "pages": 296,
-    "year": 2016,
+    "level": "Beginner",
     "spineColor": "#1B1F3B",
+    "coverUrl": "https://5.imimg.com/data5/SELLER/Default/2022/2/JN/OT/TH/147304712/whatsapp-image-2022-02-11-at-3-26-48-pm.jpeg",
     "description": "An argument for the value of focused, undistracted effort in a world of constant interruption, with strategies for cultivating it.",
     "longDescription": [
       "Cal Newport defines \"deep work\" as focused, cognitively demanding effort performed without distraction, and argues it is both increasingly rare and increasingly valuable as knowledge work becomes more fragmented by notifications and shallow tasks.",
@@ -1313,28 +1187,25 @@
       "Quit Social Media",
       "Drain the Shallows"
     ],
-    "tags": [
-      "productivity",
-      "focus",
-      "knowledge work"
-    ],
-    "subjects": [
-      "Productivity",
-      "Focus",
-      "Knowledge Work"
-    ],
-    "callNumber": "BF233.T19",
-    "level": "Beginner",
+    "tags": ["productivity", "focus", "knowledge work"],
+    "subjects": ["Productivity", "Focus", "Knowledge Work"],
+    "pages": 296,
+    "readingTimeHours": 6.6,
+    "year": 2016,
+    "edition": 2,
     "publisher": "Grand Central Publishing",
     "language": "English",
     "format": "EPUB",
     "isbn": "978-114543209",
     "fileSizeMb": 3.8,
-    "readingTimeHours": 6.6,
+    "callNumber": "BF233.T19",
     "addedDate": "2026-04-02",
-    "edition": 2,
     "price": 18.62,
     "exchangeable": true,
+    "availability": {
+      "digitalCopies": 3,
+      "checkedOut": 1
+    },
     "rating": 3.6,
     "ratingsCount": 130,
     "reviews": [
@@ -1356,20 +1227,16 @@
         "date": "2026-08-10",
         "comment": "One of the better books I've read on this topic this year."
       }
-    ],
-    "availability": {
-      "digitalCopies": 3,
-      "checkedOut": 1
-    }
+    ]
   },
   {
     "id": 20,
     "title": "Atomic Habits",
     "author": "J. Clear",
     "category": "Other",
-    "pages": 320,
-    "year": 2018,
+    "level": "Beginner",
     "spineColor": "#6B8F71",
+    "coverUrl": "https://cdn.shopify.com/s/files/1/0194/2855/files/atomic-habits_600x600.jpg?v=1624825894",
     "description": "A practical framework for building good habits and breaking bad ones, built around small, compounding changes.",
     "longDescription": [
       "James Clear argues that meaningful change comes not from big, dramatic goals but from small habits repeated consistently — improving by 1% at a time compounds into large results over months and years.",
@@ -1384,28 +1251,25 @@
       "The 4th Law: Make It Satisfying",
       "Advanced Tactics"
     ],
-    "tags": [
-      "habits",
-      "productivity",
-      "self-improvement"
-    ],
-    "subjects": [
-      "Habits",
-      "Productivity",
-      "Self-Improvement"
-    ],
-    "callNumber": "BF240.U20",
-    "level": "Beginner",
+    "tags": ["habits", "productivity", "self-improvement"],
+    "subjects": ["Habits", "Productivity", "Self-Improvement"],
+    "pages": 320,
+    "readingTimeHours": 7.1,
+    "year": 2018,
+    "edition": 3,
     "publisher": "Avery",
     "language": "English",
     "format": "EPUB",
     "isbn": "978-115308642",
     "fileSizeMb": 3.8,
-    "readingTimeHours": 7.1,
+    "callNumber": "BF240.U20",
     "addedDate": "2026-05-03",
-    "edition": 3,
     "price": 8.28,
     "exchangeable": true,
+    "availability": {
+      "digitalCopies": 5,
+      "checkedOut": 1
+    },
     "rating": 3.7,
     "ratingsCount": 48,
     "reviews": [
@@ -1427,54 +1291,42 @@
         "date": "2026-05-16",
         "comment": "Took a while to get through but worth it in the end."
       }
-    ],
-    "availability": {
-      "digitalCopies": 5,
-      "checkedOut": 1
-    }
+    ]
   },
   {
     "id": 21,
     "title": "On Writing Well",
     "author": "W. Zinsser",
     "category": "Other",
-    "pages": 336,
-    "year": 1976,
+    "level": "Beginner",
     "spineColor": "#C97F1E",
+    "coverUrl": "https://pbs.twimg.com/media/GOVQLrzWMAEaO-d.jpg",
     "description": "A classic guide to writing clear, simple nonfiction prose, covering everything from technique to attitude.",
     "longDescription": [
       "William Zinsser's guide focuses specifically on nonfiction — memoir, journalism, business writing, science writing — arguing that the central goal is always clarity, achieved by cutting clutter and finding your own voice.",
       "Unlike more rule-bound style guides, Zinsser emphasizes attitude and confidence as much as mechanics, encouraging writers to write about what genuinely interests them.",
       "It has been in print continuously since the 1970s and is regularly assigned in journalism and writing courses."
     ],
-    "tableOfContents": [
-      "Principles",
-      "Methods",
-      "Forms",
-      "Attitudes"
-    ],
-    "tags": [
-      "writing",
-      "nonfiction",
-      "style"
-    ],
-    "subjects": [
-      "Writing",
-      "Nonfiction",
-      "Style"
-    ],
-    "callNumber": "BF247.V21",
-    "level": "Beginner",
+    "tableOfContents": ["Principles", "Methods", "Forms", "Attitudes"],
+    "tags": ["writing", "nonfiction", "style"],
+    "subjects": ["Writing", "Nonfiction", "Style"],
+    "pages": 336,
+    "readingTimeHours": 7.5,
+    "year": 1976,
+    "edition": 1,
     "publisher": "Harper Perennial",
     "language": "English",
     "format": "PDF",
     "isbn": "978-116074074",
     "fileSizeMb": 4.1,
-    "readingTimeHours": 7.5,
+    "callNumber": "BF247.V21",
     "addedDate": "2026-06-04",
-    "edition": 1,
     "price": 20.42,
     "exchangeable": false,
+    "availability": {
+      "digitalCopies": 5,
+      "checkedOut": 4
+    },
     "rating": 3.8,
     "ratingsCount": 65,
     "reviews": [
@@ -1490,20 +1342,16 @@
         "date": "2026-03-12",
         "comment": "Clear and well organized — exactly what I needed for coursework."
       }
-    ],
-    "availability": {
-      "digitalCopies": 5,
-      "checkedOut": 4
-    }
+    ]
   },
   {
     "id": 22,
     "title": "Designing Data-Intensive Applications",
     "author": "M. Kleppmann",
     "category": "Technology",
-    "pages": 616,
-    "year": 2017,
+    "level": "Advanced",
     "spineColor": "#4A4E69",
+    "coverUrl": "https://lp.scylladb.com/hs-fs/hubfs/oreilly-designing-data-intensive-book-new-edition-sml.png?width=330&height=338&name=oreilly-designing-data-intensive-book-new-edition-sml.png",
     "description": "A deep look at the ideas behind reliable, scalable data systems — databases, queues, and the tradeoffs between them.",
     "longDescription": [
       "Martin Kleppmann maps the landscape of modern data systems — relational and NoSQL databases, message queues, batch and stream processing — around the shared problems they all have to solve: reliability, scalability, and maintainability.",
@@ -1521,28 +1369,25 @@
       "Batch Processing",
       "Stream Processing"
     ],
-    "tags": [
-      "databases",
-      "distributed systems",
-      "backend engineering"
-    ],
-    "subjects": [
-      "Databases",
-      "Distributed Systems",
-      "Backend Engineering"
-    ],
-    "callNumber": "QA76254.W22",
-    "level": "Advanced",
+    "tags": ["databases", "distributed systems", "backend engineering"],
+    "subjects": ["Databases", "Distributed Systems", "Backend Engineering"],
+    "pages": 616,
+    "readingTimeHours": 13.7,
+    "year": 2017,
+    "edition": 2,
     "publisher": "O'Reilly Media",
     "language": "English",
     "format": "EPUB",
     "isbn": "978-116839506",
     "fileSizeMb": 7.7,
-    "readingTimeHours": 13.7,
+    "callNumber": "QA76254.W22",
     "addedDate": "2026-07-05",
-    "edition": 2,
     "price": 16.38,
     "exchangeable": true,
+    "availability": {
+      "digitalCopies": 5,
+      "checkedOut": 2
+    },
     "rating": 4.8,
     "ratingsCount": 150,
     "reviews": [
@@ -1564,20 +1409,16 @@
         "date": "2026-08-13",
         "comment": "Clear and well organized — exactly what I needed for coursework."
       }
-    ],
-    "availability": {
-      "digitalCopies": 5,
-      "checkedOut": 2
-    }
+    ]
   },
   {
     "id": 23,
     "title": "Nicomachean Ethics",
     "author": "Aristotle",
     "category": "Philosophy",
-    "pages": 288,
-    "year": -340,
+    "level": "Advanced",
     "spineColor": "#8C5E3C",
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzEtsH3BNpWJwzo487jmzCSUPXb2iHtnJDcOjO0MVIZJzSGaeojrU2qp4&s=10",
     "description": "Aristotle's inquiry into what it means to live well, centered on virtue, practical wisdom, and the idea of a flourishing life.",
     "longDescription": [
       "Aristotle asks what the highest human good is, and argues it is eudaimonia — often translated as \"flourishing\" or \"living well\" — achieved through a lifetime of virtuous activity guided by reason.",
@@ -1593,28 +1434,25 @@
       "Friendship",
       "Pleasure and Happiness"
     ],
-    "tags": [
-      "ethics",
-      "classics",
-      "virtue"
-    ],
-    "subjects": [
-      "Ethics",
-      "Classics",
-      "Virtue"
-    ],
-    "callNumber": "B261.X23",
-    "level": "Advanced",
+    "tags": ["ethics", "classics", "virtue"],
+    "subjects": ["Ethics", "Classics", "Virtue"],
+    "pages": 288,
+    "readingTimeHours": 6.4,
+    "year": -340,
+    "edition": 3,
     "publisher": "Oxford World's Classics",
     "language": "English (translated)",
     "format": "PDF",
     "isbn": "978-117604938",
     "fileSizeMb": 3.9,
-    "readingTimeHours": 6.4,
+    "callNumber": "B261.X23",
     "addedDate": "2026-08-06",
-    "edition": 3,
     "price": 19.1,
     "exchangeable": false,
+    "availability": {
+      "digitalCopies": 7,
+      "checkedOut": 2
+    },
     "rating": 4.7,
     "ratingsCount": 79,
     "reviews": [
@@ -1630,20 +1468,16 @@
         "date": "2026-04-14",
         "comment": "Good introduction, though a few chapters felt dated."
       }
-    ],
-    "availability": {
-      "digitalCopies": 7,
-      "checkedOut": 2
-    }
+    ]
   },
   {
     "id": 24,
     "title": "Silent Spring",
     "author": "R. Carson",
     "category": "Science",
-    "pages": 368,
-    "year": 1962,
+    "level": "Beginner",
     "spineColor": "#3F6C51",
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQys20XTDNbve4bj404bt5BoLfv5wp4N9a9sgEsCDZZobzKgNVM4Vif4bM&s=10",
     "description": "A landmark study of the environmental damage caused by synthetic pesticides, widely credited with starting the modern environmental movement.",
     "longDescription": [
       "Rachel Carson documented the effects of DDT and other pesticides on birds, insects, and ecosystems, challenging the chemical industry's claims of safety with careful, accessible science writing.",
@@ -1660,28 +1494,25 @@
       "The Human Price",
       "The Other Road"
     ],
-    "tags": [
-      "environment",
-      "ecology",
-      "science writing"
-    ],
-    "subjects": [
-      "Environment",
-      "Ecology",
-      "Science Writing"
-    ],
-    "callNumber": "Q268.Y24",
-    "level": "Beginner",
+    "tags": ["environment", "ecology", "science writing"],
+    "subjects": ["Environment", "Ecology", "Science Writing"],
+    "pages": 368,
+    "readingTimeHours": 8.2,
+    "year": 1962,
+    "edition": 1,
     "publisher": "Houghton Mifflin",
     "language": "English",
     "format": "EPUB",
     "isbn": "978-118370370",
     "fileSizeMb": 4.8,
-    "readingTimeHours": 8.2,
+    "callNumber": "Q268.Y24",
     "addedDate": "2026-01-07",
-    "edition": 1,
     "price": 12.79,
     "exchangeable": true,
+    "availability": {
+      "digitalCopies": 4,
+      "checkedOut": 1
+    },
     "rating": 3.6,
     "ratingsCount": 76,
     "reviews": [
@@ -1703,20 +1534,16 @@
         "date": "2026-03-11",
         "comment": "Recommended it to two classmates already."
       }
-    ],
-    "availability": {
-      "digitalCopies": 4,
-      "checkedOut": 1
-    }
+    ]
   },
   {
     "id": 25,
     "title": "The Innovator's Dilemma",
     "author": "C. Christensen",
     "category": "Leadership",
-    "pages": 286,
-    "year": 1997,
+    "level": "Intermediate",
     "spineColor": "#1B1F3B",
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/en/e/ec/The_Innovator%27s_Dilemma.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original",
     "description": "An explanation of why well-managed, successful companies can fail when disruptive technologies reshape their industries.",
     "longDescription": [
       "Clayton Christensen studies why great companies — well-run, customer-focused, and profitable — repeatedly lose to smaller competitors building simpler, cheaper \"disruptive\" technologies.",
@@ -1731,28 +1558,25 @@
       "Give Responsibility to Organizations That Can Fit the Innovation",
       "Performance Provided, Market Demand, and the Product Life Cycle"
     ],
-    "tags": [
-      "business strategy",
-      "innovation",
-      "technology management"
-    ],
-    "subjects": [
-      "Business Strategy",
-      "Innovation",
-      "Technology Management"
-    ],
-    "callNumber": "HD275.Z25",
-    "level": "Intermediate",
+    "tags": ["business strategy", "innovation", "technology management"],
+    "subjects": ["Business Strategy", "Innovation", "Technology Management"],
+    "pages": 286,
+    "readingTimeHours": 6.4,
+    "year": 1997,
+    "edition": 2,
     "publisher": "Harvard Business Review Press",
     "language": "English",
     "format": "PDF",
     "isbn": "978-119135802",
     "fileSizeMb": 3.9,
-    "readingTimeHours": 6.4,
+    "callNumber": "HD275.Z25",
     "addedDate": "2026-02-08",
-    "edition": 2,
     "price": 18.07,
     "exchangeable": true,
+    "availability": {
+      "digitalCopies": 5,
+      "checkedOut": 2
+    },
     "rating": 4.8,
     "ratingsCount": 182,
     "reviews": [
@@ -1768,20 +1592,16 @@
         "date": "2026-03-12",
         "comment": "Clear and well organized — exactly what I needed for coursework."
       }
-    ],
-    "availability": {
-      "digitalCopies": 5,
-      "checkedOut": 2
-    }
+    ]
   },
   {
     "id": 26,
     "title": "Practical Chinese Reader",
     "author": "Liu Xun",
     "category": "Language",
-    "pages": 312,
-    "year": 1981,
+    "level": "Beginner",
     "spineColor": "#C97F1E",
+    "coverUrl": "https://rezised-images.knhbt.cz/1920x1920/62611168.webp",
     "description": "A classic structured course in Mandarin Chinese, moving from pinyin and basic characters through everyday conversation.",
     "longDescription": [
       "One of the most widely used Mandarin textbooks internationally, this course introduces pinyin pronunciation, basic characters, and grammar through short dialogues rooted in everyday situations.",
@@ -1796,28 +1616,25 @@
       "Shopping and Travel",
       "Reading Practice"
     ],
-    "tags": [
-      "mandarin",
-      "language learning",
-      "grammar"
-    ],
-    "subjects": [
-      "Mandarin",
-      "Language Learning",
-      "Grammar"
-    ],
-    "callNumber": "P282.A26",
-    "level": "Beginner",
+    "tags": ["mandarin", "language learning", "grammar"],
+    "subjects": ["Mandarin", "Language Learning", "Grammar"],
+    "pages": 312,
+    "readingTimeHours": 6.9,
+    "year": 1981,
+    "edition": 3,
     "publisher": "Sinolingua",
     "language": "English / Chinese",
     "format": "PDF",
     "isbn": "978-119901234",
     "fileSizeMb": 4.1,
-    "readingTimeHours": 6.9,
+    "callNumber": "P282.A26",
     "addedDate": "2026-03-09",
-    "edition": 3,
     "price": 7.29,
     "exchangeable": false,
+    "availability": {
+      "digitalCopies": 4,
+      "checkedOut": 1
+    },
     "rating": 3.6,
     "ratingsCount": 226,
     "reviews": [
@@ -1833,20 +1650,16 @@
         "date": "2026-04-14",
         "comment": "Dense in places but the core ideas really stuck with me."
       }
-    ],
-    "availability": {
-      "digitalCopies": 4,
-      "checkedOut": 1
-    }
+    ]
   },
   {
     "id": 27,
     "title": "The Silk Roads",
     "author": "P. Frankopan",
     "category": "History",
-    "pages": 636,
-    "year": 2015,
+    "level": "Intermediate",
     "spineColor": "#8C5E3C",
+    "coverUrl": "https://m.media-amazon.com/images/I/71A6HpztmgL._AC_UF350,350_QL80_.jpg",
     "description": "A history of the world told through the trade routes connecting Asia, the Middle East, and Europe, rather than a Western-centered narrative.",
     "longDescription": [
       "Peter Frankopan retells world history with the trade routes between East and West — the \"Silk Roads\" — at the center, rather than treating Europe as the default vantage point.",
@@ -1862,28 +1675,25 @@
       "The Road to the Cold War",
       "The Road to the Future"
     ],
-    "tags": [
-      "world history",
-      "trade",
-      "geopolitics"
-    ],
-    "subjects": [
-      "World History",
-      "Trade",
-      "Geopolitics"
-    ],
-    "callNumber": "D289.B27",
-    "level": "Intermediate",
+    "tags": ["world history", "trade", "geopolitics"],
+    "subjects": ["World History", "Trade", "Geopolitics"],
+    "pages": 636,
+    "readingTimeHours": 14.1,
+    "year": 2015,
+    "edition": 1,
     "publisher": "Bloomsbury",
     "language": "English",
     "format": "EPUB",
     "isbn": "978-120666666",
     "fileSizeMb": 8,
-    "readingTimeHours": 14.1,
+    "callNumber": "D289.B27",
     "addedDate": "2026-04-01",
-    "edition": 1,
     "price": 15.58,
     "exchangeable": false,
+    "availability": {
+      "digitalCopies": 8,
+      "checkedOut": 4
+    },
     "rating": 4.3,
     "ratingsCount": 150,
     "reviews": [
@@ -1899,20 +1709,16 @@
         "date": "2026-02-14",
         "comment": "Not the easiest read, but the payoff is real."
       }
-    ],
-    "availability": {
-      "digitalCopies": 8,
-      "checkedOut": 4
-    }
+    ]
   },
   {
     "id": 28,
     "title": "Thinking, Fast and Slow",
     "author": "D. Kahneman",
     "category": "Other",
-    "pages": 499,
-    "year": 2011,
+    "level": "Intermediate",
     "spineColor": "#4A4E69",
+    "coverUrl": "https://media.licdn.com/dms/image/v2/C5612AQEVJoOxUYV-HQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1593233434789?e=2147483647&v=beta&t=QPbT03c7pUsB9LX5TZRz6_T4TSWfq-S_ZxmJA7qjYeo",
     "description": "A Nobel laureate's account of the two systems that drive human thought — one fast and intuitive, one slow and deliberate — and where each goes wrong.",
     "longDescription": [
       "Daniel Kahneman summarizes decades of research into judgment and decision-making, organized around two modes of thought: System 1 (fast, automatic, intuitive) and System 2 (slow, effortful, deliberate).",
@@ -1926,28 +1732,25 @@
       "Choices",
       "Two Selves"
     ],
-    "tags": [
-      "psychology",
-      "decision-making",
-      "behavioral economics"
-    ],
-    "subjects": [
-      "Psychology",
-      "Decision-Making",
-      "Behavioral Economics"
-    ],
-    "callNumber": "BF296.C28",
-    "level": "Intermediate",
+    "tags": ["psychology", "decision-making", "behavioral economics"],
+    "subjects": ["Psychology", "Decision-Making", "Behavioral Economics"],
+    "pages": 499,
+    "readingTimeHours": 11.1,
+    "year": 2011,
+    "edition": 2,
     "publisher": "Farrar, Straus and Giroux",
     "language": "English",
     "format": "EPUB",
     "isbn": "978-121432098",
     "fileSizeMb": 5.8,
-    "readingTimeHours": 11.1,
+    "callNumber": "BF296.C28",
     "addedDate": "2026-05-02",
-    "edition": 2,
     "price": 6.98,
     "exchangeable": true,
+    "availability": {
+      "digitalCopies": 4,
+      "checkedOut": 2
+    },
     "rating": 4.7,
     "ratingsCount": 73,
     "reviews": [
@@ -1963,20 +1766,16 @@
         "date": "2026-08-15",
         "comment": "Recommended it to two classmates already."
       }
-    ],
-    "availability": {
-      "digitalCopies": 4,
-      "checkedOut": 2
-    }
+    ]
   },
   {
     "id": 29,
     "title": "Introduction to Algorithms",
     "author": "Cormen, Leiserson, Rivest, Stein",
     "category": "Technology",
-    "pages": 1312,
-    "year": 2009,
+    "level": "Advanced",
     "spineColor": "#C97F1E",
+    "coverUrl": "https://www.cengage.com/covers/imageServlet?image_type=WEBCV&catalog=cengage&productISBN13=9780357673560",
     "description": "The standard reference textbook on algorithms and data structures, covering design techniques, analysis, and a huge range of classic problems.",
     "longDescription": [
       "Known widely as \"CLRS\" after its authors, this is the most commonly assigned algorithms textbook in university computer science programs, covering everything from sorting and searching to graph algorithms and NP-completeness.",
@@ -1993,28 +1792,25 @@
       "Selected Topics",
       "NP-Completeness"
     ],
-    "tags": [
-      "algorithms",
-      "data structures",
-      "computer science"
-    ],
-    "subjects": [
-      "Algorithms",
-      "Data Structures",
-      "Computer Science"
-    ],
-    "callNumber": "QA76303.D29",
-    "level": "Advanced",
+    "tags": ["algorithms", "data structures", "computer science"],
+    "subjects": ["Algorithms", "Data Structures", "Computer Science"],
+    "pages": 1312,
+    "readingTimeHours": 29.2,
+    "year": 2009,
+    "edition": 3,
     "publisher": "MIT Press",
     "language": "English",
     "format": "PDF",
     "isbn": "978-122197530",
     "fileSizeMb": 15,
-    "readingTimeHours": 29.2,
+    "callNumber": "QA76303.D29",
     "addedDate": "2026-06-03",
-    "edition": 3,
     "price": 23.99,
     "exchangeable": true,
+    "availability": {
+      "digitalCopies": 7,
+      "checkedOut": 5
+    },
     "rating": 3.9,
     "ratingsCount": 295,
     "reviews": [
@@ -2036,20 +1832,16 @@
         "date": "2026-06-11",
         "comment": "Recommended it to two classmates already."
       }
-    ],
-    "availability": {
-      "digitalCopies": 7,
-      "checkedOut": 5
-    }
+    ]
   },
   {
     "id": 30,
     "title": "Man's Search for Meaning",
     "author": "V. Frankl",
     "category": "Philosophy",
-    "pages": 165,
-    "year": 1946,
+    "level": "Beginner",
     "spineColor": "#6B8F71",
+    "coverUrl": "https://mywholenineyards.com/wp-content/uploads/2023/04/Mans-search-scaled.jpg",
     "description": "A psychiatrist's account of surviving Nazi concentration camps, and the theory of meaning-centered psychology he developed from it.",
     "longDescription": [
       "Viktor Frankl, a psychiatrist and Holocaust survivor, recounts his experience in Nazi concentration camps and the observations that led him to develop logotherapy — the idea that the primary human drive is not pleasure but the search for meaning.",
@@ -2061,28 +1853,25 @@
       "Logotherapy in a Nutshell",
       "The Case for a Tragic Optimism"
     ],
-    "tags": [
-      "psychology",
-      "memoir",
-      "meaning"
-    ],
-    "subjects": [
-      "Psychology",
-      "Memoir",
-      "Meaning"
-    ],
-    "callNumber": "B310.E30",
-    "level": "Beginner",
+    "tags": ["psychology", "memoir", "meaning"],
+    "subjects": ["Psychology", "Memoir", "Meaning"],
+    "pages": 165,
+    "readingTimeHours": 3.7,
+    "year": 1946,
+    "edition": 1,
     "publisher": "Beacon Press",
     "language": "English (translated)",
     "format": "EPUB",
     "isbn": "978-122962963",
     "fileSizeMb": 2,
-    "readingTimeHours": 3.7,
+    "callNumber": "B310.E30",
     "addedDate": "2026-07-04",
-    "edition": 1,
     "price": 9.85,
     "exchangeable": true,
+    "availability": {
+      "digitalCopies": 3,
+      "checkedOut": 1
+    },
     "rating": 3.9,
     "ratingsCount": 223,
     "reviews": [
@@ -2098,10 +1887,466 @@
         "date": "2026-07-16",
         "comment": "Took a while to get through but worth it in the end."
       }
+    ]
+  },
+  {
+    "id": 31,
+    "title": "Design Patterns: Elements of Reusable Object-Oriented Software",
+    "author": "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides",
+    "category": "Technology",
+    "level": "Advanced",
+    "spineColor": "#3B2F1B",
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNcnTHWJe-u5G1SqPxW8OLnzyHgOiWW25J9ogStCRfXjfYxMWUQWYZZVY&s=10",
+    "description": "The foundational catalog of object-oriented design patterns, documenting reusable solutions to common software design problems.",
+    "longDescription": [
+      "Known as the 'Gang of Four' book, this text catalogs 23 classic design patterns organized into creational, structural, and behavioral categories, each with intent, applicability, and trade-offs.",
+      "Rather than prescribing a single methodology, the authors show how naming and formalizing recurring design solutions gives engineering teams a shared vocabulary for discussing architecture.",
+      "The examples lean on C++ and Smalltalk, but the underlying principles have shaped how object-oriented systems are designed across virtually every modern language."
     ],
-    "availability": {
-      "digitalCopies": 3,
-      "checkedOut": 1
-    }
+    "tableOfContents": [
+      "Introduction",
+      "A Case Study: Designing a Document Editor",
+      "Creational Patterns",
+      "Structural Patterns",
+      "Behavioral Patterns",
+      "Conclusion"
+    ],
+    "tags": ["design patterns", "object-oriented design", "software engineering"],
+    "subjects": ["Software Design", "Object-Oriented Programming"],
+    "pages": 395,
+    "readingTimeHours": 8.8,
+    "year": 1994,
+    "edition": 1,
+    "publisher": "Addison-Wesley",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-0201633610",
+    "fileSizeMb": 4.9,
+    "callNumber": "QA76.64.D47",
+    "addedDate": "2026-02-10",
+    "price": 24.5,
+    "exchangeable": true,
+    "availability": { "digitalCopies": 5, "checkedOut": 2 },
+    "rating": 4.1,
+    "ratingsCount": 210,
+    "reviews": [
+      {
+        "name": "Kevin L.",
+        "rating": 4,
+        "date": "2026-05-20",
+        "comment": "Dense but essential reference."
+      },
+      {
+        "name": "Sophia T.",
+        "rating": 5,
+        "date": "2026-04-02",
+        "comment": "Reread this every year."
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "title": "Designing Data-Intensive Applications",
+    "author": "Martin Kleppmann",
+    "category": "Technology",
+    "level": "Advanced",
+    "spineColor": "#2B4F3B",
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqDxRRhqkUAQIXO8w3qsNX__UKQu4Miie3puuGG9-P3NEg6U_LMdo2XYNA&s=10",
+    "description": "A deep dive into the principles behind reliable, scalable, and maintainable data systems.",
+    "longDescription": [
+      "Kleppmann examines how modern applications store, process, and move data at scale, covering databases, message queues, and stream processing frameworks through a unifying set of principles.",
+      "The book emphasizes trade-offs: consistency versus availability, batch versus stream processing, and how replication and partitioning strategies shape system behavior under failure.",
+      "Rather than endorsing specific products, it equips readers to reason about the right architecture for a given problem, with case studies drawn from real distributed systems."
+    ],
+    "tableOfContents": [
+      "Reliable, Scalable, and Maintainable Applications",
+      "Data Models and Query Languages",
+      "Storage and Retrieval",
+      "Encoding and Evolution",
+      "Replication",
+      "Partitioning",
+      "Transactions",
+      "The Trouble with Distributed Systems",
+      "Consistency and Consensus",
+      "Batch Processing",
+      "Stream Processing",
+      "The Future of Data Systems"
+    ],
+    "tags": ["distributed systems", "databases", "data engineering"],
+    "subjects": ["Data Systems", "Distributed Computing"],
+    "pages": 616,
+    "readingTimeHours": 13.5,
+    "year": 2017,
+    "edition": 1,
+    "publisher": "O'Reilly Media",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-1449373320",
+    "fileSizeMb": 7.2,
+    "callNumber": "QA76.9.D3K54",
+    "addedDate": "2026-02-14",
+    "price": 27.9,
+    "exchangeable": true,
+    "availability": { "digitalCopies": 6, "checkedOut": 4 },
+    "rating": 4.6,
+    "ratingsCount": 340,
+    "reviews": [
+      {
+        "name": "Rina C.",
+        "rating": 5,
+        "date": "2026-06-01",
+        "comment": "Best systems book I've read."
+      },
+      {
+        "name": "Marco V.",
+        "rating": 4,
+        "date": "2026-05-18",
+        "comment": "Long but worth every chapter."
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "title": "The Pragmatic Programmer",
+    "author": "David Thomas, Andrew Hunt",
+    "category": "Technology",
+    "level": "Intermediate",
+    "spineColor": "#4B1B3B",
+    "coverUrl": "https://media.licdn.com/dms/image/v2/D4D22AQG31YFHZZq0Ew/feedshare-shrink_800/feedshare-shrink_800/0/1703220846438?e=2147483647&v=beta&t=DZTKylgYE4G2GksmrZlM3nPLrvCkYZReEXanDDCpRrA",
+    "description": "Practical advice on craftsmanship, habits, and tools for becoming a more effective software developer.",
+    "longDescription": [
+      "This book collects tips on everything from code hygiene and debugging to career growth, framed around the idea of pragmatic, adaptable engineering rather than rigid process.",
+      "Topics range from the DRY principle and orthogonality to automation, testing strategy, and how to keep learning as tools and languages change.",
+      "It's less a technical manual than a set of habits and heuristics meant to be revisited throughout a developer's career."
+    ],
+    "tableOfContents": [
+      "A Pragmatic Philosophy",
+      "A Pragmatic Approach",
+      "The Basic Tools",
+      "Pragmatic Paranoia",
+      "Bend or Break",
+      "Concurrency",
+      "While You Are Coding",
+      "Before the Project",
+      "Pragmatic Projects"
+    ],
+    "tags": ["software craftsmanship", "career development", "best practices"],
+    "subjects": ["Software Engineering", "Professional Practice"],
+    "pages": 352,
+    "readingTimeHours": 7.5,
+    "year": 2019,
+    "edition": 2,
+    "publisher": "Addison-Wesley",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-0135957059",
+    "fileSizeMb": 4.2,
+    "callNumber": "QA76.76.D47T46",
+    "addedDate": "2026-02-18",
+    "price": 22.0,
+    "exchangeable": true,
+    "availability": { "digitalCopies": 8, "checkedOut": 5 },
+    "rating": 4.3,
+    "ratingsCount": 198,
+    "reviews": [
+      {
+        "name": "Leo N.",
+        "rating": 4,
+        "date": "2026-06-10",
+        "comment": "Good habits, easy to digest."
+      },
+      {
+        "name": "Priya S.",
+        "rating": 5,
+        "date": "2026-05-25",
+        "comment": "Wish I'd read this earlier in my career."
+      }
+    ]
+  },
+
+  {
+    "id": 34,
+    "title": "Introduction to Algorithms",
+    "author": "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein",
+    "category": "Technology",
+    "level": "Advanced",
+    "spineColor": "#8B1B1B",
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHO6ad_9SvyZcndt1miCqrGk81gfj1GR160Tmle5TSUQte-r9OIjiEjpi0&s=10",
+    "description": "A comprehensive reference on algorithm design, analysis, and the mathematics behind computational efficiency.",
+    "longDescription": [
+      "Widely known as CLRS after its authors' initials, this text covers algorithms for sorting, searching, graph traversal, and optimization, with rigorous proofs of correctness and complexity.",
+      "Each chapter builds from first principles, introducing data structures like heaps and red-black trees alongside the algorithmic techniques that use them, such as divide-and-conquer and dynamic programming.",
+      "It's used widely as a university textbook and reference, valued for pairing precise mathematical treatment with pseudocode implementations that translate readily into any programming language."
+    ],
+    "tableOfContents": [
+      "Foundations",
+      "Sorting and Order Statistics",
+      "Data Structures",
+      "Advanced Design and Analysis Techniques",
+      "Advanced Data Structures",
+      "Graph Algorithms",
+      "Selected Topics",
+      "Appendix: Mathematical Background"
+    ],
+    "tags": ["algorithms", "data structures", "computer science theory"],
+    "subjects": ["Algorithms", "Computer Science Theory"],
+    "pages": 1312,
+    "readingTimeHours": 28.0,
+    "year": 2022,
+    "edition": 4,
+    "publisher": "MIT Press",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-0262046305",
+    "fileSizeMb": 12.6,
+    "callNumber": "QA76.6.C662",
+    "addedDate": "2026-02-20",
+    "price": 39.9,
+    "exchangeable": false,
+    "availability": { "digitalCopies": 4, "checkedOut": 4 },
+    "rating": 4.4,
+    "ratingsCount": 512,
+    "reviews": [
+      {
+        "name": "Hana K.",
+        "rating": 5,
+        "date": "2026-06-05",
+        "comment": "The reference I keep coming back to."
+      },
+      {
+        "name": "Tariq B.",
+        "rating": 4,
+        "date": "2026-04-22",
+        "comment": "Dense, but nothing explains it better."
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "title": "Computer Networking: A Top-Down Approach",
+    "author": "James F. Kurose, Keith W. Ross",
+    "category": "Technology",
+    "level": "Intermediate",
+    "spineColor": "#1B4F8B",
+    "coverUrl": "https://i.ebayimg.com/images/g/N0oAAOSwRM9m7iPZ/s-l400.png",
+    "description": "An introduction to computer networks structured from the application layer down to the physical layer.",
+    "longDescription": [
+      "This textbook introduces networking concepts starting from the application layer that students interact with daily, then works downward through transport, network, link, and physical layers.",
+      "Protocols like HTTP, TCP/IP, and DNS are explained alongside real-world examples such as web browsing and video streaming, making abstract concepts concrete.",
+      "Later chapters cover network security, wireless and mobile networking, and multimedia networking, giving a broad foundation for further study or systems work."
+    ],
+    "tableOfContents": [
+      "Computer Networks and the Internet",
+      "Application Layer",
+      "Transport Layer",
+      "The Network Layer: Data Plane",
+      "The Network Layer: Control Plane",
+      "The Link Layer and LANs",
+      "Wireless and Mobile Networks",
+      "Security in Computer Networks"
+    ],
+    "tags": ["computer networks", "internet protocols", "networking fundamentals"],
+    "subjects": ["Networking", "Data Communication"],
+    "pages": 864,
+    "readingTimeHours": 19.2,
+    "year": 2020,
+    "edition": 8,
+    "publisher": "Pearson",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-0136681557",
+    "fileSizeMb": 9.8,
+    "callNumber": "TK5105.5.K87",
+    "addedDate": "2026-02-22",
+    "price": 32.0,
+    "exchangeable": true,
+    "availability": { "digitalCopies": 10, "checkedOut": 6 },
+    "rating": 4.2,
+    "ratingsCount": 267,
+    "reviews": [
+      {
+        "name": "Chenda L.",
+        "rating": 4,
+        "date": "2026-06-12",
+        "comment": "Helped a lot with my networking coursework."
+      },
+      {
+        "name": "Oliver F.",
+        "rating": 5,
+        "date": "2026-05-30",
+        "comment": "Clear diagrams, great examples."
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "title": "Artificial Intelligence: A Modern Approach",
+    "author": "Stuart Russell, Peter Norvig",
+    "category": "Technology",
+    "level": "Advanced",
+    "spineColor": "#2F1B4F",
+    "coverUrl": "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1591308334i/53828219.jpg",
+    "description": "The standard reference text covering the breadth of artificial intelligence, from search algorithms to machine learning.",
+    "longDescription": [
+      "Russell and Norvig survey AI as a unified field, connecting problem-solving and search, knowledge representation, planning, and probabilistic reasoning under a common framework of rational agents.",
+      "Later sections cover machine learning, natural language processing, robotics, and perception, tying classical AI techniques to modern statistical and neural approaches.",
+      "The book is widely adopted in university AI courses for its balance of theoretical depth and practical algorithmic detail, including exercises drawn from real research problems."
+    ],
+    "tableOfContents": [
+      "Introduction",
+      "Problem-Solving",
+      "Knowledge, Reasoning, and Planning",
+      "Uncertain Knowledge and Reasoning",
+      "Machine Learning",
+      "Communicating, Perceiving, and Acting",
+      "Conclusions"
+    ],
+    "tags": ["artificial intelligence", "machine learning", "robotics"],
+    "subjects": ["Artificial Intelligence", "Machine Learning"],
+    "pages": 1136,
+    "readingTimeHours": 25.0,
+    "year": 2021,
+    "edition": 4,
+    "publisher": "Pearson",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-0134610993",
+    "fileSizeMb": 11.4,
+    "callNumber": "Q335.R86",
+    "addedDate": "2026-02-25",
+    "price": 41.5,
+    "exchangeable": false,
+    "availability": { "digitalCopies": 3, "checkedOut": 3 },
+    "rating": 4.5,
+    "ratingsCount": 389,
+    "reviews": [
+      {
+        "name": "Sokha M.",
+        "rating": 5,
+        "date": "2026-06-18",
+        "comment": "Covers everything from our AI module and more."
+      },
+      {
+        "name": "Grace W.",
+        "rating": 4,
+        "date": "2026-05-08",
+        "comment": "Thorough, though some sections feel dated."
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "title": "IoT Fundamentals: Networking Technologies, Protocols, and Use Cases",
+    "author": "David Hanes, Gonzalo Salgueiro, Patrick Grossetete, Robert Barton, Jerome Henry",
+    "category": "Technology",
+    "level": "Beginner",
+    "spineColor": "#1B8B5F",
+    "coverUrl": "https://www.ciscopress.com/ShowCover.asp?isbn=1587144565",
+    "description": "A foundational guide to the technologies, protocols, and architectures behind the Internet of Things.",
+    "longDescription": [
+      "This book introduces IoT as a convergence of networking, embedded systems, and data analytics, walking through the layered architecture from sensors and actuators up to cloud platforms.",
+      "It covers wireless protocols such as Zigbee, Bluetooth Low Energy, and LPWAN, along with edge computing and fog computing concepts that reduce latency in IoT deployments.",
+      "Industry use cases in manufacturing, smart cities, and connected health illustrate how these technologies combine into working systems, making it a practical entry point for students new to IoT."
+    ],
+    "tableOfContents": [
+      "What Is IoT?",
+      "IoT Network Architecture and Design",
+      "Smart Objects: The 'Things' in IoT",
+      "Connecting Smart Objects",
+      "IP as the IoT Network Layer",
+      "Application Protocols for IoT",
+      "Data and Analytics for IoT",
+      "IoT Security"
+    ],
+    "tags": ["IoT", "embedded systems", "wireless protocols"],
+    "subjects": ["Internet of Things", "Networking"],
+    "pages": 576,
+    "readingTimeHours": 12.5,
+    "year": 2017,
+    "edition": 1,
+    "publisher": "Cisco Press",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-1587144561",
+    "fileSizeMb": 6.3,
+    "callNumber": "TK5105.8857.I68",
+    "addedDate": "2026-03-01",
+    "price": 26.5,
+    "exchangeable": true,
+    "availability": { "digitalCopies": 9, "checkedOut": 2 },
+    "rating": 3.9,
+    "ratingsCount": 88,
+    "reviews": [
+      {
+        "name": "Vichet R.",
+        "rating": 4,
+        "date": "2026-06-08",
+        "comment": "Good overview before our IoT lab work."
+      },
+      {
+        "name": "Nadia H.",
+        "rating": 4,
+        "date": "2026-04-15",
+        "comment": "Solid intro, especially the protocols chapter."
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "title": "Probabilistic Robotics",
+    "author": "Sebastian Thrun, Wolfram Burgard, Dieter Fox",
+    "category": "Technology",
+    "level": "Advanced",
+    "spineColor": "#4F2F1B",
+    "coverUrl": "https://rezised-images.knhbt.cz/1920x1920/5210718.jpg",
+    "description": "A rigorous treatment of probabilistic algorithms for robot perception, localization, and navigation.",
+    "longDescription": [
+      "This text frames robotics problems — localization, mapping, and planning — as inference under uncertainty, using Bayes filters as the unifying mathematical tool.",
+      "Chapters build from basic probability theory to Kalman filters, particle filters, and SLAM (simultaneous localization and mapping), with derivations grounded in real robotic systems.",
+      "It's considered a core reference for robotics research and coursework, bridging the gap between theoretical probability and the messy uncertainty of real-world sensors and actuators."
+    ],
+    "tableOfContents": [
+      "Introduction",
+      "Recursive State Estimation",
+      "Gaussian Filters",
+      "Nonparametric Filters",
+      "Robot Motion",
+      "Robot Perception",
+      "Mobile Robot Localization",
+      "Simultaneous Localization and Mapping",
+      "Planning and Control"
+    ],
+    "tags": ["robotics", "SLAM", "probability theory"],
+    "subjects": ["Robotics", "Probability and Estimation"],
+    "pages": 668,
+    "readingTimeHours": 15.0,
+    "year": 2005,
+    "edition": 1,
+    "publisher": "MIT Press",
+    "language": "English",
+    "format": "EPUB",
+    "isbn": "978-0262201629",
+    "fileSizeMb": 8.1,
+    "callNumber": "TJ211.4.T57",
+    "addedDate": "2026-03-04",
+    "price": 34.0,
+    "exchangeable": false,
+    "availability": { "digitalCopies": 5, "checkedOut": 5 },
+    "rating": 4.3,
+    "ratingsCount": 142,
+    "reviews": [
+      {
+        "name": "Bopha K.",
+        "rating": 4,
+        "date": "2026-06-20",
+        "comment": "Tough but exactly what I needed for the robotics module."
+      },
+      {
+        "name": "Ethan D.",
+        "rating": 5,
+        "date": "2026-05-01",
+        "comment": "The classic reference for SLAM."
+      }
+    ]
   }
 ]

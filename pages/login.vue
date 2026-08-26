@@ -1,12 +1,15 @@
 <script setup lang="ts">
 const route = useRoute()
 const router = useRouter()
-const { login } = useAuth()
+const { login, register } = useAuth()
 const { push } = useToast()
 
+const mode = ref<'login' | 'register'>('login')
 const name = ref('')
 const email = ref('')
+const password = ref('')
 const role = ref<'user' | 'admin'>('user')
+const adminPassword = ref('')
 const error = ref('')
 
 function redirectTarget() {
@@ -16,99 +19,51 @@ function redirectTarget() {
 
 function onSubmit() {
   error.value = ''
-  if (!name.value || !email.value) {
-    error.value = 'Enter your name and email.'
+  const result = mode.value === 'login'
+    ? login(email.value, password.value)
+    : register(name.value, email.value, password.value, role.value, adminPassword.value)
+
+  if (!result.ok) {
+    error.value = result.error || 'Something went wrong.'
     return
   }
-  if (!email.value.includes('@')) {
-    error.value = 'That email address doesn\u2019t look right.'
-    return
-  }
-  login(name.value, email.value, role.value)
-  push(`Signed in as ${role.value === 'admin' ? 'Admin' : 'Reader'}.`)
+
+  push(mode.value === 'login' ? 'Signed in successfully.' : 'Account created successfully.')
   router.push(redirectTarget())
 }
 
-function quickLogin(asRole: 'user' | 'admin') {
-  const demo = asRole === 'admin'
-    ? { name: 'Admin', email: 'admin@marginalia.app' }
-    : { name: 'Reader', email: 'reader@marginalia.app' }
-  login(demo.name, demo.email, asRole)
-  push(`Signed in as ${asRole === 'admin' ? 'Admin' : 'Reader'} (demo).`)
-  router.push(redirectTarget())
+function switchMode(nextMode: 'login' | 'register') {
+  mode.value = nextMode
+  error.value = ''
+  password.value = ''
+  adminPassword.value = ''
 }
 </script>
 
 <template>
-  <div class="min-h-[70vh] flex items-center justify-center px-6 py-12">
-    <div class="w-full max-w-[400px] bg-white border border-line rounded-card shadow-premium p-8">
-      <p class="font-mono text-xs uppercase tracking-wide text-amber-deep">Welcome back</p>
-      <h1 class="font-display font-semibold text-2xl mt-2">Log in to Marginalia</h1>
-      <p class="text-[13.5px] text-ink-soft mt-2">This is a demo — no real password required.</p>
+  <div class="flex min-h-[72vh] items-center justify-center px-6 py-16">
+    <div class="surface-card w-full max-w-[460px] p-8 shadow-premium sm:p-10">
+      <p class="page-eyebrow">ETEC-LIBRARY account</p>
+      <h1 class="page-title text-4xl">{{ mode === 'login' ? 'Welcome back' : 'Create your account' }}</h1>
+      <p class="mt-2 text-sm text-ink-soft">{{ mode === 'login' ? 'Sign in with the email and password you registered.' : 'Readers can register freely. Admin access requires the setup password.' }}</p>
 
-      <div class="flex gap-2 mt-6">
-        <button
-          type="button"
-          class="flex-1 rounded-card border border-line py-2.5 text-sm font-semibold hover:border-ink transition"
-          @click="quickLogin('user')"
-        >
-          Continue as Reader
-        </button>
-        <button
-          type="button"
-          class="flex-1 rounded-card border border-line py-2.5 text-sm font-semibold hover:border-ink transition"
-          @click="quickLogin('admin')"
-        >
-          Continue as Admin
-        </button>
+      <div class="mt-6 grid grid-cols-2 rounded-xl bg-parchment-dim p-1">
+        <button type="button" class="rounded-lg py-2 text-sm font-semibold" :class="mode === 'login' ? 'bg-white text-ink shadow-sm' : 'text-ink-soft'" @click="switchMode('login')">Log in</button>
+        <button type="button" class="rounded-lg py-2 text-sm font-semibold" :class="mode === 'register' ? 'bg-white text-ink shadow-sm' : 'text-ink-soft'" @click="switchMode('register')">Register</button>
       </div>
 
-      <div class="flex items-center gap-3 my-6">
-        <div class="h-px flex-1 bg-line" />
-        <span class="text-xs text-ink-soft font-mono">or sign in manually</span>
-        <div class="h-px flex-1 bg-line" />
-      </div>
+      <form class="mt-6 flex flex-col gap-4" @submit.prevent="onSubmit">
+        <label v-if="mode === 'register'" class="flex flex-col gap-1.5 text-[13px] font-semibold"><span>Name</span><input v-model.trim="name" type="text" autocomplete="name" placeholder="Your name" class="rounded-card border border-line bg-parchment-dim px-3 py-2.5 text-sm font-normal" /></label>
+        <label class="flex flex-col gap-1.5 text-[13px] font-semibold"><span>Email</span><input v-model.trim="email" type="email" autocomplete="email" placeholder="you@example.com" class="rounded-card border border-line bg-parchment-dim px-3 py-2.5 text-sm font-normal" /></label>
+        <label class="flex flex-col gap-1.5 text-[13px] font-semibold"><span>Password</span><input v-model="password" type="password" autocomplete="current-password" :placeholder="mode === 'register' ? 'At least 6 characters' : 'Your password'" class="rounded-card border border-line bg-parchment-dim px-3 py-2.5 text-sm font-normal" /></label>
 
-      <form class="flex flex-col gap-4" @submit.prevent="onSubmit">
-        <label class="flex flex-col gap-1.5 text-[13px] font-semibold">
-          <span>Name</span>
-          <input
-            v-model="name"
-            type="text"
-            placeholder="Your name"
-            class="text-sm font-normal px-3 py-2.5 rounded-card border border-line bg-parchment-dim focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink"
-          />
-        </label>
-        <label class="flex flex-col gap-1.5 text-[13px] font-semibold">
-          <span>Email</span>
-          <input
-            v-model="email"
-            type="email"
-            autocomplete="email"
-            placeholder="you@example.com"
-            class="text-sm font-normal px-3 py-2.5 rounded-card border border-line bg-parchment-dim focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink"
-          />
-        </label>
-
-        <fieldset class="flex flex-col gap-1.5 text-[13px] font-semibold">
-          <span>Role</span>
-          <div class="flex gap-4 text-sm font-normal">
-            <label class="flex items-center gap-1.5">
-              <input v-model="role" type="radio" value="user" />
-              Reader
-            </label>
-            <label class="flex items-center gap-1.5">
-              <input v-model="role" type="radio" value="admin" />
-              Admin
-            </label>
-          </div>
-        </fieldset>
+        <template v-if="mode === 'register'">
+          <fieldset class="flex flex-col gap-2 text-[13px] font-semibold"><span>Account type</span><div class="grid grid-cols-2 gap-2"><label class="cursor-pointer rounded-xl border p-3" :class="role === 'user' ? 'border-ink bg-parchment-dim' : 'border-line'"><input v-model="role" type="radio" value="user" class="sr-only" /><span class="block text-sm">Reader</span><span class="mt-1 block text-xs font-normal text-ink-soft">Read and manage your library.</span></label><label class="cursor-pointer rounded-xl border p-3" :class="role === 'admin' ? 'border-amber-deep bg-amber/10' : 'border-line'"><input v-model="role" type="radio" value="admin" class="sr-only" /><span class="block text-sm">Admin</span><span class="mt-1 block text-xs font-normal text-ink-soft">Manage books and stock.</span></label></div></fieldset>
+          <label v-if="role === 'admin'" class="flex flex-col gap-1.5 text-[13px] font-semibold"><span>Admin registration password</span><input v-model="adminPassword" type="password" autocomplete="off" placeholder="Enter the admin setup password" class="rounded-card border border-amber/60 bg-amber/5 px-3 py-2.5 text-sm font-normal" /><span class="text-xs font-normal text-ink-soft">Ask the library owner for this password.</span></label>
+        </template>
 
         <p v-if="error" class="text-[13px] text-rose" role="alert">{{ error }}</p>
-
-        <button type="submit" class="w-full justify-center rounded-card bg-ink text-white font-semibold text-sm px-5 py-2.5 mt-1 hover:bg-ink-light transition">
-          Log in
-        </button>
+        <button type="submit" class="mt-1 w-full rounded-card bg-ink px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-ink-light">{{ mode === 'login' ? 'Log in' : `Create ${role === 'admin' ? 'admin' : 'reader'} account` }}</button>
       </form>
     </div>
   </div>

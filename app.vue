@@ -1,5 +1,5 @@
 <template>
-  <div class="font-body bg-parchment text-ink min-h-screen antialiased">
+  <div class="min-h-screen bg-parchment font-body text-ink antialiased">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>

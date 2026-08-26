@@ -12,7 +12,7 @@ if (!subject.value) {
 const { books } = useCatalog()
 
 const shelfBooks = computed(() =>
-  subject.value ? books.value.filter(b => b.category === subject.value!.name) : []
+  subject.value ? books.value.filter((b) => b.category === subject.value!.name) : []
 )
 
 const avgRating = computed(() => {
@@ -20,11 +20,15 @@ const avgRating = computed(() => {
   return shelfBooks.value.reduce((sum, b) => sum + b.rating, 0) / shelfBooks.value.length
 })
 
-const topRated = computed(() => [...shelfBooks.value].sort((a, b) => b.rating - a.rating).slice(0, 3))
+const topRated = computed(() =>
+  [...shelfBooks.value].sort((a, b) => b.rating - a.rating).slice(0, 3)
+)
 
 const levelCounts = computed(() => {
   const counts: Record<string, number> = { Beginner: 0, Intermediate: 0, Advanced: 0 }
-  shelfBooks.value.forEach(b => { counts[b.level] = (counts[b.level] || 0) + 1 })
+  shelfBooks.value.forEach((b) => {
+    counts[b.level] = (counts[b.level] || 0) + 1
+  })
   return counts
 })
 
@@ -42,9 +46,24 @@ useHead(() => ({ title: subject.value ? `${subject.value.name} — Marginalia` :
     </nav>
 
     <header class="flex items-start gap-5 mb-10 flex-wrap">
-      <div class="w-14 h-14 rounded-card flex items-center justify-center shrink-0" :style="{ background: subject.color + '1a' }">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" :style="{ color: subject.color }">
-          <path :d="subject.icon" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      <div
+        class="w-14 h-14 rounded-card flex items-center justify-center shrink-0"
+        :style="{ background: subject.color + '1a' }"
+      >
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          :style="{ color: subject.color }"
+        >
+          <path
+            :d="subject.icon"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
       </div>
       <div class="flex-1 min-w-[240px]">
@@ -82,7 +101,11 @@ useHead(() => ({ title: subject.value ? `${subject.value.name} — Marginalia` :
     <section>
       <div class="flex items-baseline justify-between mb-5">
         <h2 class="text-xl font-display font-semibold">Full shelf</h2>
-        <NuxtLink :to="`/products?category=${subject.name}`" class="text-sm font-semibold text-amber-deep hover:underline">Open in catalog &rarr;</NuxtLink>
+        <NuxtLink
+          :to="`/products?category=${subject.name}`"
+          class="text-sm font-semibold text-amber-deep hover:underline"
+          >Open in catalog &rarr;</NuxtLink
+        >
       </div>
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <BookCard v-for="b in shelfBooks" :key="b.id" :book="b" />

@@ -1,3 +1,6 @@
+Admin registration password : ETEC-ADMIN-2026
+
+
 # Marginalia — E-Library (Nuxt 3 + TypeScript + Tailwind)
 
 A digital library catalog: browse subjects, read books online, borrow,

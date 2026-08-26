@@ -8,11 +8,11 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: 'Marginalia — Digital Library',
+      title: 'ETEC-LIBRARY — Digital Library',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'A free digital library and catalog for students, teachers and researchers.' }
+        { name: 'description', content: 'ETEC Center digital library for students, teachers and independent learners.' }
       ],
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },

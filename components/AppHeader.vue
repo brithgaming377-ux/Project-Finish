@@ -6,12 +6,12 @@ const { push: toast } = useToast()
 const links = computed(() => {
   const base = [
     { label: 'Home', to: '/' },
-    { label: 'Products', to: '/products' },
+    { label: 'Books', to: '/products' },
     { label: 'Subjects', to: '/subjects' },
     { label: 'About Us', to: '/about' }
   ]
   if (user.value) base.push({ label: 'Account', to: '/account' })
-  if (isAdmin.value) base.push({ label: 'Admin', to: '/admin' })
+  if (isAdmin.value) base.push({ label: 'Management', to: '/admin' })
   return base
 })
 
@@ -47,7 +47,7 @@ function onLogout() {
             <path d="M2 5.5C5 4 9 4 13 5.5V21.5C9 20 5 20 2 21.5V5.5Z" fill="#14162B" />
             <path d="M24 5.5C21 4 17 4 13 5.5V21.5C17 20 21 20 24 21.5V5.5Z" fill="#C9A227" />
           </svg>
-          <span class="font-display font-semibold text-xl">Marginalia</span>
+          <span class="font-display font-semibold text-xl tracking-tight">ETEC-LIBRARY</span>
         </NuxtLink>
 
         <nav class="hidden md:flex gap-7" aria-label="Primary">
@@ -95,7 +95,7 @@ function onLogout() {
           >
             <p class="px-3.5 py-2 text-xs text-ink-soft border-b border-line mb-1">{{ user.email }} &middot; {{ isAdmin ? 'Admin' : 'Reader' }}</p>
             <NuxtLink to="/account" class="block px-3.5 py-2 text-sm hover:bg-parchment-dim">My account</NuxtLink>
-            <NuxtLink v-if="isAdmin" to="/admin" class="block px-3.5 py-2 text-sm hover:bg-parchment-dim">Admin dashboard</NuxtLink>
+            <NuxtLink v-if="isAdmin" to="/admin" class="block px-3.5 py-2 text-sm hover:bg-parchment-dim">Management dashboard</NuxtLink>
             <button type="button" class="w-full text-left px-3.5 py-2 text-sm text-rose hover:bg-parchment-dim" @click="onLogout">Sign out</button>
           </div>
         </div>

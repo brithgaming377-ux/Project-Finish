@@ -116,5 +116,18 @@ export function useCatalog() {
     persist(books.value)
   }
 
-  return { books, getById, addBook, updateBook, deleteBook, resetToSeed }
+  function importBooks(incoming: Book[]) {
+    const valid = incoming.filter(book => book && typeof book.title === 'string' && typeof book.id === 'number')
+    const merged = [...books.value]
+    valid.forEach(book => {
+      const position = merged.findIndex(current => current.id === book.id)
+      if (position >= 0) merged[position] = book
+      else merged.push(book)
+    })
+    books.value = merged
+    persist(books.value)
+    return valid.length
+  }
+
+  return { books, getById, addBook, updateBook, deleteBook, resetToSeed, importBooks }
 }

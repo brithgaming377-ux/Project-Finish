@@ -40,6 +40,12 @@ function confirmDelete(id: number, title: string) {
       </NuxtLink>
     </header>
 
+    <div class="grid sm:grid-cols-3 gap-4 mb-8">
+      <div class="rounded-2xl border border-line bg-white p-5"><p class="text-sm text-ink-soft">Catalog titles</p><p class="mt-1 font-display text-3xl font-semibold">{{ books.length }}</p></div>
+      <div class="rounded-2xl border border-line bg-white p-5"><p class="text-sm text-ink-soft">Available copies</p><p class="mt-1 font-display text-3xl font-semibold">{{ books.reduce((total, book) => total + book.availability.digitalCopies - book.availability.checkedOut, 0) }}</p></div>
+      <NuxtLink to="/admin/inventory" class="rounded-2xl bg-ink p-5 text-white transition hover:bg-ink-light"><p class="text-sm text-white/65">Operations</p><p class="mt-1 font-display text-xl font-semibold">Import, export & stock →</p></NuxtLink>
+    </div>
+
     <input
       v-model="query"
       type="search"

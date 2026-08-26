@@ -1,4 +1,5 @@
 import raw from './books.json'
+import { extraBooks } from './extraBooks'
 
 export interface Review {
   name: string
@@ -20,6 +21,7 @@ export interface Book {
   pages: number
   year: number
   spineColor: string
+  coverUrl?: string
   description: string
   longDescription: string[]
   tableOfContents: string[]
@@ -53,7 +55,20 @@ export const categories = [
   'Other'
 ] as const
 
-export const books = raw as Book[]
+const subjectCovers: Record<string, string> = {
+  Technology: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=82',
+  Philosophy: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=900&q=82',
+  Science: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=900&q=82',
+  Leadership: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=900&q=82',
+  Language: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=900&q=82',
+  History: 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=900&q=82',
+  Other: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=82'
+}
+
+export const books = ([...raw, ...extraBooks] as Book[]).map(book => ({
+  ...book,
+  coverUrl: book.coverUrl || subjectCovers[book.category] || subjectCovers.Other
+}))
 
 export function getBookById(id: number): Book | undefined {
   return books.find(b => b.id === id)

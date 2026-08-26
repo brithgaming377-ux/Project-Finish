@@ -52,14 +52,14 @@ function clearFilters() {
 </script>
 
 <template>
-  <div class="max-w-6xl mx-auto px-6 py-12">
-    <header class="max-w-2xl mb-8">
-      <p class="font-mono text-xs uppercase tracking-wide text-amber-deep">Full catalog</p>
-      <h1 class="font-display font-semibold text-[clamp(28px,4vw,38px)] mt-2">Products</h1>
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <header class="max-w-3xl mb-10">
+      <p class="font-mono text-xs uppercase tracking-[0.16em] text-amber-deep">ETEC-LIBRARY / Collection</p>
+      <h1 class="font-display font-semibold text-[clamp(32px,4vw,48px)] mt-2">Find a book for every bright idea.</h1>
       <p class="text-ink-soft text-[15px] mt-3">Every book in Marginalia, in one place — filter by subject or level, search by title, tag or author.</p>
     </header>
 
-    <div class="grid lg:grid-cols-[220px_1fr] gap-8">
+    <div class="grid lg:grid-cols-[230px_1fr] gap-8">
       <!-- Sidebar filters -->
       <aside class="space-y-7">
         <div>
@@ -131,7 +131,7 @@ function clearFilters() {
 
         <p class="font-mono text-xs text-ink-soft mb-4">Showing {{ filteredBooks.length }} of {{ books.length }} books</p>
 
-        <div v-if="filteredBooks.length" class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div v-if="filteredBooks.length" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
           <BookCard v-for="book in filteredBooks" :key="book.id" :book="book" />
         </div>
         <p v-else class="text-ink-soft text-[15px] mt-8">No books match your filters. Try clearing them.</p>

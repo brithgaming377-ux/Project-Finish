@@ -1,157 +1,32 @@
 <script setup lang="ts">
-import { categories } from '~/data/books'
 import { subjects } from '~/data/subjects'
 import { useCatalog } from '~/composables/useCatalog'
-
 const { books } = useCatalog()
 const router = useRouter()
 const searchQuery = ref('')
-
-function onSearch() {
-  router.push({ path: '/products', query: searchQuery.value ? { q: searchQuery.value } : {} })
-}
-
-const subjectCounts = computed(() =>
-  subjects.map(s => ({ ...s, count: books.value.filter(b => b.category === s.name).length }))
-)
-
-const features = [
-  { title: 'Read anywhere', desc: 'Every title opens straight in your browser — no app, no account wall.' },
-  { title: 'Built for study', desc: 'Catalog records include subjects, call numbers and formats like a real library OPAC.' },
-  { title: 'Always free', desc: 'Marginalia stays free for students, teachers and independent learners.' }
-]
-
-const testimonials = [
-  { name: 'Sokha K.', role: 'Computer Science student', quote: 'Found half the readings for my networks course here — saved me from buying three textbooks.' },
-  { name: 'Anna B.', role: 'High school teacher', quote: 'I point my students to Marginalia instead of a paywalled database. It just works.' },
-  { name: 'Vuthy S.', role: 'Self-taught developer', quote: 'The catalog filtering makes it easy to find something relevant instead of scrolling forever.' }
-]
-
-const email = ref('')
-const subscribed = ref(false)
+const subjectCounts = computed(() => subjects.map(subject => ({ ...subject, count: books.value.filter(book => book.category === subject.name).length })))
+const featured = computed(() => books.value.slice(0, 3))
+function onSearch() { router.push({ path: '/products', query: searchQuery.value ? { q: searchQuery.value } : {} }) }
 </script>
 
 <template>
   <div>
-    <!-- Hero: search-first -->
-    <section class="pt-14 pb-16 bg-gradient-to-b from-parchment-dim to-parchment">
-      <div class="max-w-4xl mx-auto px-6 text-center">
-        <p class="font-mono text-xs uppercase tracking-wide text-amber-deep">Free digital library catalog</p>
-        <h1 class="font-display font-semibold text-[clamp(28px,5vw,46px)] leading-tight mt-3">
-          Search the catalog. Find your next book.
-        </h1>
-        <p class="text-ink-soft text-base mt-4 max-w-xl mx-auto">
-          Marginalia indexes every title by subject, author and call number — built like a
-          university library catalog, free for anyone to use.
-        </p>
-
-        <form class="mt-8 flex flex-col sm:flex-row gap-2.5 max-w-xl mx-auto" @submit.prevent="onSearch">
-          <input
-            v-model="searchQuery"
-            type="search"
-            placeholder="Search by title, author, or subject…"
-            class="flex-1 rounded-card border border-line bg-white px-4 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-ink"
-          />
-          <button type="submit" class="rounded-card bg-ink text-parchment font-semibold text-sm px-6 py-3 hover:bg-ink-light transition">
-            Search catalog
-          </button>
-        </form>
-
-        <div class="flex items-center justify-center gap-6 mt-6 font-mono text-xs text-ink-soft">
-          <span><strong class="text-ink">{{ books.length }}</strong> titles</span>
-          <span><strong class="text-ink">{{ subjects.length }}</strong> subjects</span>
-          <span><strong class="text-ink">24/7</strong> access</span>
+    <section class="relative isolate overflow-hidden bg-ink py-16 sm:py-24">
+      <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1800&q=85" alt="Students studying in a library" class="absolute inset-0 -z-20 h-full w-full object-cover opacity-35" />
+      <div class="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/90 to-ink/45" />
+      <div class="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
+        <div class="max-w-2xl text-white">
+          <div class="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-amber"><span class="h-1.5 w-1.5 rounded-full bg-amber" /> ETEC Center Digital Library</div>
+          <h1 class="font-display text-4xl font-semibold leading-[1.05] sm:text-6xl">Knowledge that moves<br />with your ambition.</h1>
+          <p class="mt-5 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg">ETEC-LIBRARY brings useful books, fresh ideas, and study-ready resources together in one calm place for every learner.</p>
+          <form class="mt-8 flex max-w-xl flex-col gap-2 rounded-2xl bg-white p-2 shadow-2xl sm:flex-row" @submit.prevent="onSearch"><div class="flex flex-1 items-center gap-3 px-3"><svg class="text-ink-soft" width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><input v-model="searchQuery" type="search" placeholder="Search books, authors, subjects…" class="w-full bg-transparent py-2 text-sm text-ink outline-none" /></div><button type="submit" class="rounded-xl bg-amber px-6 py-3 text-sm font-bold text-ink transition hover:bg-amber-deep hover:text-white">Explore books</button></form>
+          <div class="mt-8 flex gap-8 text-sm text-white/70"><span><strong class="block text-2xl font-semibold text-white">{{ books.length }}+</strong> digital books</span><span><strong class="block text-2xl font-semibold text-white">{{ subjects.length }}</strong> learning shelves</span><span><strong class="block text-2xl font-semibold text-white">24/7</strong> open access</span></div>
         </div>
+        <div class="hidden rounded-3xl border border-white/15 bg-white/10 p-6 backdrop-blur md:block"><p class="font-mono text-[11px] uppercase tracking-[0.16em] text-amber">Featured this week</p><NuxtLink v-if="featured[0]" :to="`/products/${featured[0].id}`" class="mt-5 block overflow-hidden rounded-2xl bg-white text-ink"><img :src="featured[0].coverUrl" :alt="featured[0].title" class="h-40 w-full object-cover" /><div class="p-4"><p class="font-display text-xl font-semibold">{{ featured[0].title }}</p><p class="mt-1 text-sm text-ink-soft">{{ featured[0].author }}</p></div></NuxtLink></div>
       </div>
     </section>
-
-    <!-- Browse by subject -->
-    <section class="max-w-6xl mx-auto px-6 py-14">
-      <div class="max-w-md mb-8 flex items-end justify-between gap-4 flex-wrap">
-        <div>
-          <p class="font-mono text-xs uppercase tracking-wide text-amber-deep">Browse by subject</p>
-          <h2 class="font-display font-semibold text-2xl mt-2">Pick a shelf to start with.</h2>
-        </div>
-        <NuxtLink to="/subjects" class="text-sm font-semibold text-amber-deep hover:underline">View all subjects &rarr;</NuxtLink>
-      </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-        <NuxtLink
-          v-for="c in subjectCounts"
-          :key="c.slug"
-          :to="`/subjects/${c.slug}`"
-          class="border border-line rounded-card bg-white p-5 hover:-translate-y-0.5 hover:shadow-card transition"
-        >
-          <div class="w-9 h-9 rounded-card flex items-center justify-center mb-3" :style="{ background: c.color + '1a' }">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" :style="{ color: c.color }">
-              <path :d="c.icon" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </div>
-          <p class="font-semibold text-sm">{{ c.name }}</p>
-          <p class="text-xs text-ink-soft mt-0.5 font-mono">{{ c.count }} titles</p>
-        </NuxtLink>
-      </div>
-    </section>
-
-    <!-- Features -->
-    <section class="bg-ink text-parchment py-14">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="max-w-md mb-8">
-          <p class="font-mono text-xs uppercase tracking-wide text-amber">Why Marginalia</p>
-          <h2 class="font-display font-semibold text-2xl mt-2">Built to get out of your way.</h2>
-        </div>
-        <div class="grid sm:grid-cols-3 gap-5">
-          <div v-for="f in features" :key="f.title" class="border border-parchment/15 rounded-card p-5">
-            <h3 class="font-semibold text-base">{{ f.title }}</h3>
-            <p class="text-sm text-parchment/65 mt-2">{{ f.desc }}</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="max-w-6xl mx-auto px-6 py-14">
-      <div class="max-w-md mb-8">
-        <p class="font-mono text-xs uppercase tracking-wide text-amber-deep">From readers</p>
-        <h2 class="font-display font-semibold text-2xl mt-2">What people are saying.</h2>
-      </div>
-      <div class="grid sm:grid-cols-3 gap-5">
-        <blockquote v-for="t in testimonials" :key="t.name" class="border border-line rounded-card bg-white p-5 flex flex-col gap-3.5">
-          <StarRating :rating="5" :size="12" />
-          <p class="font-display text-[15.5px] leading-snug">&ldquo;{{ t.quote }}&rdquo;</p>
-          <footer class="flex items-center gap-2.5 mt-auto">
-            <span class="w-8 h-8 rounded-full bg-ink text-parchment flex items-center justify-center font-display font-semibold text-[13px] shrink-0">{{ t.name.charAt(0) }}</span>
-            <div>
-              <p class="text-[13px] font-semibold">{{ t.name }}</p>
-              <p class="text-xs text-ink-soft">{{ t.role }}</p>
-            </div>
-          </footer>
-        </blockquote>
-      </div>
-    </section>
-
-    <!-- Newsletter -->
-    <section class="max-w-6xl mx-auto px-6 pb-20">
-      <div class="bg-parchment-dim border border-line rounded-2xl p-8 sm:p-9 flex flex-col sm:flex-row items-center justify-between gap-7">
-        <div>
-          <p class="font-mono text-xs uppercase tracking-wide text-amber-deep">Stay in the loop</p>
-          <h2 class="font-display font-semibold text-2xl mt-2">New titles, straight to your inbox.</h2>
-          <p class="text-ink-soft text-sm mt-2 max-w-sm">One short email a month — new additions to the catalog, nothing else.</p>
-        </div>
-        <form class="flex gap-2.5 flex-wrap" @submit.prevent="subscribed = true">
-          <template v-if="!subscribed">
-            <input
-              v-model="email"
-              type="email"
-              placeholder="you@example.com"
-              required
-              aria-label="Email address"
-              class="min-w-[220px] rounded-card border border-line bg-white px-3.5 py-2.5 text-sm"
-            />
-            <button type="submit" class="rounded-card bg-ink text-parchment font-semibold text-sm px-5 py-2.5 hover:bg-ink-light transition">Subscribe</button>
-          </template>
-          <p v-else class="font-semibold text-sm text-sage">You're on the list — thanks for subscribing.</p>
-        </form>
-      </div>
-    </section>
+    <section class="mx-auto max-w-7xl px-6 py-16"><div class="flex flex-wrap items-end justify-between gap-4"><div><p class="font-mono text-xs uppercase tracking-[0.16em] text-amber-deep">Start exploring</p><h2 class="mt-2 font-display text-3xl font-semibold">Choose your learning shelf.</h2></div><NuxtLink to="/subjects" class="text-sm font-semibold text-amber-deep hover:underline">View every subject →</NuxtLink></div><div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"><NuxtLink v-for="subject in subjectCounts" :key="subject.slug" :to="`/subjects/${subject.slug}`" class="group rounded-2xl border border-line bg-white p-5 transition hover:-translate-y-1 hover:shadow-card"><div class="flex items-center justify-between"><span class="flex h-11 w-11 items-center justify-center rounded-xl" :style="{ background: subject.color + '18', color: subject.color }"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path :d="subject.icon" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg></span><span class="text-lg text-ink-soft transition group-hover:translate-x-1">→</span></div><p class="mt-7 font-display text-xl font-semibold">{{ subject.name }}</p><p class="mt-1 text-sm text-ink-soft">{{ subject.count }} titles to explore</p></NuxtLink></div></section>
+    <section class="bg-parchment-dim py-16"><div class="mx-auto max-w-7xl px-6"><div class="flex flex-wrap items-end justify-between gap-4"><div><p class="font-mono text-xs uppercase tracking-[0.16em] text-amber-deep">Reader favorites</p><h2 class="mt-2 font-display text-3xl font-semibold">Make space for a new perspective.</h2></div><NuxtLink to="/products" class="rounded-xl bg-ink px-5 py-3 text-sm font-semibold text-white hover:bg-ink-light">Browse all books</NuxtLink></div><div class="mt-8 grid gap-5 md:grid-cols-3"><BookCard v-for="book in featured" :key="book.id" :book="book" /></div></div></section>
+    <section class="mx-auto max-w-7xl px-6 py-16"><div class="grid overflow-hidden rounded-3xl bg-[#DDE9E2] lg:grid-cols-2"><img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1000&q=85" alt="Students learning together" class="h-64 w-full object-cover lg:h-full" /><div class="p-8 sm:p-12"><p class="font-mono text-xs uppercase tracking-[0.16em] text-sage">Made for the ETEC community</p><h2 class="mt-3 font-display text-3xl font-semibold">Study smarter. Share what you discover.</h2><p class="mt-4 max-w-md leading-relaxed text-ink-soft">Build your reading list, discover course-ready titles, and exchange ideas with the ETEC learning community.</p><NuxtLink to="/about" class="mt-7 inline-flex rounded-xl border border-ink px-5 py-3 text-sm font-semibold text-ink transition hover:bg-ink hover:text-white">Discover ETEC-LIBRARY</NuxtLink></div></div></section>
   </div>
 </template>

@@ -50,10 +50,7 @@ function onMobileLogout() {
     <div class="border-b border-line/80">
       <div class="mx-auto flex max-w-7xl items-center gap-8 px-6 py-4">
         <NuxtLink to="/" class="mr-auto flex shrink-0 items-center gap-2.5">
-          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
-            <path d="M2 5.5C5 4 9 4 13 5.5V21.5C9 20 5 20 2 21.5V5.5Z" fill="#14162B" />
-            <path d="M24 5.5C21 4 17 4 13 5.5V21.5C17 20 21 20 24 21.5V5.5Z" fill="#C9A227" />
-          </svg>
+        
           <span class="font-display text-2xl leading-none tracking-tight">ETEC-LIBRARY</span>
         </NuxtLink>
 

@@ -76,3 +76,21 @@ textarea:focus {
   outline: 2px solid #c9a227;
   outline-offset: 3px;
 }
+
+.dark {
+  color-scheme: dark;
+}
+
+.dark body {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+.dark .surface-card {
+  background: rgba(30, 41, 59, 0.9);
+  border-color: #334155;
+}
+
+.dark .page-eyebrow {
+  color: #fbbf24;
+}

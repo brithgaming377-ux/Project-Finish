@@ -19,9 +19,6 @@ const SESSION_KEY = 'etec-library:auth-session'
 const ACCOUNTS_KEY = 'etec-library:accounts'
 const SESSION_VERSION = 2
 
-// Change this value before sharing the project. For real security, validate it on a server.
-export const ADMIN_REGISTRATION_PASSWORD = 'ETEC-ADMIN-2026'
-
 function authState() {
   return useState<AuthUser | null>('auth-user', () => null)
 }
@@ -67,6 +64,7 @@ let hydrated = false
 export function useAuth() {
   const user = authState()
   const accounts = accountsState()
+  const adminAccess = useAdminAccess()
 
   if (import.meta.client && !hydrated) {
     hydrated = true
@@ -74,21 +72,16 @@ export function useAuth() {
     loadSession()
   }
 
-  function register(
-    name: string,
-    email: string,
-    password: string,
-    role: Role,
-    adminPassword = ''
-  ): AuthResult {
+  function register(name: string, email: string, password: string): AuthResult {
     const normalizedEmail = email.trim().toLowerCase()
     if (!name.trim() || !normalizedEmail || !password) return { ok: false, error: 'Complete all required fields.' }
     if (!normalizedEmail.includes('@')) return { ok: false, error: 'Enter a valid email address.' }
     if (password.length < 6) return { ok: false, error: 'Password must contain at least 6 characters.' }
     if (accounts.value.some((account) => account.email === normalizedEmail)) return { ok: false, error: 'An account already uses this email.' }
-    if (role === 'admin' && adminPassword !== ADMIN_REGISTRATION_PASSWORD) return { ok: false, error: 'The admin registration password is incorrect.' }
 
-    const account: StoredAccount = { name: name.trim(), email: normalizedEmail, password, role }
+    // Admin access is granted by the owner through the device-based admin config,
+    // never by self-registration. Every new account starts as a reader.
+    const account: StoredAccount = { name: name.trim(), email: normalizedEmail, password, role: 'user' }
     accounts.value = [...accounts.value, account]
     saveAccounts(accounts.value)
     user.value = { name: account.name, email: account.email, role: account.role }
@@ -109,8 +102,9 @@ export function useAuth() {
     saveSession(null)
   }
 
-  const isAdmin = computed(() => user.value?.role === 'admin')
+  const isAdmin = computed(() => isLoggedIn.value && adminAccess.isAdminDevice.value)
+  const isOwner = computed(() => isLoggedIn.value && adminAccess.isOwnerDevice.value)
   const isLoggedIn = computed(() => user.value !== null)
 
-  return { user, accounts, register, login, logout, isAdmin, isLoggedIn }
+  return { user, accounts, register, login, logout, isAdmin, isOwner, isLoggedIn }
 }

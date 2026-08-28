@@ -26,7 +26,8 @@ useHead(() => ({
   title: book.value ? `${book.value.title} — Marginalia` : 'Marginalia'
 }))
 
-const { isAdmin, isLoggedIn } = useAuth()
+const { isAdmin, isLoggedIn, user } = useAuth()
+const { submit, forUser } = useRequests()
 const {
   isSaved,
   isBorrowed,
@@ -39,6 +40,9 @@ const {
   state
 } = useLibrary()
 const { push: toast } = useToast()
+const myRequests = computed(() => (user.value ? forUser(user.value.email).value : []))
+const borrowRequest = computed(() => myRequests.value.find((request) => request.bookId === id.value && request.kind === 'borrow' && ['pending', 'approved'].includes(request.status)))
+const purchaseRequest = computed(() => myRequests.value.find((request) => request.bookId === id.value && request.kind === 'purchase' && ['pending', 'approved'].includes(request.status)))
 
 const activeTab = ref<'description' | 'contents' | 'reviews' | 'citation'>('description')
 const showExchangePanel = ref(false)
@@ -91,8 +95,8 @@ function onBorrow() {
       toast('No copies available right now.', 'error')
       return
     }
-    borrow(id.value)
-    toast('Borrowed — due back in 14 days.')
+    if (!submit('borrow', id.value, user.value!.name, user.value!.email)) return toast('You already have a request for this book.', 'error')
+    toast('Borrow request sent to the admin for approval.')
   })
 }
 
@@ -103,8 +107,8 @@ function onReturn() {
 
 function onBuy() {
   requireLogin(() => {
-    purchase(id.value)
-    toast(`Purchased for $${book.value!.price.toFixed(2)}.`)
+    if (!submit('purchase', id.value, user.value!.name, user.value!.email, book.value!.price)) return toast('You already have a request for this book.', 'error')
+    toast('Purchase request sent to the admin for approval.')
   })
 }
 
@@ -198,20 +202,20 @@ function onExchange(otherId: number) {
           <button
             class="rounded-card bg-amber text-ink font-semibold text-sm px-5 py-2.5 hover:bg-amber-deep transition disabled:opacity-50 disabled:cursor-not-allowed"
             type="button"
-            :disabled="isPurchased(book.id)"
+            :disabled="isPurchased(book.id) || !!purchaseRequest"
             @click="onBuy"
           >
-            {{ isPurchased(book.id) ? 'Purchased ✓' : 'Buy this book' }}
+            {{ isPurchased(book.id) || purchaseRequest?.status === 'approved' ? 'Purchased ✓' : purchaseRequest ? 'Purchase requested' : 'Buy this book' }}
           </button>
 
           <button
             v-if="!isBorrowed(book.id)"
             class="rounded-card bg-ink text-white font-semibold text-sm px-5 py-2.5 hover:bg-ink-light transition disabled:opacity-50 disabled:cursor-not-allowed"
             type="button"
-            :disabled="copiesLeft === 0"
+            :disabled="copiesLeft === 0 || !!borrowRequest"
             @click="onBorrow"
           >
-            {{ copiesLeft > 0 ? 'Borrow this book' : 'Join waitlist' }}
+            {{ borrowRequest?.status === 'approved' ? 'Borrow approved ✓' : borrowRequest ? 'Borrow requested' : copiesLeft > 0 ? 'Borrow this book' : 'Join waitlist' }}
           </button>
           <button
             v-else

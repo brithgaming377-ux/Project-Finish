@@ -1,5 +1,5 @@
 <script setup lang="ts">
-definePageMeta({ middleware: 'admin' })
+definePageMeta({ middleware: 'admin', layout: 'admin' })
 
 import { useCatalog } from '~/composables/useCatalog'
 import type { NewBookInput } from '~/composables/useCatalog'
@@ -41,42 +41,24 @@ function onDelete() {
 </script>
 
 <template>
-  <div v-if="book" class="page-shell max-w-4xl">
-    <nav class="flex items-center gap-2 text-xs text-ink-soft mb-6">
-      <NuxtLink to="/admin" class="hover:text-ink hover:underline">Admin</NuxtLink>
-      <span>/</span>
-      <span class="text-ink font-semibold">Edit &ldquo;{{ book.title }}&rdquo;</span>
+  <div v-if="book" class="max-w-4xl mx-auto space-y-6">
+    <nav class="flex items-center gap-2 text-xs text-ink-soft dark:text-slate-400">
+      <NuxtLink to="/admin" class="hover:text-ink dark:hover:text-white hover:underline font-medium">Admin</NuxtLink>
+      <span class="text-slate-300 dark:text-slate-600">/</span>
+      <span class="text-ink dark:text-white font-medium">Edit &ldquo;{{ book.title }}&rdquo;</span>
     </nav>
-
-    <h1 class="page-title mb-8">Edit book</h1>
-
-    <div class="surface-card p-6 sm:p-7">
+    <div>
+      <h1 class="font-display text-3xl font-semibold text-ink dark:text-white tracking-tight">Edit book</h1>
+      <p class="text-sm text-ink-soft dark:text-slate-400 mt-2">Update the details for this title in the catalog.</p>
+    </div>
+    <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm p-6 sm:p-8">
       <AdminBookForm :initial="book" submit-label="Save changes" @submit="onSubmit">
         <template #extra-actions>
-          <button
-            v-if="!confirmingDelete"
-            type="button"
-            class="text-rose font-semibold text-sm ml-auto hover:underline"
-            @click="confirmingDelete = true"
-          >
-            Delete this book
-          </button>
+          <button v-if="!confirmingDelete" type="button" class="text-rose font-semibold text-sm ml-auto hover:underline underline-offset-2" @click="confirmingDelete = true">Delete this book</button>
           <div v-else class="flex items-center gap-3 ml-auto">
-            <span class="text-xs text-ink-soft">Are you sure?</span>
-            <button
-              type="button"
-              class="text-rose font-semibold text-sm hover:underline"
-              @click="onDelete"
-            >
-              Yes, delete
-            </button>
-            <button
-              type="button"
-              class="text-ink-soft text-sm hover:underline"
-              @click="confirmingDelete = false"
-            >
-              Cancel
-            </button>
+            <span class="text-xs text-ink-soft dark:text-slate-400">Are you sure?</span>
+            <button type="button" class="text-rose font-semibold text-sm hover:underline underline-offset-2" @click="onDelete">Yes, delete</button>
+            <button type="button" class="text-xs text-ink-soft dark:text-slate-400 hover:text-ink dark:hover:text-white" @click="confirmingDelete = false">Cancel</button>
           </div>
         </template>
       </AdminBookForm>

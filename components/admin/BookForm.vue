@@ -18,12 +18,14 @@ const form = reactive<NewBookInput>({
   year: props.initial?.year ?? new Date().getFullYear(),
   price: props.initial?.price ?? 12.99,
   format: props.initial?.format ?? 'PDF',
+  fileUrl: props.initial?.fileUrl ?? '',
   publisher: props.initial?.publisher ?? '',
   language: props.initial?.language ?? 'English',
   description: props.initial?.description ?? '',
   spineColor: props.initial?.spineColor ?? '#1B1F3B',
   coverUrl: props.initial?.coverUrl ?? '',
-  exchangeable: props.initial?.exchangeable ?? true
+  exchangeable: props.initial?.exchangeable ?? true,
+  requiresBorrow: props.initial?.requiresBorrow ?? false
 })
 
 const swatches = ['#1B1F3B', '#4A4E69', '#6B8F71', '#C97F1E', '#8C5E3C', '#3F6C51', '#C9A227']
@@ -147,6 +149,10 @@ function onSubmit() {
         <input v-model="form.exchangeable" type="checkbox" class="w-4 h-4" />
         <span>Exchangeable</span>
       </label>
+      <label class="flex items-end gap-2 text-[13px] font-semibold pb-2.5">
+        <input v-model="form.requiresBorrow" type="checkbox" class="w-4 h-4" />
+        <span>Requires borrow to read</span>
+      </label>
     </div>
 
     <div class="grid sm:grid-cols-2 gap-4">
@@ -210,6 +216,17 @@ function onSubmit() {
         </div>
       </div>
     </div>
+
+    <label class="flex flex-col gap-1.5 text-[13px] font-semibold">
+      <span>Book file URL (PDF/EPUB)</span>
+      <input
+        v-model.trim="form.fileUrl"
+        type="url"
+        placeholder="https://example.com/book.pdf"
+        class="text-sm font-normal px-3 py-2.5 rounded-card border border-line bg-white"
+      />
+      <span class="text-xs font-normal text-ink-soft">Direct link to the book file that opens when clicking "Read now".</span>
+    </label>
 
     <div class="flex flex-col gap-1.5 text-[13px] font-semibold">
       <span>Cover color</span>

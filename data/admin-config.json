@@ -1,5 +1,7 @@
-﻿{
-  "ownerDeviceId": "",
-  "admins": [],
+{
+  "ownerEmail": "brithgaming377@gmail.com",
+  "admins": [
+    "cchingerr8@gmail.com"
+  ],
   "requests": []
 }

@@ -5,7 +5,7 @@ import { useAuth } from '~/composables/useAuth'
 
 const router = useRouter()
 const { user, isAdmin, logout } = useAuth()
-const { isAdminDevice, hasPendingRequest, isClaimed, requestAdmin } = useAdminAccess()
+const { hasPendingRequest, isConfigured } = useAdminAccess()
 const { getById, updateBook } = useCatalog()
 const { state, returnBook } = useLibrary()
 const { requests, updateStatus } = useRequests()
@@ -13,19 +13,18 @@ const { push: toast } = useToast()
 
 if (import.meta.client && !user.value) {
   router.push({ path: '/login', query: { redirect: '/account' } })
-} else if (import.meta.client && isAdmin.value) {
+} else if (import.meta.client && user.value?.role === 'admin') {
   router.replace('/admin')
 }
 
 const savedBooks = computed(() => state.value.saved.map((id) => getById(id)).filter(Boolean))
-const approvedBorrowRequests = computed(() => requests.value.filter((request) => request.userEmail === user.value?.email && request.kind === 'borrow' && request.status === 'approved'))
-const borrowedBooks = computed(() => [
-  ...state.value.borrowed.map((r) => ({ ...r, book: getById(r.bookId) })),
-  ...approvedBorrowRequests.value.map((request) => ({ bookId: request.bookId, borrowedOn: request.processedOn || request.requestedOn, dueOn: new Date(new Date(request.processedOn || request.requestedOn).getTime() + 14 * 86400000).toISOString().slice(0, 10), requestId: request.id, book: getById(request.bookId) }))
-].filter((r) => r.book))
+const userBorrowRequests = computed(() => requests.value.filter((request) => request.userEmail === user.value?.email && request.kind === 'borrow'))
+const userPurchaseRequests = computed(() => requests.value.filter((request) => request.userEmail === user.value?.email && request.kind === 'purchase'))
+const approvedBorrowRequests = computed(() => userBorrowRequests.value.filter((request) => request.status === 'approved'))
+const borrowedBooks = computed(() => approvedBorrowRequests.value.map((request) => ({ bookId: request.bookId, borrowedOn: request.processedOn || request.requestedOn, dueOn: new Date(new Date(request.processedOn || request.requestedOn).getTime() + 14 * 86400000).toISOString().slice(0, 10), requestId: request.id, book: getById(request.bookId) })).filter((r) => r.book))
 const purchasedBooks = computed(() => {
-  const approved = requests.value.filter((request) => request.userEmail === user.value?.email && request.kind === 'purchase' && request.status === 'approved').map((request) => request.bookId)
-  return [...new Set([...state.value.purchased, ...approved])].map((id) => getById(id)).filter(Boolean)
+  const approved = userPurchaseRequests.value.filter((request) => request.status === 'approved').map((request) => request.bookId)
+  return [...new Set(approved)].map((id) => getById(id)).filter(Boolean)
 })
 
 function daysLeft(dueOn: string) {
@@ -52,21 +51,18 @@ function onLogout() {
   router.push('/')
 }
 
-const showRequest = ref(false)
-const requestName = ref('')
-const requestEmail = ref('')
-const requestBusy = ref(false)
+const claimBusy = ref(false)
 
-async function onSubmitRequest() {
-  requestBusy.value = true
+async function onClaim() {
+  claimBusy.value = true
   try {
-    await requestAdmin(requestName.value || user.value?.name || '', requestEmail.value || user.value?.email || '')
-    showRequest.value = false
-    toast('Admin request sent. The owner must approve it.')
+    await claim(user.value?.email || '')
+    toast('This account is now the library owner.')
+    router.replace('/admin')
   } catch (err: any) {
-    toast(err?.data?.statusMessage || 'Could not send request.', 'error')
+    toast(err?.data?.statusMessage || 'Could not claim ownership.', 'error')
   } finally {
-    requestBusy.value = false
+    claimBusy.value = false
   }
 }
 </script>
@@ -105,28 +101,21 @@ async function onSubmitRequest() {
       </span>
     </section>
 
-    <section v-if="!isAdmin && !isAdminDevice && isClaimed && !hasPendingRequest" class="surface-card mb-6 p-5">
+    <section v-if="!isAdmin && !isConfigured && !isOwnerDevice" class="surface-card mb-6 p-5 bg-amber/5 border-amber/40">
       <div class="flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <p class="text-sm font-semibold">Want admin access?</p>
-          <p class="text-[13.5px] text-ink-soft">Admin rights are approved by the owner. Send a request and wait for approval.</p>
+          <p class="text-sm font-semibold">Become the library owner</p>
+          <p class="text-[13.5px] text-ink-soft">No owner is set yet. Claim this account as the sole admin. You can then approve other admin requests.</p>
         </div>
         <button
           type="button"
-          class="rounded-card border border-ink text-ink text-sm font-semibold px-5 py-2.5 hover:bg-ink hover:text-white transition"
-          @click="showRequest = true"
+          class="rounded-card bg-amber-deep text-white text-sm font-semibold px-5 py-2.5 hover:opacity-90 transition"
+          :disabled="claimBusy"
+          @click="onClaim"
         >
-          Request admin access
+          {{ claimBusy ? 'Claiming…' : 'Claim ownership' }}
         </button>
       </div>
-      <form v-if="showRequest" class="mt-4 flex flex-col gap-3 border-t border-line pt-4" @submit.prevent="onSubmitRequest">
-        <label class="flex flex-col gap-1.5 text-[13px] font-semibold"><span>Name</span><input v-model.trim="requestName" type="text" :placeholder="user?.name" class="rounded-card border border-line bg-parchment-dim px-3 py-2 text-sm font-normal" /></label>
-        <label class="flex flex-col gap-1.5 text-[13px] font-semibold"><span>Email</span><input v-model.trim="requestEmail" type="email" :placeholder="user?.email" class="rounded-card border border-line bg-parchment-dim px-3 py-2 text-sm font-normal" /></label>
-        <div class="flex gap-2">
-          <button type="submit" class="rounded-card bg-ink px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-ink-light" :disabled="requestBusy">{{ requestBusy ? 'Sending…' : 'Send request' }}</button>
-          <button type="button" class="rounded-card border border-line px-4 py-2.5 text-sm font-semibold text-ink-soft" @click="showRequest = false">Cancel</button>
-        </div>
-      </form>
     </section>
 
     <section v-else-if="hasPendingRequest" class="surface-card mb-6 p-5">

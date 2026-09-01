@@ -1,19 +1,19 @@
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-  const deviceId = String(body?.deviceId || '')
+  const email = String(body?.email || '').trim().toLowerCase()
 
-  if (!deviceId) {
-    throw createError({ statusCode: 400, statusMessage: 'deviceId is required' })
+  if (!email.includes('@')) {
+    throw createError({ statusCode: 400, statusMessage: 'email is required' })
   }
 
   const config = await readConfig()
 
-  if (config.ownerDeviceId) {
-    throw createError({ statusCode: 409, statusMessage: 'Ownership has already been claimed on another device' })
+  if (config.ownerEmail) {
+    throw createError({ statusCode: 409, statusMessage: 'Ownership has already been claimed' })
   }
 
-  config.ownerDeviceId = deviceId
+  config.ownerEmail = email
   await writeConfig(config)
 
-  return { ok: true, ownerDeviceId: deviceId }
+  return { ok: true, ownerEmail: email }
 })

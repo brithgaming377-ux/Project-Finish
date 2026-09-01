@@ -16,30 +16,10 @@ interface AuthResult {
 }
 
 const SESSION_KEY = 'etec-library:auth-session'
-const ACCOUNTS_KEY = 'etec-library:accounts'
 const SESSION_VERSION = 2
 
 function authState() {
   return useState<AuthUser | null>('auth-user', () => null)
-}
-
-function accountsState() {
-  return useState<StoredAccount[]>('registered-accounts', () => [])
-}
-
-function loadAccounts() {
-  if (!import.meta.client) return
-  try {
-    const raw = localStorage.getItem(ACCOUNTS_KEY)
-    if (raw) accountsState().value = JSON.parse(raw) as StoredAccount[]
-  } catch {
-    accountsState().value = []
-  }
-}
-
-function saveAccounts(accounts: StoredAccount[]) {
-  if (!import.meta.client) return
-  localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(accounts))
 }
 
 function loadSession() {
@@ -63,38 +43,64 @@ let hydrated = false
 
 export function useAuth() {
   const user = authState()
-  const accounts = accountsState()
   const adminAccess = useAdminAccess()
 
   if (import.meta.client && !hydrated) {
     hydrated = true
-    loadAccounts()
     loadSession()
   }
 
-  function register(name: string, email: string, password: string): AuthResult {
+  async function tryAutoClaim(email: string) {
+    try {
+      await adminAccess.claim(email)
+    } catch {
+      // Owner already set (409) or config not reachable — ignore.
+    }
+  }
+
+  async function register(name: string, email: string, password: string): Promise<AuthResult> {
     const normalizedEmail = email.trim().toLowerCase()
     if (!name.trim() || !normalizedEmail || !password) return { ok: false, error: 'Complete all required fields.' }
     if (!normalizedEmail.includes('@')) return { ok: false, error: 'Enter a valid email address.' }
     if (password.length < 6) return { ok: false, error: 'Password must contain at least 6 characters.' }
-    if (accounts.value.some((account) => account.email === normalizedEmail)) return { ok: false, error: 'An account already uses this email.' }
 
-    // Admin access is granted by the owner through the device-based admin config,
-    // never by self-registration. Every new account starts as a reader.
-    const account: StoredAccount = { name: name.trim(), email: normalizedEmail, password, role: 'user' }
-    accounts.value = [...accounts.value, account]
-    saveAccounts(accounts.value)
-    user.value = { name: account.name, email: account.email, role: account.role }
-    saveSession(user.value)
-    return { ok: true }
+    try {
+      const result = await $fetch<{ ok: boolean; already?: boolean }>('/api/accounts', {
+        method: 'POST',
+        body: { name: name.trim(), email: normalizedEmail, password }
+      })
+
+      if (result.already) return { ok: false, error: 'An account already uses this email.' }
+
+      user.value = { name: name.trim(), email: normalizedEmail, role: 'user' }
+      saveSession(user.value)
+
+      await tryAutoClaim(normalizedEmail)
+      return { ok: true }
+    } catch (err: any) {
+      return { ok: false, error: err?.data?.statusMessage || 'Registration failed.' }
+    }
   }
 
-  function login(email: string, password: string): AuthResult {
-    const account = accounts.value.find((item) => item.email === email.trim().toLowerCase())
-    if (!account || account.password !== password) return { ok: false, error: 'Email or password is incorrect.' }
-    user.value = { name: account.name, email: account.email, role: account.role }
-    saveSession(user.value)
-    return { ok: true }
+  async function login(email: string, password: string): Promise<AuthResult> {
+    const normalizedEmail = email.trim().toLowerCase()
+
+    try {
+      const result = await $fetch<{ accounts: StoredAccount[] }>('/api/accounts/all')
+      const account = result.accounts.find((item) => item.email === normalizedEmail)
+
+      if (!account || account.password !== password) {
+        return { ok: false, error: 'Email or password is incorrect.' }
+      }
+
+      user.value = { name: account.name, email: account.email, role: account.role }
+      saveSession(user.value)
+
+      await tryAutoClaim(account.email)
+      return { ok: true }
+    } catch {
+      return { ok: false, error: 'Unable to reach server. Try again.' }
+    }
   }
 
   function logout() {
@@ -102,9 +108,9 @@ export function useAuth() {
     saveSession(null)
   }
 
-  const isAdmin = computed(() => isLoggedIn.value && adminAccess.isAdminDevice.value)
-  const isOwner = computed(() => isLoggedIn.value && adminAccess.isOwnerDevice.value)
+  const isAdmin = computed(() => isLoggedIn.value && (user.value?.role === 'admin' || adminAccess.isAdminDevice.value))
+  const isOwner = computed(() => isLoggedIn.value && (user.value?.role === 'admin' || adminAccess.isOwnerDevice.value))
   const isLoggedIn = computed(() => user.value !== null)
 
-  return { user, accounts, register, login, logout, isAdmin, isOwner, isLoggedIn }
+  return { user, register, login, logout, isAdmin, isOwner, isLoggedIn }
 }

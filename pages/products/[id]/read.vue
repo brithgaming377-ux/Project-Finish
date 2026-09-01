@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ArrowLeft, Minus, Plus, Type, AlignLeft } from '@lucide/vue'
 import { useCatalog } from '~/composables/useCatalog'
 import { useLibrary } from '~/composables/useLibrary'
 import { useAuth } from '~/composables/useAuth'
@@ -15,8 +16,14 @@ if (!book.value) {
 }
 
 const { isLoggedIn, user } = useAuth()
+const { isBorrowed, isPurchased } = useLibrary()
 if (import.meta.client && !isLoggedIn.value) {
   router.push({ path: '/login', query: { redirect: route.fullPath } })
+}
+
+// Redirect to book detail if book requires borrowing and user hasn't borrowed/purchased it
+if (import.meta.client && book.value?.requiresBorrow && !isBorrowed(id.value) && !isPurchased(id.value)) {
+  router.replace(`/products/${id.value}`)
 }
 
 useHead(() => ({ title: book.value ? `Reading — ${book.value.title}` : 'Reading' }))
@@ -72,72 +79,61 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
       <div class="max-w-6xl mx-auto px-5 py-3 flex items-center gap-4 flex-wrap">
         <NuxtLink
           :to="`/products/${book.id}`"
-          class="flex items-center gap-1.5 text-sm text-white/70 hover:text-white shrink-0"
+          class="flex items-center gap-1.5 text-sm text-white/70 hover:text-white shrink-0 transition-colors"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M15 19l-7-7 7-7"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <ArrowLeft class="h-4 w-4" />
           Exit reader
         </NuxtLink>
+
+        <div class="h-4 w-px bg-white/15 hidden sm:block" />
 
         <p class="font-display font-semibold text-sm truncate max-w-[240px]">{{ book.title }}</p>
 
         <div class="flex items-center gap-2 ml-auto">
-          <button
-            class="p-1.5 rounded hover:bg-white/10"
-            type="button"
-            aria-label="Zoom out"
-            @click="zoom = Math.max(70, zoom - 10)"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-            </svg>
-          </button>
-          <span class="font-mono text-xs w-10 text-center">{{ zoom }}%</span>
-          <button
-            class="p-1.5 rounded hover:bg-white/10"
-            type="button"
-            aria-label="Zoom in"
-            @click="zoom = Math.min(150, zoom + 10)"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M12 5v14M5 12h14"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-            </svg>
-          </button>
+          <div class="flex items-center rounded-lg bg-white/5 p-0.5">
+            <button
+              class="p-1.5 rounded hover:bg-white/10 transition-colors"
+              type="button"
+              aria-label="Zoom out"
+              @click="zoom = Math.max(70, zoom - 10)"
+            >
+              <Minus class="h-4 w-4" />
+            </button>
+            <span class="font-mono text-xs w-12 text-center select-none">{{ zoom }}%</span>
+            <button
+              class="p-1.5 rounded hover:bg-white/10 transition-colors"
+              type="button"
+              aria-label="Zoom in"
+              @click="zoom = Math.min(150, zoom + 10)"
+            >
+              <Plus class="h-4 w-4" />
+            </button>
+          </div>
 
           <div class="w-px h-5 bg-white/15 mx-1" />
 
-          <button
-            class="font-mono text-xs px-2.5 py-1 rounded"
-            :class="fontFamily === 'serif' ? 'bg-white/15' : 'hover:bg-white/10'"
-            type="button"
-            @click="fontFamily = 'serif'"
-          >
-            Serif
-          </button>
-          <button
-            class="font-mono text-xs px-2.5 py-1 rounded"
-            :class="fontFamily === 'sans' ? 'bg-white/15' : 'hover:bg-white/10'"
-            type="button"
-            @click="fontFamily = 'sans'"
-          >
-            Sans
-          </button>
+          <div class="flex items-center rounded-lg bg-white/5 p-0.5">
+            <button
+              class="font-mono text-xs px-2.5 py-1.5 rounded flex items-center gap-1.5 transition-colors"
+              :class="fontFamily === 'serif' ? 'bg-white/15 text-white' : 'text-white/70 hover:text-white'"
+              type="button"
+              @click="fontFamily = 'serif'"
+            >
+              <Type class="h-3.5 w-3.5" /> Serif
+            </button>
+            <button
+              class="font-mono text-xs px-2.5 py-1.5 rounded flex items-center gap-1.5 transition-colors"
+              :class="fontFamily === 'sans' ? 'bg-white/15 text-white' : 'text-white/70 hover:text-white'"
+              type="button"
+              @click="fontFamily = 'sans'"
+            >
+              <AlignLeft class="h-3.5 w-3.5" /> Sans
+            </button>
+          </div>
 
           <div class="w-px h-5 bg-white/15 mx-1" />
 
-          <span class="font-mono text-xs text-white/60"
+          <span class="font-mono text-xs text-white/60 tabular-nums"
             >{{ pageIndex + 1 }} / {{ totalPages }}</span
           >
         </div>
@@ -145,9 +141,9 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
     </div>
 
     <!-- Page -->
-    <div class="flex-1 flex items-center justify-center px-6 py-10 overflow-auto">
+    <div class="flex-1 flex items-center justify-center px-6 py-10 overflow-auto bg-ink/95">
       <div
-        class="bg-white rounded shadow-2xl w-full max-w-2xl px-10 py-14 sm:px-14"
+        class="bg-white rounded-lg shadow-cover w-full max-w-2xl px-10 py-14 sm:px-14 border border-white/10"
         :style="{ transform: `scale(${zoom / 100})`, transformOrigin: 'top center' }"
       >
         <p class="font-mono text-[11px] text-ink-soft uppercase tracking-wide mb-6">
@@ -172,20 +168,12 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
     <!-- Bottom nav -->
     <div class="bg-ink border-t border-white/10 px-5 py-3 flex items-center justify-between">
       <button
-        class="flex items-center gap-1.5 text-white text-sm font-semibold disabled:opacity-30 disabled:cursor-not-allowed"
+        class="flex items-center gap-1.5 text-white text-sm font-semibold disabled:opacity-30 disabled:cursor-not-allowed hover:enabled:text-amber transition-colors"
         type="button"
         :disabled="pageIndex === 0"
         @click="prev"
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M15 19l-7-7 7-7"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <ArrowLeft class="h-4 w-4" />
         Previous
       </button>
 
@@ -194,26 +182,18 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
         min="0"
         :max="totalPages - 1"
         :value="pageIndex"
-        class="mx-4 flex-1 max-w-md accent-amber"
+        class="mx-4 flex-1 max-w-md accent-amber h-1.5 rounded-full appearance-none bg-white/10 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-amber [&::-webkit-slider-thumb]:cursor-pointer"
         @input="goTo(Number(($event.target as HTMLInputElement).value))"
       />
 
       <button
-        class="flex items-center gap-1.5 text-white text-sm font-semibold disabled:opacity-30 disabled:cursor-not-allowed"
+        class="flex items-center gap-1.5 text-white text-sm font-semibold disabled:opacity-30 disabled:cursor-not-allowed hover:enabled:text-amber transition-colors"
         type="button"
         :disabled="pageIndex === totalPages - 1"
         @click="next"
       >
         Next
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M9 5l7 7-7 7"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <ArrowLeft class="h-4 w-4 rotate-180" />
       </button>
     </div>
   </div>

@@ -20,11 +20,6 @@ function onSearch() {
 <template>
   <div>
     <section class="relative isolate overflow-hidden bg-ink py-20 sm:py-28">
-      <img
-        src="https://www.macewan.ca/academics/programs/library-and-information-technology/lit-apply-today-img-top.jpg"
-        alt="Illustration of a library"
-        class="absolute inset-0 -z-20 h-full w-full object-cover opacity-35"
-      />
       <div class="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/90 to-ink/45" />
       <div class="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
         <div class="max-w-2xl text-white">
@@ -168,12 +163,7 @@ function onSearch() {
       </div>
     </section>
     <section class="mx-auto max-w-7xl px-6 py-16">
-      <div class="grid overflow-hidden rounded-3xl bg-[#DDE9E2] lg:grid-cols-2">
-        <img
-          src="https://res.cloudinary.com/jerrick/image/upload/d_642250b563292b35f27461a7.png,f_jpg,fl_progressive,q_auto,w_1024/6415525708ea69001e41b4a6.jpg"
-          alt="Illustration of students learning together"
-          class="h-64 w-full object-cover lg:h-full"
-        />
+      <div class="grid overflow-hidden rounded-3xl bg-[#DDE9E2]">
         <div class="p-8 sm:p-12">
           <p class="font-mono text-xs uppercase tracking-[0.16em] text-sage">
             Made for the ETEC community

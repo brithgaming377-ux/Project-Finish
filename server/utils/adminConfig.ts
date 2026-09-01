@@ -2,14 +2,13 @@ import { promises as fs } from 'fs'
 import { join } from 'path'
 
 export interface AdminRequest {
-  deviceId: string
-  name: string
   email: string
+  name: string
   requestedOn: string
 }
 
 export interface AdminConfig {
-  ownerDeviceId: string
+  ownerEmail: string
   admins: string[]
   requests: AdminRequest[]
 }
@@ -21,12 +20,12 @@ export async function readConfig(): Promise<AdminConfig> {
     const raw = await fs.readFile(CONFIG_PATH, 'utf8')
     const parsed = JSON.parse(raw)
     return {
-      ownerDeviceId: parsed.ownerDeviceId || '',
+      ownerEmail: parsed.ownerEmail || '',
       admins: Array.isArray(parsed.admins) ? parsed.admins : [],
       requests: Array.isArray(parsed.requests) ? parsed.requests : []
     }
   } catch {
-    return { ownerDeviceId: '', admins: [], requests: [] }
+    return { ownerEmail: '', admins: [], requests: [] }
   }
 }
 

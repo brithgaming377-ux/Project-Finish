@@ -1,7 +1,14 @@
 <script setup lang="ts">
 definePageMeta({ middleware: 'admin', layout: 'admin' })
-import { useCatalog } from '~/composables/useCatalog'
-import { getCoverUrl, type Book } from '~/data/books'
+import {
+  Search,
+  Upload,
+  Download,
+  BookOpen,
+  BookCheck,
+  AlertTriangle,
+  Package
+} from '@lucide/vue'
 
 const { books, importBooks } = useCatalog()
 const { push: toast } = useToast()

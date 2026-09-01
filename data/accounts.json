@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Rith Kong",
+    "email": "ngki5093@gmail.com",
+    "password": "password123",
+    "role": "admin",
+    "createdOn": "2026-08-29"
+  },
+  {
+    "name": "Sok Dara",
+    "email": "sophearithang8@gmail.com",
+    "password": "password123",
+    "role": "user",
+    "createdOn": "2026-08-29"
+  },
+  {
+    "name": "Mai Sokkong",
+    "email": "kkh70096@gmail.com",
+    "password": "password123",
+    "role": "admin",
+    "createdOn": "2026-08-29"
+  },
+  {
+    "name": "Thy Panha",
+    "email": "cchingerr8@gmail.com",
+    "password": "password123",
+    "role": "user",
+    "createdOn": "2026-08-29"
+  },
+  {
+    "name": "Ahh Dam",
+    "email": "maisokkong69@gmail.com",
+    "password": "password123",
+    "role": "user",
+    "createdOn": "2026-08-31"
+  },
+  {
+    "name": "BunHeng",
+    "email": "angbunheng4227@gmail.com",
+    "password": "password123",
+    "role": "user",
+    "createdOn": "2026-08-31"
+  }
+]

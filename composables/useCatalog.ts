@@ -28,7 +28,9 @@ export interface NewBookInput {
   description: string
   spineColor: string
   coverUrl?: string
+  fileUrl?: string
   exchangeable: boolean
+  requiresBorrow: boolean
 }
 
 function catalogState() {
@@ -180,6 +182,7 @@ export function useCatalog() {
       publisher: input.publisher,
       language: input.language,
       format: input.format,
+      fileUrl: input.fileUrl,
       isbn: `978-${(1000000000 + id * 7654321).toString().slice(0, 9)}-${id % 10}`,
       fileSizeMb: Math.round((input.pages / 90) * 10) / 10,
       readingTimeHours: Math.round((input.pages / 45) * 10) / 10,
@@ -187,6 +190,7 @@ export function useCatalog() {
       edition: 1,
       price: input.price,
       exchangeable: input.exchangeable,
+      requiresBorrow: input.requiresBorrow,
       rating: 4,
       ratingsCount: 0,
       reviews: [],

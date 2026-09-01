@@ -31,6 +31,7 @@ export interface Book {
   publisher: string
   language: string
   format: string
+  fileUrl?: string
   isbn: string
   fileSizeMb: number
   readingTimeHours: number
@@ -38,10 +39,12 @@ export interface Book {
   edition: number
   price: number
   exchangeable: boolean
+  requiresBorrow: boolean
   rating: number
   ratingsCount: number
   reviews: Review[]
   availability: Availability
+  pdfUrl?: string
 }
 
 export const categories = [
@@ -71,7 +74,9 @@ export function getCoverUrl(category: string): string {
 // `books.json` is the single catalog source. Local covers keep the UI usable offline.
 export const books = (raw as Book[]).map((book) => ({
   ...book,
-  coverUrl: book.coverUrl || getCoverUrl(book.category)
+  coverUrl: book.coverUrl || getCoverUrl(book.category),
+  requiresBorrow: book.requiresBorrow ?? false,
+  fileUrl: book.fileUrl || ''
 }))
 
 export function formatYear(year: number): string {

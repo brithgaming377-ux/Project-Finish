@@ -119,6 +119,12 @@ const swappableBooks = computed(() =>
   )
 )
 
+const canRead = computed(() => {
+  if (!book.value) return false
+  if (!book.value.requiresBorrow) return true
+  return isBorrowed(book.value.id) || isPurchased(book.value.id)
+})
+
 function onExchange(otherId: number) {
   exchange(otherId, id.value)
   toast('Exchanged successfully.')
@@ -237,7 +243,7 @@ function onExchange(otherId: number) {
               type="button"
               @click="onSave"
             >
-              {{ isSaved(book.id) ? 'Saved ✓' : 'Save' }}
+              {{ isSaved(book.id) ? 'Favorited ♡' : 'Favorites' }}
             </button>
             <button
               v-if="book.exchangeable"
@@ -249,7 +255,26 @@ function onExchange(otherId: number) {
             </button>
           </div>
 
+          <a
+            v-if="canRead && book.fileUrl"
+            :href="book.fileUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-card border border-amber-deep text-amber-deep font-semibold text-sm px-5 py-2.5 text-center hover:bg-amber hover:text-ink hover:border-amber transition flex items-center justify-center gap-2"
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Read now
+          </a>
           <NuxtLink
+            v-else-if="canRead"
             :to="`/products/${book.id}/read`"
             class="rounded-card border border-amber-deep text-amber-deep font-semibold text-sm px-5 py-2.5 text-center hover:bg-amber hover:text-ink hover:border-amber transition flex items-center justify-center gap-2"
           >
@@ -264,6 +289,21 @@ function onExchange(otherId: number) {
             </svg>
             Read now
           </NuxtLink>
+          <p
+            v-else
+            class="rounded-card border border-line text-ink-soft text-sm px-5 py-2.5 text-center flex items-center justify-center gap-2"
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 15v2m0 0v3m0-3h3m-3 0H9m3-12a8.967 8.967 0 00-6 2.292c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Borrow to read
+          </p>
         </div>
 
         <!-- Exchange panel -->

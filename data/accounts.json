@@ -24,7 +24,7 @@
     "name": "Thy Panha",
     "email": "cchingerr8@gmail.com",
     "password": "password123",
-    "role": "user",
+    "role": "admin",
     "createdOn": "2026-08-29"
   },
   {
@@ -40,5 +40,26 @@
     "password": "password123",
     "role": "user",
     "createdOn": "2026-08-31"
+  },
+  {
+    "name": "Seyha",
+    "email": "seyha123@gmail.com",
+    "password": "@abc123",
+    "role": "user",
+    "createdOn": "2026-09-01"
+  },
+  {
+    "name": "Ang Sopharith",
+    "email": "brithgaming377@gmail.com",
+    "password": "@Rith090107",
+    "role": "super-admin",
+    "createdOn": "2026-09-01"
+  },
+  {
+    "name": "Makara",
+    "email": "makara123@gmail.com",
+    "password": "@qr123",
+    "role": "user",
+    "createdOn": "2026-09-01"
   }
 ]

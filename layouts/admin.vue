@@ -23,11 +23,11 @@ import {
 } from '@lucide/vue'
 const navItems = [
   { label: 'Dashboard', to: '/admin', icon: LayoutDashboard, group: 'main' },
-  { label: 'All Books', to: '/admin/inventory', icon: BookOpen, group: 'books' },
+  { label: 'All Books', to: '/admin/books', icon: BookOpen, group: 'books' },
   { label: 'Categories', to: '/admin/categories', icon: FolderOpen, group: 'books' },
   { label: 'Authors', to: '/admin/authors', icon: PenLine, group: 'books' },
-  { label: 'Users', to: '/admin/readers', icon: Users, group: 'users' },
-  { label: 'Borrowed', to: '/admin/circulation', icon: BookMarked, group: 'circulation' },
+  { label: 'Users', to: '/admin/users', icon: Users, group: 'users' },
+  { label: 'Borrowed', to: '/admin/borrowed', icon: BookMarked, group: 'circulation' },
   { label: 'Returned', to: '/admin/returned', icon: BookCheck, group: 'circulation' },
   { label: 'Overdue', to: '/admin/overdue', icon: AlertCircle, group: 'circulation' },
   { label: 'Statistics', to: '/admin/statistics', icon: BarChart3, group: 'reports' },

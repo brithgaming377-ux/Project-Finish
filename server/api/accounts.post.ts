@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     return { ok: true, already: true }
   }
 
-  accounts.push({ name, email, password, role: 'user', phone: '', gender: '', dateOfBirth: '', address: '', studentId: '', major: '', year: '', createdOn: new Date().toISOString().slice(0, 10) })
+  accounts.push({ name, email, password, role: 'user', createdOn: new Date().toISOString().slice(0, 10) })
   await writeAccounts(accounts)
 
   return { ok: true }

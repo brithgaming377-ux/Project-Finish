@@ -1,4 +1,4 @@
-export type Role = 'admin' | 'user'
+export type Role = 'super-admin' | 'admin' | 'user'
 
 export interface AuthUser {
   name: string
@@ -108,8 +108,8 @@ export function useAuth() {
     saveSession(null)
   }
 
-  const isAdmin = computed(() => isLoggedIn.value && (user.value?.role === 'admin' || adminAccess.isAdminDevice.value))
-  const isOwner = computed(() => isLoggedIn.value && (user.value?.role === 'admin' || adminAccess.isOwnerDevice.value))
+  const isAdmin = computed(() => isLoggedIn.value && (user.value?.role === 'admin' || user.value?.role === 'super-admin' || adminAccess.isAdminDevice.value))
+  const isOwner = computed(() => isLoggedIn.value && (user.value?.role === 'super-admin' || adminAccess.isOwnerDevice.value))
   const isLoggedIn = computed(() => user.value !== null)
 
   return { user, register, login, logout, isAdmin, isOwner, isLoggedIn }

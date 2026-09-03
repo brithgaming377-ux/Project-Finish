@@ -156,6 +156,10 @@ export function useCatalog() {
     return books.value.find((b) => b.id === id)
   }
 
+  function getAvailableCopies(book: Book): number {
+    return Math.max(0, book.availability.digitalCopies - book.availability.checkedOut)
+  }
+
   function nextId(): number {
     return books.value.reduce((max, b) => Math.max(max, b.id), 0) + 1
   }
@@ -248,6 +252,7 @@ export function useCatalog() {
     books,
     deletedBooks,
     getById,
+    getAvailableCopies,
     addBook,
     updateBook,
     deleteBook,

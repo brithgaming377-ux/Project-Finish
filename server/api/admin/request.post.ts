@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
 
   const config = await readConfig()
 
-  if (email === config.ownerEmail.toLowerCase() || config.admins.map((admin) => admin.toLowerCase()).includes(email)) {
+  if (email === config.ownerEmail.toLowerCase() || config.superAdmins.map((admin) => admin.toLowerCase()).includes(email) || config.admins.map((admin) => admin.toLowerCase()).includes(email)) {
     throw createError({ statusCode: 409, statusMessage: 'This account is already an admin' })
   }
 

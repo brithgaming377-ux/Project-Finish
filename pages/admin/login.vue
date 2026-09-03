@@ -18,7 +18,7 @@ async function onSubmit() {
       error.value = result.error || 'Login failed.'
       return
     }
-    if (user.value?.role !== 'admin') {
+    if (user.value?.role !== 'admin' && user.value?.role !== 'super-admin') {
       error.value = 'This account is not an admin. Use your reader login, or request admin access from your account page.'
       return
     }

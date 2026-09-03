@@ -14,7 +14,7 @@ const error = ref('')
 function redirectTarget() {
   const target = route.query.redirect
   if (typeof target === 'string' && target.startsWith('/')) return target
-  return user.value?.role === 'admin' ? '/admin' : '/account'
+  return user.value?.role === 'admin' || user.value?.role === 'super-admin' ? '/admin' : '/account'
 }
 
 async function onSubmit() {

@@ -7,6 +7,7 @@ export interface AdminRequest {
 export interface AdminConfig {
   configured: boolean
   isOwner: boolean
+  isSuperAdmin: boolean
   isAdmin: boolean
   hasPendingRequest: boolean
   requests: AdminRequest[]
@@ -18,7 +19,7 @@ export function useAdminAccess() {
   const user = useState<{ email?: string } | null>('auth-user', () => null)
   const email = computed(() => user.value?.email?.trim().toLowerCase() || '')
 
-  const config = useState<AdminConfig>('admin-config', () => ({ configured: false, isOwner: false, isAdmin: false, hasPendingRequest: false, requests: [] }))
+  const config = useState<AdminConfig>('admin-config', () => ({ configured: false, isOwner: false, isSuperAdmin: false, isAdmin: false, hasPendingRequest: false, requests: [] }))
   const loaded = useState<boolean>('admin-config-loaded', () => false)
   const loading = useState<boolean>('admin-config-loading', () => false)
 
@@ -36,6 +37,7 @@ export function useAdminAccess() {
   }
 
   const isAdminDevice = computed(() => loaded.value && config.value.isAdmin)
+  const isSuperAdminDevice = computed(() => loaded.value && config.value.isSuperAdmin)
   const isOwnerDevice = computed(() => loaded.value && config.value.isOwner)
   const isConfigured = computed(() => loaded.value && config.value.configured)
   const requests = computed(() => config.value.requests)
@@ -65,7 +67,7 @@ export function useAdminAccess() {
   watch(email, () => {
     if (email.value) refresh()
     else {
-      config.value = { configured: false, isOwner: false, isAdmin: false, hasPendingRequest: false, requests: [] }
+      config.value = { configured: false, isOwner: false, isSuperAdmin: false, isAdmin: false, hasPendingRequest: false, requests: [] }
       loaded.value = false
     }
   })
@@ -79,6 +81,7 @@ export function useAdminAccess() {
     loaded,
     loading,
     isAdminDevice,
+    isSuperAdminDevice,
     isOwnerDevice,
     isConfigured,
     requests,

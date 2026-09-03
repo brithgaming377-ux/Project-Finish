@@ -4,7 +4,8 @@ export default defineEventHandler(async (event) => {
 
   const config = await readConfig()
   const isOwner = config.ownerEmail !== '' && email === config.ownerEmail.toLowerCase()
-  const isAdmin = isOwner || config.admins.map((admin) => admin.toLowerCase()).includes(email)
+  const isSuperAdmin = config.superAdmins.map((admin) => admin.toLowerCase()).includes(email)
+  const isAdmin = isOwner || isSuperAdmin || config.admins.map((admin) => admin.toLowerCase()).includes(email)
 
   if (!isAdmin) {
     throw createError({ statusCode: 403, statusMessage: 'Only the owner can view accounts' })

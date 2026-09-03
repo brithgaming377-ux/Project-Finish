@@ -9,8 +9,10 @@ import {
   AlertTriangle,
   Package
 } from '@lucide/vue'
+import { getCoverUrl } from '~/data/books'
 
-const { books, importBooks } = useCatalog()
+const { books, importBooks, getAvailableCopies } = useCatalog()
+const { requests } = useRequests()
 const { push: toast } = useToast()
 const fileInput = ref<HTMLInputElement | null>(null)
 const searchQuery = ref('')
@@ -26,22 +28,22 @@ const totalCopies = computed(() =>
 const borrowed = computed(() =>
   books.value.reduce((sum, book) => sum + book.availability.checkedOut, 0)
 )
-const available = computed(() => totalCopies.value - borrowed.value)
+const available = computed(() =>
+  books.value.reduce((sum, book) => sum + getAvailableCopies(book), 0)
+)
 const lowStockBooks = computed(() =>
   books.value
-    .filter((book) => book.availability.digitalCopies - book.availability.checkedOut <= 1)
+    .filter((book) => getAvailableCopies(book) <= 1)
     .sort(
       (a, b) =>
-        a.availability.digitalCopies -
-        a.availability.checkedOut -
-        (b.availability.digitalCopies - b.availability.checkedOut)
+        getAvailableCopies(a) - getAvailableCopies(b)
     )
 )
 const filteredBooks = computed(() => {
   const query = searchQuery.value.trim().toLowerCase()
   return books.value
     .filter((book) => {
-      const copies = book.availability.digitalCopies - book.availability.checkedOut
+      const copies = getAvailableCopies(book)
       const matchesStatus =
         stockFilter.value === 'all' || (stockFilter.value === 'low' ? copies <= 1 : copies > 1)
       return (
@@ -49,12 +51,12 @@ const filteredBooks = computed(() => {
       )
     })
     .sort(
-      (a, b) =>
-        a.availability.digitalCopies -
-        a.availability.checkedOut -
-        (b.availability.digitalCopies - b.availability.checkedOut)
+      (a, b) => getAvailableCopies(a) - getAvailableCopies(b)
     )
 })
+const activeBorrowers = computed(() => requests.value
+  .filter((request) => request.kind === 'borrow' && request.status === 'approved')
+  .slice(0, 4))
 
 function exportCatalog() {
   const blob = new Blob([JSON.stringify(books.value, null, 2)], { type: 'application/json' })
@@ -213,20 +215,20 @@ async function onImport(event: Event) {
                 >{{ book.title }}</NuxtLink
               >
               <p class="text-[11px] text-ink-soft dark:text-slate-400">
-                {{ book.availability.digitalCopies - book.availability.checkedOut }} of
+                 {{ getAvailableCopies(book) }} of
                 {{ book.availability.digitalCopies }} copies available
               </p>
             </div>
             <span
               class="rounded-full px-2.5 py-1 font-mono text-[10px] font-semibold shrink-0"
               :class="
-                book.availability.digitalCopies - book.availability.checkedOut < 2
-                  ? 'bg-rose/10 text-rose'
+                getAvailableCopies(book) < 2
+                    ? 'bg-rose/10 text-rose'
                   : 'bg-sage/10 text-sage'
               "
             >
-              {{
-                book.availability.digitalCopies - book.availability.checkedOut < 2
+                {{
+                  getAvailableCopies(book) < 2
                   ? 'Low stock'
                   : 'Healthy'
               }}
@@ -250,60 +252,15 @@ async function onImport(event: Event) {
           <p class="text-xs text-ink-soft dark:text-slate-400 mt-0.5">Recent library activity.</p>
         </div>
         <div class="divide-y divide-slate-200 dark:divide-slate-700">
-          <div
-            class="flex items-center gap-3 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
-          >
-            <span
-              class="flex h-9 w-9 items-center justify-center rounded-lg bg-ink font-display text-xs font-semibold text-white"
-              >S</span
-            >
-            <div class="flex-1">
-              <p class="text-sm font-medium text-ink dark:text-white">Sokha Kim</p>
-              <p class="text-[11px] text-ink-soft dark:text-slate-400">Student · 3 active loans</p>
+          <div v-for="borrower in activeBorrowers" :key="borrower.id" class="flex items-center gap-3 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+            <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-ink font-display text-xs font-semibold text-white">{{ borrower.userName.slice(0, 1).toUpperCase() }}</span>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-ink dark:text-white truncate">{{ borrower.userName }}</p>
+              <p class="text-[11px] text-ink-soft dark:text-slate-400 truncate">{{ borrower.userEmail }}</p>
             </div>
             <span class="font-mono text-[10px] text-sage font-semibold">Active</span>
           </div>
-          <div
-            class="flex items-center gap-3 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
-          >
-            <span
-              class="flex h-9 w-9 items-center justify-center rounded-lg bg-ink font-display text-xs font-semibold text-white"
-              >D</span
-            >
-            <div class="flex-1">
-              <p class="text-sm font-medium text-ink dark:text-white">Dara Phan</p>
-              <p class="text-[11px] text-ink-soft dark:text-slate-400">Student · 2 active loans</p>
-            </div>
-            <span class="font-mono text-[10px] text-sage font-semibold">Active</span>
-          </div>
-          <div
-            class="flex items-center gap-3 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
-          >
-            <span
-              class="flex h-9 w-9 items-center justify-center rounded-lg bg-amber font-display text-xs font-semibold text-white"
-              >S</span
-            >
-            <div class="flex-1">
-              <p class="text-sm font-medium text-ink dark:text-white">Sreyneang Lim</p>
-              <p class="text-[11px] text-ink-soft dark:text-slate-400">Teacher · 1 active loan</p>
-            </div>
-            <span class="font-mono text-[10px] text-sage font-semibold">Active</span>
-          </div>
-          <div
-            class="flex items-center gap-3 px-6 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
-          >
-            <span
-              class="flex h-9 w-9 items-center justify-center rounded-lg bg-sage font-display text-xs font-semibold text-white"
-              >V</span
-            >
-            <div class="flex-1">
-              <p class="text-sm font-medium text-ink dark:text-white">Vuthy Chan</p>
-              <p class="text-[11px] text-ink-soft dark:text-slate-400">Student · 0 active loans</p>
-            </div>
-            <span class="font-mono text-[10px] text-ink-soft dark:text-slate-400 font-semibold"
-              >New</span
-            >
-          </div>
+          <p v-if="!activeBorrowers.length" class="px-6 py-10 text-center text-sm text-ink-soft dark:text-slate-400">No active borrowers.</p>
         </div>
       </section>
     </div>

@@ -16,7 +16,18 @@ import {
   FileText,
   Save,
   UserCheck,
-  UserX
+  UserX,
+  Building2,
+  BookOpenText,
+  ArrowRightLeft,
+  BellRing,
+  Palette,
+  Languages,
+  ShieldCheck,
+  Wrench,
+  Building,
+  BookText,
+  Sparkles
 } from '@lucide/vue'
 
 const route = useRoute()
@@ -25,7 +36,7 @@ const { data, activeLoans, overdueLoans, addMember, createLoan, returnLoan, addF
 const { requests: allRequests } = useRequests()
 const { push: toast } = useToast()
 const { user } = useAuth()
-const { isOwnerDevice, requests: adminRequests, approve: approveAdmin, deny: denyAdmin } = useAdminAccess()
+const { isOwnerDevice, isSuperAdminDevice, requests: adminRequests, approve: approveAdmin, deny: denyAdmin } = useAdminAccess()
 const { state: libraryState } = useLibrary()
 const section = computed(() => String(route.params.section || '').toLowerCase())
 const labels: Record<string, string> = { admins: 'Admins', readers: 'Readers', members: 'Members', circulation: 'Circulation', fines: 'Fines', reports: 'Reports', settings: 'Settings' }
@@ -96,7 +107,7 @@ async function refreshAdmins() {
 }
 
 const readerSearch = ref('')
-const readers = ref<{ name: string; email: string; role: string; phone: string; gender: string; dateOfBirth: string; address: string; studentId: string; major: string; year: string; createdOn: string }[]>([])
+const readers = ref<{ name: string; email: string; role: string; createdOn: string }[]>([])
 const readerLoading = ref(false)
 async function refreshReaders() {
   readerLoading.value = true
@@ -113,7 +124,7 @@ async function refreshReaders() {
 const filteredReaders = computed(() => {
   const q = readerSearch.value.toLowerCase()
   if (!q) return readers.value
-  return readers.value.filter(r => `${r.name} ${r.email} ${r.role} ${r.phone} ${r.studentId} ${r.major} ${r.year} ${r.address}`.toLowerCase().includes(q))
+  return readers.value.filter(r => `${r.name} ${r.email} ${r.role}`.toLowerCase().includes(q))
 })
 
 const readerStats = computed(() => {
@@ -136,34 +147,20 @@ function getReaderSavedCount(email: string) {
   return libraryState.value.saved.length
 }
 
-const editingReader = ref<{ name: string; email: string; role: string; phone: string; gender: string; dateOfBirth: string; address: string; studentId: string; major: string; year: string; createdOn: string } | null>(null)
-const editForm = reactive({ name: '', role: 'user', phone: '', gender: '', dateOfBirth: '', address: '', studentId: '', major: '', year: '' })
+const editingReader = ref<{ name: string; email: string; role: string; createdOn: string } | null>(null)
+const editForm = reactive({ name: '', role: 'user' })
 const editBusy = ref(false)
 
-function startEdit(reader: { name: string; email: string; role: string; phone: string; gender: string; dateOfBirth: string; address: string; studentId: string; major: string; year: string; createdOn: string }) {
+function startEdit(reader: { name: string; email: string; role: string; createdOn: string }) {
   editingReader.value = reader
   editForm.name = reader.name
   editForm.role = reader.role
-  editForm.phone = reader.phone
-  editForm.gender = reader.gender
-  editForm.dateOfBirth = reader.dateOfBirth
-  editForm.address = reader.address
-  editForm.studentId = reader.studentId
-  editForm.major = reader.major
-  editForm.year = reader.year
 }
 
 function cancelEdit() {
   editingReader.value = null
   editForm.name = ''
   editForm.role = 'user'
-  editForm.phone = ''
-  editForm.gender = ''
-  editForm.dateOfBirth = ''
-  editForm.address = ''
-  editForm.studentId = ''
-  editForm.major = ''
-  editForm.year = ''
 }
 
 async function saveEdit() {
@@ -175,14 +172,7 @@ async function saveEdit() {
       body: {
         approverEmail: user.value?.email,
         name: editForm.name,
-        role: editForm.role,
-        phone: editForm.phone,
-        gender: editForm.gender,
-        dateOfBirth: editForm.dateOfBirth,
-        address: editForm.address,
-        studentId: editForm.studentId,
-        major: editForm.major,
-        year: editForm.year
+        role: editForm.role
       }
     })
     toast('Reader updated.')
@@ -213,6 +203,28 @@ watch(() => section.value, (val) => {
 const memberForm = reactive({ name: '', email: '', role: 'Student' as 'Student' | 'Teacher' })
 const loanForm = reactive({ memberId: 0, bookId: 0 })
 const fineForm = reactive({ memberId: 0, amount: 0, reason: '' })
+const settingsStats = computed(() => ({
+  books: books.value.length,
+  categories: new Set(books.value.map((book) => book.category)).size,
+  activeLoans: activeLoans.value.length,
+  overdueLoans: overdueLoans.value.length,
+  readers: readers.value.length,
+  admins: adminList.value.length + 1,
+  saved: libraryState.value.saved.length,
+  currentUser: user.value?.email || 'Not signed in'
+}))
+const settingsSections = [
+  { key: 'library', icon: Building2, label: 'Library Information', summary: 'Public name, identity, and contact data' },
+  { key: 'catalog', icon: BookOpenText, label: 'Catalog', summary: 'Books, categories, and discovery settings' },
+  { key: 'borrow', icon: ArrowRightLeft, label: 'Borrowing Rules', summary: 'Loan policies used across the site' },
+  { key: 'notifications', icon: BellRing, label: 'Notifications', summary: 'Alerts used in admin and borrower flows' },
+  { key: 'members', icon: Users, label: 'Members', summary: 'Readers, admins, and account access' },
+  { key: 'appearance', icon: Palette, label: 'Appearance', summary: 'Brand styling shown to visitors' },
+  { key: 'language', icon: Languages, label: 'Language & Region', summary: 'Locale settings for the platform' },
+  { key: 'security', icon: ShieldCheck, label: 'Security', summary: 'Admin permissions and protected routes' },
+  { key: 'system', icon: Wrench, label: 'System', summary: 'Maintenance, reports, and operational tools' }
+]
+const activeSettingsSection = ref('library')
 const settingsForm = reactive({ ...data.value.settings })
 const search = ref('')
 const memberFor = (id: number) => data.value.members.find((item) => item.id === id)
@@ -242,10 +254,389 @@ if (!title.value) await navigateTo('/admin')
 
     <template v-else-if="section === 'reports'"><section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"><div v-for="item in [{ label: 'Members', value: data.members.length }, { label: 'Active loans', value: activeLoans.length }, { label: 'Overdue', value: overdueLoans.length }, { label: 'Available books', value: availableBooks.length }]" :key="item.label" class="card"><p>{{ item.label }}</p><strong>{{ item.value }}</strong></div></section><section class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm"><h2 class="font-semibold text-slate-900">Library summary</h2><p class="mt-2 max-w-xl text-sm leading-6 text-slate-500">Download a CSV summary based on the current members, loans, fines, and catalog records.</p><button type="button" class="primary mt-5" @click="downloadReport">Download CSV report</button></section></template>
 
-    <template v-else-if="section === 'settings'"><form class="max-w-2xl rounded-xl border border-slate-200 bg-white p-6 shadow-sm" @submit.prevent="saveSettings"><h2 class="font-semibold text-slate-900">Library preferences</h2><div class="mt-5 space-y-4"><label class="block text-sm font-medium">Library name<input v-model="settingsForm.libraryName" class="field mt-1" /></label><label class="block text-sm font-medium">Default loan period (days)<input v-model.number="settingsForm.loanDays" min="1" type="number" class="field mt-1" /></label><label class="block text-sm font-medium">Late fee per day (USD)<input v-model.number="settingsForm.finePerDay" min="0" step="0.25" type="number" class="field mt-1" /></label><button class="primary">Save settings</button></div></form></template>
+    <template v-else-if="section === 'settings'">
+      <div class="space-y-6">
+        <header class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-amber-600">System preferences</p>
+            <h2 class="mt-2 text-2xl font-semibold text-slate-900">Settings</h2>
+          </div>
+          <div class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700">
+            <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+            All changes saved automatically
+          </div>
+        </header>
+
+        <div class="grid gap-6 xl:grid-cols-[300px_minmax(0,1fr)]">
+          <aside class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+            <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Configuration</p>
+            <nav class="mt-4 space-y-2">
+              <button
+                v-for="item in settingsSections"
+                :key="item.key"
+                type="button"
+                class="flex w-full items-start gap-3 rounded-xl border px-3 py-3 text-left transition"
+                :class="activeSettingsSection === item.key ? 'border-slate-900 bg-slate-900 text-white shadow-sm' : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300 hover:bg-white'"
+                @click="activeSettingsSection = item.key"
+              >
+                <span class="flex h-8 w-8 items-center justify-center rounded-lg text-base" :class="activeSettingsSection === item.key ? 'bg-white/10 text-white' : 'bg-slate-100 text-slate-600'">
+                  <component :is="item.icon" class="h-4 w-4" />
+                </span>
+                <span class="min-w-0 flex-1">
+                  <span class="block text-sm font-semibold">{{ item.label }}</span>
+                  <span class="mt-0.5 block text-[11px] opacity-75">{{ item.summary }}</span>
+                </span>
+              </button>
+            </nav>
+          </aside>
+
+          <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div v-if="activeSettingsSection === 'library'">
+              <div class="flex items-center justify-between gap-3 border-b border-slate-200 pb-4">
+                <div>
+                  <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Library Information</p>
+                  <h3 class="mt-1 text-xl font-semibold text-slate-900">Public library identity</h3>
+                </div>
+                <span class="rounded-full bg-amber-50 px-2.5 py-1 text-[10px] font-semibold text-amber-700">Used across the app</span>
+              </div>
+
+              <form class="mt-6 grid gap-5 md:grid-cols-2" @submit.prevent="saveSettings">
+                <label class="block md:col-span-2">
+                  <span class="mb-1.5 block text-sm font-medium text-slate-700">Library name</span>
+                  <input v-model="settingsForm.libraryName" class="field" placeholder="ETEC Library" />
+                  <p class="mt-2 text-xs text-slate-500">This value is used on the public library pages and the admin dashboard.</p>
+                </label>
+
+                <label class="block md:col-span-2">
+                  <span class="mb-1.5 block text-sm font-medium text-slate-700">Description</span>
+                  <textarea rows="4" placeholder="Short description of the library and its mission" class="field resize-none"></textarea>
+                </label>
+
+                <label class="block">
+                  <span class="mb-1.5 block text-sm font-medium text-slate-700">Primary email</span>
+                  <input type="email" :value="settingsStats.currentUser" class="field" />
+                </label>
+
+                <label class="block">
+                  <span class="mb-1.5 block text-sm font-medium text-slate-700">Library profile</span>
+                  <input type="text" :value="`${settingsStats.books} titles · ${settingsStats.categories} categories`" class="field" />
+                </label>
+
+                <div class="md:col-span-2 flex justify-end pt-2">
+                  <button type="submit" class="primary inline-flex items-center justify-center gap-2">
+                    <Save class="h-4 w-4" />
+                    Save changes
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div v-else-if="activeSettingsSection === 'catalog'">
+              <div class="flex items-center justify-between gap-3 border-b border-slate-200 pb-4">
+                <div>
+                  <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Catalog</p>
+                  <h3 class="mt-1 text-xl font-semibold text-slate-900">Book discovery and catalog rules</h3>
+                </div>
+                <span class="rounded-full bg-violet-50 px-2.5 py-1 text-[10px] font-semibold text-violet-700">Matches the public catalog</span>
+              </div>
+
+              <div class="mt-6 grid gap-4 sm:grid-cols-3">
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400">Titles</p>
+                  <p class="mt-2 text-2xl font-semibold text-slate-900">{{ settingsStats.books }}</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400">Subjects</p>
+                  <p class="mt-2 text-2xl font-semibold text-slate-900">{{ settingsStats.categories }}</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400">Saved</p>
+                  <p class="mt-2 text-2xl font-semibold text-slate-900">{{ settingsStats.saved }}</p>
+                </div>
+              </div>
+
+              <div class="mt-6 space-y-5">
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <div class="flex items-center justify-between gap-3">
+                    <div>
+                      <p class="font-medium text-slate-800">Default catalog view</p>
+                      <p class="text-sm text-slate-500">Controls how books are displayed on the bookstore and subject pages.</p>
+                    </div>
+                    <select class="field max-w-[180px]">
+                      <option>Grid view</option>
+                      <option>List view</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <div class="flex items-center justify-between gap-3">
+                    <div>
+                      <p class="font-medium text-slate-800">Auto-refresh catalog</p>
+                      <p class="text-sm text-slate-500">Refreshes after admin edits in the digital catalog.</p>
+                    </div>
+                    <label class="flex items-center gap-2 text-sm text-slate-700">
+                      <input type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-500" />
+                      Enabled
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div v-else-if="activeSettingsSection === 'borrow'">
+              <div class="flex items-center justify-between gap-3 border-b border-slate-200 pb-4">
+                <div>
+                  <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Borrowing Rules</p>
+                  <h3 class="mt-1 text-xl font-semibold text-slate-900">Rules used by loans and late fees</h3>
+                </div>
+                <span class="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold text-emerald-700">Connected to circulation</span>
+              </div>
+
+              <form class="mt-6 grid gap-5 md:grid-cols-2" @submit.prevent="saveSettings">
+                <label class="block">
+                  <span class="mb-1.5 block text-sm font-medium text-slate-700">Default loan period</span>
+                  <div class="relative">
+                    <input v-model.number="settingsForm.loanDays" min="1" type="number" class="field pr-10" />
+                    <span class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-xs font-medium text-slate-400">days</span>
+                  </div>
+                </label>
+
+                <label class="block">
+                  <span class="mb-1.5 block text-sm font-medium text-slate-700">Late fee per day</span>
+                  <div class="relative">
+                    <input v-model.number="settingsForm.finePerDay" min="0" step="0.25" type="number" class="field pr-10" />
+                    <span class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-xs font-medium text-slate-400">USD</span>
+                  </div>
+                </label>
+
+                <label class="block md:col-span-2">
+                  <span class="mb-1.5 block text-sm font-medium text-slate-700">Borrow limit per member</span>
+                  <input type="number" :value="Math.max(1, settingsForm.loanDays || 14)" class="field" />
+                </label>
+
+                <div class="md:col-span-2 flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">
+                  <span>Active loans in the system</span>
+                  <strong class="text-slate-900">{{ settingsStats.activeLoans }}</strong>
+                </div>
+
+                <div class="md:col-span-2 flex justify-end pt-2">
+                  <button type="submit" class="primary inline-flex items-center justify-center gap-2">
+                    <Save class="h-4 w-4" />
+                    Save policy
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div v-else-if="activeSettingsSection === 'notifications'">
+              <div class="flex items-center justify-between gap-3 border-b border-slate-200 pb-4">
+                <div>
+                  <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Notifications</p>
+                  <h3 class="mt-1 text-xl font-semibold text-slate-900">Alerts used by the library workflow</h3>
+                </div>
+                <span class="rounded-full bg-blue-50 px-2.5 py-1 text-[10px] font-semibold text-blue-700">Admin & reader touchpoints</span>
+              </div>
+
+              <div class="mt-6 grid gap-4 sm:grid-cols-3">
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400">Active</p>
+                  <p class="mt-2 text-2xl font-semibold text-slate-900">{{ settingsStats.activeLoans }}</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400">Overdue</p>
+                  <p class="mt-2 text-2xl font-semibold text-slate-900">{{ settingsStats.overdueLoans }}</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400">Need attention</p>
+                  <p class="mt-2 text-2xl font-semibold text-slate-900">{{ settingsStats.activeLoans + settingsStats.overdueLoans }}</p>
+                </div>
+              </div>
+
+              <div class="mt-6 space-y-4">
+                <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                  <span>Toast notifications for admin actions</span>
+                  <input type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+                </label>
+                <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                  <span>Due date reminders for borrowed books</span>
+                  <input type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+                </label>
+                <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                  <span>Overdue alerts and fine warnings</span>
+                  <input type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+                </label>
+              </div>
+            </div>
+
+            <div v-else-if="activeSettingsSection === 'members'">
+              <div class="flex items-center justify-between gap-3 border-b border-slate-200 pb-4">
+                <div>
+                  <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Members</p>
+                  <h3 class="mt-1 text-xl font-semibold text-slate-900">Reader and admin account access</h3>
+                </div>
+                <span class="rounded-full bg-rose-50 px-2.5 py-1 text-[10px] font-semibold text-rose-700">Linked to auth and admin access</span>
+              </div>
+
+              <div class="mt-6 grid gap-4 sm:grid-cols-3">
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400">Readers</p>
+                  <p class="mt-2 text-2xl font-semibold text-slate-900">{{ settingsStats.readers }}</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400">Admins</p>
+                  <p class="mt-2 text-2xl font-semibold text-slate-900">{{ settingsStats.admins }}</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400">Current role</p>
+                  <p class="mt-2 text-lg font-semibold text-slate-900 capitalize">{{ user?.role || 'guest' }}</p>
+                </div>
+              </div>
+
+              <div class="mt-6 space-y-4">
+                <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                  <span>Allow self-registration from the public site</span>
+                  <input type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-rose-600 focus:ring-rose-500" />
+                </label>
+                <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                  <span>Require verified email before access</span>
+                  <input type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-rose-600 focus:ring-rose-500" />
+                </label>
+                <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                  <span>Manual admin approval for new roles</span>
+                  <input type="checkbox" class="h-4 w-4 rounded border-slate-300 text-rose-600 focus:ring-rose-500" />
+                </label>
+              </div>
+            </div>
+
+            <div v-else-if="activeSettingsSection === 'appearance'">
+              <div class="flex items-center justify-between gap-3 border-b border-slate-200 pb-4">
+                <div>
+                  <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Appearance</p>
+                  <h3 class="mt-1 text-xl font-semibold text-slate-900">Brand styling shown on the website</h3>
+                </div>
+                <span class="rounded-full bg-orange-50 px-2.5 py-1 text-[10px] font-semibold text-orange-700">Design system</span>
+              </div>
+
+              <div class="mt-6 grid gap-5 md:grid-cols-2">
+                <label class="block">
+                  <span class="mb-1.5 block text-sm font-medium text-slate-700">Primary theme</span>
+                  <select class="field">
+                    <option>Default</option>
+                    <option>Warm</option>
+                    <option>Dark</option>
+                  </select>
+                </label>
+                <label class="block">
+                  <span class="mb-1.5 block text-sm font-medium text-slate-700">Accent color</span>
+                  <input type="color" value="#c9a227" class="field h-11 cursor-pointer px-2 py-2" />
+                </label>
+              </div>
+
+              <div class="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+                The visual identity used on the public storefront and admin panels follows the current ETEC brand colors and warm library styling.
+              </div>
+            </div>
+
+            <div v-else-if="activeSettingsSection === 'language'">
+              <div class="flex items-center justify-between gap-3 border-b border-slate-200 pb-4">
+                <div>
+                  <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Language & Region</p>
+                  <h3 class="mt-1 text-xl font-semibold text-slate-900">Locale for the public site and admin portal</h3>
+                </div>
+                <span class="rounded-full bg-cyan-50 px-2.5 py-1 text-[10px] font-semibold text-cyan-700">Regional settings</span>
+              </div>
+
+              <div class="mt-6 grid gap-5 md:grid-cols-2">
+                <label class="block">
+                  <span class="mb-1.5 block text-sm font-medium text-slate-700">Language</span>
+                  <select class="field">
+                    <option>English</option>
+                    <option>French</option>
+                    <option>Khmer</option>
+                  </select>
+                </label>
+                <label class="block">
+                  <span class="mb-1.5 block text-sm font-medium text-slate-700">Timezone</span>
+                  <select class="field">
+                    <option>Asia/Phnom_Penh</option>
+                    <option>UTC</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <div v-else-if="activeSettingsSection === 'security'">
+              <div class="flex items-center justify-between gap-3 border-b border-slate-200 pb-4">
+                <div>
+                  <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">Security</p>
+                  <h3 class="mt-1 text-xl font-semibold text-slate-900">Access rules for protected admin pages</h3>
+                </div>
+                <span class="rounded-full bg-slate-200 px-2.5 py-1 text-[10px] font-semibold text-slate-700">Protected by role checks</span>
+              </div>
+
+              <div class="mt-6 space-y-4">
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400">Current owner</p>
+                  <p class="mt-2 text-base font-semibold text-slate-900">{{ settingsStats.currentUser }}</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400">Admin access</p>
+                  <p class="mt-2 text-base font-semibold text-slate-900">{{ settingsStats.admins }} accounts active</p>
+                </div>
+                <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                  <span>Require two-factor authentication</span>
+                  <input type="checkbox" class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-500" />
+                </label>
+                <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                  <span>Session timeout after inactivity</span>
+                  <input type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-500" />
+                </label>
+                <label class="block rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                  <span class="mb-1.5 block font-medium">Password policy</span>
+                  <select class="field">
+                    <option>Strong password required</option>
+                    <option>Standard password policy</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <div v-else-if="activeSettingsSection === 'system'">
+              <div class="flex items-center justify-between gap-3 border-b border-slate-200 pb-4">
+                <div>
+                  <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">System</p>
+                  <h3 class="mt-1 text-xl font-semibold text-slate-900">Operational tools for the library platform</h3>
+                </div>
+                <span class="rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-semibold text-slate-700">Connected to admin tools</span>
+              </div>
+
+              <div class="mt-6 grid gap-4 sm:grid-cols-2">
+                <button type="button" class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-left transition hover:bg-white" @click="downloadReport">
+                  <p class="text-sm font-semibold text-slate-800">Download CSV report</p>
+                  <p class="mt-1 text-xs text-slate-500">Exports the current member, loan, and fine summary.</p>
+                </button>
+                <button type="button" class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-left transition hover:bg-white" @click="refreshAdmins">
+                  <p class="text-sm font-semibold text-slate-800">Sync admin access</p>
+                  <p class="mt-1 text-xs text-slate-500">Refreshes the owner and admin list used by permissions.</p>
+                </button>
+                <button type="button" class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-left transition hover:bg-white">
+                  <p class="text-sm font-semibold text-slate-800">Backup data</p>
+                  <p class="mt-1 text-xs text-slate-500">Creates a snapshot of the library data stored locally.</p>
+                </button>
+                <button type="button" class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-left transition hover:bg-white">
+                  <p class="text-sm font-semibold text-slate-800">System health</p>
+                  <p class="mt-1 text-xs text-slate-500">Checks the status of catalog, borrowing, and permissions.</p>
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </template>
 
     <template v-else-if="section === 'admins'">
-      <section v-if="isOwnerDevice" class="overflow-hidden rounded-xl border border-amber-200 bg-amber-50 shadow-sm">
+      <section v-if="isOwnerDevice || isSuperAdminDevice" class="overflow-hidden rounded-xl border border-amber-200 bg-amber-50 shadow-sm">
         <div class="flex items-center justify-between border-b border-amber-100 px-5 py-4">
           <div><h2 class="font-semibold text-slate-900">Admin Access Requests</h2><p class="mt-1 text-xs text-slate-500">Approve devices owned by other people before they get admin access.</p></div>
           <span class="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-800">{{ adminRequests.length }} pending</span>
@@ -265,7 +656,7 @@ if (!title.value) await navigateTo('/admin')
       <section class="grid gap-6 lg:grid-cols-[1fr_1.5fr]">
         <form class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm" @submit.prevent="addAdmin">
           <h2 class="font-semibold text-slate-900">Add admin</h2>
-          <p class="mt-1 text-xs text-slate-500">Only the owner can manage admin access.</p>
+          <p class="mt-1 text-xs text-slate-500">Only the owner or super-admin can manage admin access.</p>
           <div class="mt-4 space-y-3">
             <input v-model="newAdminEmail" required type="email" placeholder="Admin email address" class="field" />
             <button class="primary" :disabled="adminBusy">{{ adminBusy ? 'Adding...' : 'Add admin' }}</button>
@@ -308,7 +699,7 @@ if (!title.value) await navigateTo('/admin')
           <h2 class="font-semibold text-slate-900">Reader accounts</h2>
           <div class="relative">
             <Search class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-            <input v-model="readerSearch" type="search" placeholder="Search by name, email, phone, student ID..." class="field max-w-xs pl-9" />
+            <input v-model="readerSearch" type="search" placeholder="Search by name, email, role..." class="field max-w-xs pl-9" />
           </div>
         </div>
         <div v-if="readerLoading" class="p-8 text-center text-sm text-slate-500">Loading readers...</div>
@@ -319,13 +710,14 @@ if (!title.value) await navigateTo('/admin')
               <div class="min-w-0 flex-1">
                 <div class="flex items-center gap-2 flex-wrap">
                   <p class="font-medium text-slate-800">{{ reader.name || 'Unnamed' }}</p>
+                  <span class="rounded-full px-2 py-0.5 text-[10px] font-semibold" :class="reader.role === 'admin' || reader.role === 'super-admin' ? 'bg-amber-50 text-amber-600' : 'bg-slate-100 text-slate-500'">
+                    {{ reader.role === 'admin' || reader.role === 'super-admin' ? 'Admin' : 'Reader' }}
+                  </span>
                   <span class="rounded-full px-2 py-0.5 text-[10px] font-semibold" :class="getReaderBorrowedCount(reader.email) > 0 ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-500'">
                     {{ getReaderBorrowedCount(reader.email) > 0 ? 'Active' : 'Inactive' }}
                   </span>
                 </div>
-                <p class="text-xs text-slate-500 mt-0.5">{{ reader.email }} · {{ reader.phone }}</p>
-                <p class="text-xs text-slate-500 mt-0.5">{{ reader.studentId }} · {{ reader.major }} · {{ reader.year }}</p>
-                <p class="text-xs text-slate-500 mt-0.5">{{ reader.address }} · Joined {{ reader.createdOn }}</p>
+                <p class="text-xs text-slate-500 mt-0.5">{{ reader.email }} · Joined {{ reader.createdOn }}</p>
               </div>
               <div class="flex flex-col items-end gap-2">
                 <div class="flex items-center gap-3 text-xs text-slate-500">
@@ -348,62 +740,18 @@ if (!title.value) await navigateTo('/admin')
           <h3 class="text-lg font-semibold text-slate-900">Edit reader</h3>
           <p class="mt-1 text-sm text-slate-500">{{ editingReader.email }}</p>
           <div class="mt-5 space-y-4">
-            <div class="grid grid-cols-2 gap-4">
-              <label class="block text-sm font-medium">
-                <span class="text-slate-700">Name</span>
-                <input v-model="editForm.name" type="text" placeholder="Full name" class="field mt-1" />
-              </label>
-              <label class="block text-sm font-medium">
-                <span class="text-slate-700">Phone</span>
-                <input v-model="editForm.phone" type="text" placeholder="Phone number" class="field mt-1" />
-              </label>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-              <label class="block text-sm font-medium">
-                <span class="text-slate-700">Gender</span>
-                <select v-model="editForm.gender" class="field mt-1">
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
-              </label>
-              <label class="block text-sm font-medium">
-                <span class="text-slate-700">Date of Birth</span>
-                <input v-model="editForm.dateOfBirth" type="date" class="field mt-1" />
-              </label>
-            </div>
             <label class="block text-sm font-medium">
-              <span class="text-slate-700">Address</span>
-              <input v-model="editForm.address" type="text" placeholder="Address" class="field mt-1" />
+              <span class="text-slate-700">Name</span>
+              <input v-model="editForm.name" type="text" placeholder="Full name" class="field mt-1" />
             </label>
-            <div class="grid grid-cols-2 gap-4">
-              <label class="block text-sm font-medium">
-                <span class="text-slate-700">Student ID</span>
-                <input v-model="editForm.studentId" type="text" placeholder="Student ID" class="field mt-1" />
-              </label>
-              <label class="block text-sm font-medium">
-                <span class="text-slate-700">Major</span>
-                <input v-model="editForm.major" type="text" placeholder="Major" class="field mt-1" />
-              </label>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-              <label class="block text-sm font-medium">
-                <span class="text-slate-700">Year</span>
-                <select v-model="editForm.year" class="field mt-1">
-                  <option value="Year 1">Year 1</option>
-                  <option value="Year 2">Year 2</option>
-                  <option value="Year 3">Year 3</option>
-                  <option value="Year 4">Year 4</option>
-                </select>
-              </label>
-              <label class="block text-sm font-medium">
-                <span class="text-slate-700">Role</span>
-                <select v-model="editForm.role" class="field mt-1">
-                  <option value="user">User</option>
-                  <option value="admin">Admin</option>
-                </select>
-              </label>
-            </div>
+            <label class="block text-sm font-medium">
+              <span class="text-slate-700">Role</span>
+              <select v-model="editForm.role" class="field mt-1">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+                <option value="super-admin">Super Admin</option>
+              </select>
+            </label>
           </div>
           <div class="mt-6 flex justify-end gap-2">
             <button type="button" class="secondary" @click="cancelEdit">Cancel</button>
@@ -416,9 +764,10 @@ if (!title.value) await navigateTo('/admin')
 </template>
 
 <style scoped>
-.field { @apply w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100; }
-.primary { @apply rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700; }
-.secondary { @apply rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50; }
-.card { @apply rounded-xl border border-slate-200 bg-white p-5 shadow-sm; }
-.card p { @apply text-sm text-slate-500; }.card strong { @apply mt-3 block text-3xl text-slate-900; }
+.field { @apply w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-700 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-amber-400 focus:ring-4 focus:ring-amber-100; }
+.primary { @apply rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 focus:ring-4 focus:ring-slate-200; }
+.secondary { @apply rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50; }
+.card { @apply rounded-2xl border border-slate-200 bg-white p-5 shadow-sm; }
+.card p { @apply text-sm text-slate-500; }
+.card strong { @apply mt-3 block text-3xl font-semibold tracking-tight text-slate-900; }
 </style>

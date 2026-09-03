@@ -5,14 +5,7 @@ export interface StoredAccount {
   name: string
   email: string
   password: string
-  role: 'admin' | 'user'
-  phone: string
-  gender: string
-  dateOfBirth: string
-  address: string
-  studentId: string
-  major: string
-  year: string
+  role: 'super-admin' | 'admin' | 'user'
   createdOn: string
 }
 

@@ -3,7 +3,7 @@ import { useAuth } from './useAuth'
 export interface ManagedAccount {
   name: string
   email: string
-  role: 'admin' | 'user'
+  role: 'super-admin' | 'admin' | 'user'
   createdOn: string
 }
 

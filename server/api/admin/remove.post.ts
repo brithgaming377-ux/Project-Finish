@@ -1,3 +1,5 @@
+import { readAccounts } from '~/server/utils/accounts'
+
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const approverEmail = String(body?.approverEmail || '').trim().toLowerCase()
@@ -8,8 +10,12 @@ export default defineEventHandler(async (event) => {
   }
 
   const config = await readConfig()
-  if (config.ownerEmail.toLowerCase() !== approverEmail) {
-    throw createError({ statusCode: 403, statusMessage: 'Only the owner can manage admins' })
+  const accounts = await readAccounts()
+  const isOwner = config.ownerEmail.toLowerCase() === approverEmail
+  const isSuperAdmin = accounts.some((a) => a.email === approverEmail && a.role === 'super-admin')
+
+  if (!isOwner && !isSuperAdmin) {
+    throw createError({ statusCode: 403, statusMessage: 'Only the owner or super-admin can manage admins' })
   }
 
   if (config.ownerEmail.toLowerCase() === email) {

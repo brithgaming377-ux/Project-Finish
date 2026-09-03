@@ -13,7 +13,7 @@ const { push: toast } = useToast()
 
 if (import.meta.client && !user.value) {
   router.push({ path: '/login', query: { redirect: '/account' } })
-} else if (import.meta.client && user.value?.role === 'admin') {
+} else if (import.meta.client && (user.value?.role === 'admin' || user.value?.role === 'super-admin')) {
   router.replace('/admin')
 }
 

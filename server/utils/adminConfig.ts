@@ -9,6 +9,7 @@ export interface AdminRequest {
 
 export interface AdminConfig {
   ownerEmail: string
+  superAdmins: string[]
   admins: string[]
   requests: AdminRequest[]
 }
@@ -21,6 +22,7 @@ export async function readConfig(): Promise<AdminConfig> {
     const parsed = JSON.parse(raw)
     return {
       ownerEmail: parsed.ownerEmail || '',
+      superAdmins: Array.isArray(parsed.superAdmins) ? parsed.superAdmins : [],
       admins: Array.isArray(parsed.admins) ? parsed.admins : [],
       requests: Array.isArray(parsed.requests) ? parsed.requests : []
     }

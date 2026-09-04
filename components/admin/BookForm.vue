@@ -16,7 +16,6 @@ const form = reactive<NewBookInput>({
   level: props.initial?.level ?? 'Beginner',
   pages: props.initial?.pages ?? 200,
   year: props.initial?.year ?? new Date().getFullYear(),
-  price: props.initial?.price ?? 12.99,
   format: props.initial?.format ?? 'PDF',
   fileUrl: props.initial?.fileUrl ?? '',
   publisher: props.initial?.publisher ?? '',
@@ -49,7 +48,6 @@ function validate(): boolean {
   if (!form.publisher.trim()) errs.push('Publisher is required.')
   if (!form.description.trim()) errs.push('Description is required.')
   if (form.pages <= 0) errs.push('Pages must be a positive number.')
-  if (form.price < 0) errs.push('Price cannot be negative.')
   if (form.coverUrl && !isCoverUrl(form.coverUrl)) {
     errs.push('Cover image URL must start with http:// or https://.')
   }
@@ -132,16 +130,6 @@ function onSubmit() {
         <input
           v-model.number="form.year"
           type="number"
-          class="text-sm font-normal px-3 py-2.5 rounded-card border border-line bg-white"
-        />
-      </label>
-      <label class="flex flex-col gap-1.5 text-[13px] font-semibold">
-        <span>Price (USD)</span>
-        <input
-          v-model.number="form.price"
-          type="number"
-          step="0.01"
-          min="0"
           class="text-sm font-normal px-3 py-2.5 rounded-card border border-line bg-white"
         />
       </label>

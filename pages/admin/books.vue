@@ -7,14 +7,15 @@ import {
   Edit2,
   Trash2,
   BookOpen,
-  ChevronDown
+  ChevronDown,
+  RotateCcw
 } from '@lucide/vue'
 import type { Book } from '~/data/books'
 import { getCoverUrl } from '~/data/books'
 
 const router = useRouter()
 const route = useRoute()
-const { books, deleteBook, updateBook } = useCatalog()
+const { books, deletedBooks, deleteBook, restoreBook } = useCatalog()
 const { push: toast } = useToast()
 
 const searchQuery = ref((route.query.q as string) || '')
@@ -97,6 +98,13 @@ async function onDelete(bookId: number) {
 
 function cancelDelete() {
   deleteConfirming.value = null
+}
+
+function onRestore(bookId: number) {
+  const deleted = deletedBooks.value.find(item => item.book.id === bookId)
+  if (!deleted) return
+  restoreBook(deleted.book)
+  toast(`"${deleted.book.title}" has been restored.`, 'success')
 }
 
 function goToEdit(bookId: number) {
@@ -270,7 +278,6 @@ function getStockStatus(book: Book): 'low' | 'healthy' {
               <th class="px-6 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">Level</th>
               <th class="px-6 py-3 text-center text-xs font-semibold text-slate-700 uppercase tracking-wider">Copies</th>
               <th class="px-6 py-3 text-center text-xs font-semibold text-slate-700 uppercase tracking-wider">Available</th>
-              <th class="px-6 py-3 text-center text-xs font-semibold text-slate-700 uppercase tracking-wider">Price</th>
               <th class="px-6 py-3 text-right text-xs font-semibold text-slate-700 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
@@ -310,7 +317,6 @@ function getStockStatus(book: Book): 'low' | 'healthy' {
                   {{ getAvailableCopies(book) }}
                 </span>
               </td>
-              <td class="px-6 py-4 text-center text-sm text-slate-600">${{ book.price?.toFixed(2) || '0.00' }}</td>
               <td class="px-6 py-4 text-right">
                 <div class="flex items-center justify-end gap-2">
                   <button
@@ -337,6 +343,42 @@ function getStockStatus(book: Book): 'low' | 'healthy' {
       </div>
     </section>
 
+    <section v-if="deletedBooks.length" class="rounded-xl border border-amber-200 bg-amber-50/60 shadow-sm overflow-hidden">
+      <div class="flex flex-col gap-2 border-b border-amber-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 class="font-semibold text-slate-900">Recently deleted</h2>
+          <p class="mt-1 text-sm text-slate-600">Restore books that were removed from the catalog.</p>
+        </div>
+        <span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">
+          {{ deletedBooks.length }} deleted
+        </span>
+      </div>
+      <div class="divide-y divide-amber-200">
+        <div v-for="item in deletedBooks" :key="item.book.id" class="flex flex-wrap items-center gap-3 px-5 py-4">
+          <BookCoverImage
+            :src="item.book.coverUrl"
+            :fallback="getCoverUrl(item.book.category)"
+            :alt="item.book.title"
+            :label="item.book.title"
+            class="h-12 w-9 shrink-0 overflow-hidden rounded"
+          />
+          <div class="min-w-0 flex-1">
+            <p class="truncate text-sm font-semibold text-slate-900">{{ item.book.title }}</p>
+            <p class="truncate text-xs text-slate-600">{{ item.book.author }} · Deleted {{ new Date(item.deletedAt).toLocaleDateString() }}</p>
+          </div>
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-lg border border-amber-300 bg-white px-3 py-2 text-sm font-semibold text-amber-800 hover:bg-amber-100 transition"
+            title="Restore book"
+            @click="onRestore(item.book.id)"
+          >
+            <RotateCcw class="h-4 w-4" />
+            Restore
+          </button>
+        </div>
+      </div>
+    </section>
+
     <!-- Delete Confirmation Modal -->
     <Teleport to="body">
       <div
@@ -352,7 +394,7 @@ function getStockStatus(book: Book): 'low' | 'healthy' {
             <h2 class="text-lg font-semibold text-slate-900">Delete book?</h2>
           </div>
           <p class="text-sm text-slate-600 mb-6">
-            Are you sure you want to delete "{{ books.find(b => b.id === deleteConfirming)?.title }}"? This action cannot be undone.
+            Are you sure you want to delete "{{ books.find(b => b.id === deleteConfirming)?.title }}"? You can restore it from the Recently deleted section.
           </p>
           <div class="flex gap-3">
             <button

@@ -22,7 +22,7 @@ import {
 import { getCoverUrl } from '~/data/books'
 
 const { books, updateBook } = useCatalog()
-const { requests, pending, updateStatus, recordPayment } = useRequests()
+const { requests, pending, updateStatus } = useRequests()
 const { push: toast } = useToast()
 const { state: libraryState } = useLibrary()
 const { user } = useAuth()
@@ -218,8 +218,6 @@ const recentActivity = computed(() => {
       activities.push({ icon: BookMarked, text: `${req.userName} borrowed "${bookTitle}"`, time, type: 'borrow' })
     } else if (req.kind === 'borrow' && req.status === 'returned') {
       activities.push({ icon: CheckCircle2, text: `${req.userName} returned "${bookTitle}"`, time, type: 'return' })
-    } else if (req.kind === 'purchase' && req.status === 'approved') {
-      activities.push({ icon: TrendingUp, text: `${req.userName} purchased "${bookTitle}"`, time, type: 'purchase' })
     }
   }
 
@@ -241,8 +239,7 @@ function processRequest(id: number, decision: 'approved' | 'declined') {
     updateBook(book.id, { availability: { ...book.availability, checkedOut: book.availability.checkedOut + 1 } })
   }
   updateStatus(id, decision)
-  if (decision === 'approved' && request.kind === 'purchase') recordPayment(id)
-  toast(`${request.kind === 'borrow' ? 'Borrow' : 'Purchase'} request ${decision}.`)
+  toast(`Borrow request ${decision}.`)
 }
 
 function onSearch() {
@@ -488,10 +485,10 @@ function onSearch() {
           </span>
           <div class="min-w-0 flex-1">
             <p class="text-sm font-semibold text-slate-800">{{ request.userName }} <span class="font-normal text-slate-500">requested to {{ request.kind }}</span></p>
-            <p class="truncate text-xs text-slate-500">{{ bookMap.get(request.bookId)?.title || 'Removed book' }} · {{ request.userEmail }}<span v-if="request.kind === 'purchase'"> · ${{ (request.amount || 0).toFixed(2) }}</span></p>
+            <p class="truncate text-xs text-slate-500">{{ bookMap.get(request.bookId)?.title || 'Removed book' }} · {{ request.userEmail }}</p>
           </div>
           <span class="text-xs text-slate-400">{{ request.requestedOn }}</span>
-          <button type="button" class="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-emerald-700" @click="processRequest(request.id, 'approved')">{{ request.kind === 'purchase' ? 'Confirm payment' : 'Approve' }}</button>
+          <button type="button" class="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-emerald-700" @click="processRequest(request.id, 'approved')">Approve</button>
           <button type="button" class="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-white" @click="processRequest(request.id, 'declined')">Decline</button>
         </div>
       </div>

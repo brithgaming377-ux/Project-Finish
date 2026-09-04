@@ -31,18 +31,15 @@ const { submit, forUser } = useRequests()
 const {
   isSaved,
   isBorrowed,
-  isPurchased,
   toggleSave,
   borrow,
   returnBook,
-  purchase,
   exchange,
   state
 } = useLibrary()
 const { push: toast } = useToast()
 const myRequests = computed(() => (user.value ? forUser(user.value.email).value : []))
 const borrowRequest = computed(() => myRequests.value.find((request) => request.bookId === id.value && request.kind === 'borrow' && ['pending', 'approved'].includes(request.status)))
-const purchaseRequest = computed(() => myRequests.value.find((request) => request.bookId === id.value && request.kind === 'purchase' && ['pending', 'approved'].includes(request.status)))
 
 const activeTab = ref<'description' | 'contents' | 'reviews' | 'citation'>('description')
 const showExchangePanel = ref(false)
@@ -105,13 +102,6 @@ function onReturn() {
   toast('Returned. Thanks!')
 }
 
-function onBuy() {
-  requireLogin(() => {
-    if (!submit('purchase', id.value, user.value!.name, user.value!.email, book.value!.price)) return toast('You already have a request for this book.', 'error')
-    toast('Purchase request sent to the admin for approval.')
-  })
-}
-
 // Other borrowed books eligible to trade for this one
 const swappableBooks = computed(() =>
   books.value.filter(
@@ -122,7 +112,7 @@ const swappableBooks = computed(() =>
 const canRead = computed(() => {
   if (!book.value) return false
   if (!book.value.requiresBorrow) return true
-  return isBorrowed(book.value.id) || isPurchased(book.value.id)
+  return isBorrowed(book.value.id)
 })
 
 function onExchange(otherId: number) {
@@ -199,21 +189,7 @@ function onExchange(otherId: number) {
           <span v-else>All copies currently checked out</span>
         </div>
 
-        <div class="flex items-baseline justify-between">
-          <span class="font-display font-semibold text-2xl">${{ book.price.toFixed(2) }}</span>
-          <span v-if="isPurchased(book.id)" class="font-mono text-[11px] text-sage">Owned</span>
-        </div>
-
         <div class="flex flex-col gap-2">
-          <button
-            class="rounded-card bg-amber text-ink font-semibold text-sm px-5 py-2.5 hover:bg-amber-deep transition disabled:opacity-50 disabled:cursor-not-allowed"
-            type="button"
-            :disabled="isPurchased(book.id) || !!purchaseRequest"
-            @click="onBuy"
-          >
-            {{ isPurchased(book.id) || purchaseRequest?.status === 'approved' ? 'Purchased ✓' : purchaseRequest ? 'Purchase requested' : 'Buy this book' }}
-          </button>
-
           <button
             v-if="!isBorrowed(book.id)"
             class="rounded-card bg-ink text-white font-semibold text-sm px-5 py-2.5 hover:bg-ink-light transition disabled:opacity-50 disabled:cursor-not-allowed"

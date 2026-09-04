@@ -21,7 +21,6 @@ export interface NewBookInput {
   level: Book['level']
   pages: number
   year: number
-  price: number
   format: string
   publisher: string
   language: string
@@ -192,7 +191,6 @@ export function useCatalog() {
       readingTimeHours: Math.round((input.pages / 45) * 10) / 10,
       addedDate: new Date().toISOString().slice(0, 10),
       edition: 1,
-      price: input.price,
       exchangeable: input.exchangeable,
       requiresBorrow: input.requiresBorrow,
       rating: 4,

@@ -3,7 +3,6 @@ definePageMeta({ middleware: 'admin', layout: 'admin' })
 import {
   BookOpen,
   BookMarked,
-  ShoppingCart,
   Clock,
   FileText,
   BarChart3,
@@ -21,7 +20,6 @@ const { requests } = useRequests()
 
 const totalBooks = computed(() => books.value.length)
 const totalBorrows = computed(() => requests.value.filter(r => r.kind === 'borrow').length)
-const totalPurchases = computed(() => requests.value.filter(r => r.kind === 'purchase').length)
 const activeLoans = computed(() => requests.value.filter(r => r.kind === 'borrow' && r.status === 'approved').length)
 const pendingRequests = computed(() => requests.value.filter(r => r.status === 'pending').length)
 
@@ -48,17 +46,10 @@ const monthlyData = computed(() => {
       return r.kind === 'borrow' && date.getMonth() === i
     }).length
   })
-  const purchaseData = months.map((_, i) => {
-    return requests.value.filter(r => {
-      const date = new Date(r.requestedOn)
-      return r.kind === 'purchase' && date.getMonth() === i
-    }).length
-  })
   return {
     labels: months,
     datasets: [
       { label: 'Borrows', data: borrowData, backgroundColor: '#3b82f6' },
-      { label: 'Purchases', data: purchaseData, backgroundColor: '#10b981' }
     ]
   }
 })
@@ -117,13 +108,6 @@ const barOptions = {
         </div>
       </div>
       <div class="flex items-center gap-3">
-        <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600"><ShoppingCart class="h-5 w-5" /></span>
-        <div>
-          <p class="text-sm text-slate-500">Total Purchases</p>
-          <p class="mt-1 text-3xl font-bold text-emerald-600">{{ totalPurchases }}</p>
-        </div>
-      </div>
-      <div class="flex items-center gap-3">
         <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-50 text-amber-600"><Clock class="h-5 w-5" /></span>
         <div>
           <p class="text-sm text-slate-500">Active Loans</p>
@@ -149,7 +133,7 @@ const barOptions = {
       </article>
       <article class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
         <h2 class="font-semibold text-slate-900">Monthly Activity</h2>
-        <p class="mt-1 text-xs text-slate-500">Borrows and purchases</p>
+        <p class="mt-1 text-xs text-slate-500">Borrowing activity</p>
         <div class="h-64 pt-4">
           <Bar :data="monthlyData" :options="barOptions" />
         </div>

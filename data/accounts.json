@@ -21,13 +21,6 @@
     "createdOn": "2026-08-29"
   },
   {
-    "name": "Thy Panha",
-    "email": "cchingerr8@gmail.com",
-    "password": "password123",
-    "role": "admin",
-    "createdOn": "2026-08-29"
-  },
-  {
     "name": "Ahh Dam",
     "email": "maisokkong69@gmail.com",
     "password": "password123",
@@ -56,10 +49,38 @@
     "createdOn": "2026-09-01"
   },
   {
-    "name": "Makara",
-    "email": "makara123@gmail.com",
-    "password": "@qr123",
+    "name": "Pheatra",
+    "email": "tra123@gmail.com",
+    "password": "tra123",
     "role": "user",
-    "createdOn": "2026-09-01"
+    "createdOn": "2026-09-04"
+  },
+  {
+    "name": "Bopha",
+    "email": "bopha123@gmail.com",
+    "password": "@Bopha123",
+    "role": "user",
+    "createdOn": "2026-09-04"
+  },
+  {
+    "name": "Isme",
+    "email": "isyou123@gmail.com",
+    "password": "123456",
+    "role": "user",
+    "createdOn": "2026-09-04"
+  },
+  {
+    "name": "Kokp",
+    "email": "koko377@gmail.com",
+    "password": "koko123",
+    "role": "user",
+    "createdOn": "2026-09-04"
+  },
+  {
+    "name": "Bong",
+    "email": "bong377@gmail.com",
+    "password": "@aa123",
+    "role": "admin",
+    "createdOn": "2026-09-04"
   }
 ]

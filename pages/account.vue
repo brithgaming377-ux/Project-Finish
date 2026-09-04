@@ -5,7 +5,7 @@ import { useAuth } from '~/composables/useAuth'
 
 const router = useRouter()
 const { user, isAdmin, logout } = useAuth()
-const { hasPendingRequest, isConfigured } = useAdminAccess()
+const { hasPendingRequest, isConfigured, isOwnerDevice, claim } = useAdminAccess()
 const { getById, updateBook } = useCatalog()
 const { state, returnBook } = useLibrary()
 const { requests, updateStatus } = useRequests()
@@ -19,13 +19,8 @@ if (import.meta.client && !user.value) {
 
 const savedBooks = computed(() => state.value.saved.map((id) => getById(id)).filter(Boolean))
 const userBorrowRequests = computed(() => requests.value.filter((request) => request.userEmail === user.value?.email && request.kind === 'borrow'))
-const userPurchaseRequests = computed(() => requests.value.filter((request) => request.userEmail === user.value?.email && request.kind === 'purchase'))
 const approvedBorrowRequests = computed(() => userBorrowRequests.value.filter((request) => request.status === 'approved'))
 const borrowedBooks = computed(() => approvedBorrowRequests.value.map((request) => ({ bookId: request.bookId, borrowedOn: request.processedOn || request.requestedOn, dueOn: new Date(new Date(request.processedOn || request.requestedOn).getTime() + 14 * 86400000).toISOString().slice(0, 10), requestId: request.id, book: getById(request.bookId) })).filter((r) => r.book))
-const purchasedBooks = computed(() => {
-  const approved = userPurchaseRequests.value.filter((request) => request.status === 'approved').map((request) => request.bookId)
-  return [...new Set(approved)].map((id) => getById(id)).filter(Boolean)
-})
 
 function daysLeft(dueOn: string) {
   const diff = Math.ceil((new Date(dueOn).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
@@ -123,7 +118,7 @@ async function onClaim() {
       <p class="text-[13.5px] text-ink-soft">Your request is awaiting the owner's approval.</p>
     </section>
 
-    <section class="grid grid-cols-3 gap-3 mb-10">
+    <section class="grid grid-cols-2 gap-3 mb-10">
       <div class="surface-card p-4 text-center">
         <p class="font-display font-semibold text-xl">{{ savedBooks.length }}</p>
         <p class="font-mono text-[10.5px] uppercase tracking-wide text-ink-soft mt-1">Saved</p>
@@ -131,10 +126,6 @@ async function onClaim() {
       <div class="surface-card p-4 text-center">
         <p class="font-display font-semibold text-xl">{{ borrowedBooks.length }}</p>
         <p class="font-mono text-[10.5px] uppercase tracking-wide text-ink-soft mt-1">Borrowed</p>
-      </div>
-      <div class="surface-card p-4 text-center">
-        <p class="font-display font-semibold text-xl">{{ purchasedBooks.length }}</p>
-        <p class="font-mono text-[10.5px] uppercase tracking-wide text-ink-soft mt-1">Purchased</p>
       </div>
     </section>
 
@@ -173,37 +164,6 @@ async function onClaim() {
         </div>
       </div>
       <p v-else class="text-ink-soft text-[14.5px]">Nothing borrowed right now.</p>
-    </section>
-
-    <!-- Purchased -->
-    <section class="mb-10">
-      <h2 class="text-xl font-semibold mb-4">Purchased books</h2>
-      <div v-if="purchasedBooks.length" class="flex flex-col gap-2.5">
-        <div
-          v-for="book in purchasedBooks"
-          :key="book!.id"
-          class="flex items-center gap-3.5 bg-white border border-line rounded-card p-3"
-        >
-          <NuxtLink
-            :to="`/products/${book!.id}`"
-            class="w-9 h-11 rounded shrink-0"
-            :style="{ background: book!.spineColor }"
-          />
-          <NuxtLink :to="`/products/${book!.id}`" class="flex-1">
-            <p class="text-sm font-semibold">{{ book!.title }}</p>
-            <p class="text-xs text-ink-soft">{{ book!.author }}</p>
-          </NuxtLink>
-          <NuxtLink
-            :to="`/products/${book!.id}/read`"
-            class="text-xs font-semibold text-amber-deep hover:underline"
-            >Read</NuxtLink
-          >
-        </div>
-      </div>
-      <p v-else class="text-ink-soft text-[14.5px]">
-        No purchases yet. Browse the
-        <NuxtLink to="/products" class="text-amber-deep underline">catalog</NuxtLink>.
-      </p>
     </section>
 
     <!-- Saved -->

@@ -7,13 +7,12 @@ export interface BorrowRecord {
 export interface LibraryState {
   saved: number[]
   borrowed: BorrowRecord[]
-  purchased: number[]
 }
 
 const STORAGE_KEY = 'marginalia:library'
 
 function libraryState() {
-  return useState<LibraryState>('user-library', () => ({ saved: [], borrowed: [], purchased: [] }))
+  return useState<LibraryState>('user-library', () => ({ saved: [], borrowed: [] }))
 }
 
 function persist(state: LibraryState) {
@@ -31,7 +30,14 @@ function hydrate(state: ReturnType<typeof libraryState>) {
   if (!import.meta.client) return
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (raw) state.value = JSON.parse(raw)
+    if (raw) {
+      const stored = JSON.parse(raw)
+      state.value = {
+        saved: Array.isArray(stored.saved) ? stored.saved : [],
+        borrowed: Array.isArray(stored.borrowed) ? stored.borrowed : []
+      }
+      persist(state.value)
+    }
   } catch {
     // ignore corrupt storage
   }
@@ -53,7 +59,6 @@ export function useLibrary() {
 
   const isSaved = (id: number) => state.value.saved.includes(id)
   const isBorrowed = (id: number) => state.value.borrowed.some((r) => r.bookId === id)
-  const isPurchased = (id: number) => state.value.purchased.includes(id)
 
   function toggleSave(id: number) {
     state.value.saved = isSaved(id)
@@ -77,12 +82,6 @@ export function useLibrary() {
     persist(state.value)
   }
 
-  function purchase(id: number) {
-    if (isPurchased(id)) return
-    state.value.purchased = [...state.value.purchased, id]
-    persist(state.value)
-  }
-
   /** Exchange: return one borrowed book and immediately borrow another in its place. */
   function exchange(currentId: number, newId: number) {
     returnBook(currentId)
@@ -93,11 +92,9 @@ export function useLibrary() {
     state,
     isSaved,
     isBorrowed,
-    isPurchased,
     toggleSave,
     borrow,
     returnBook,
-    purchase,
     exchange
   }
 }

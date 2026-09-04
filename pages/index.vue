@@ -20,7 +20,12 @@ function onSearch() {
 <template>
   <div>
     <section class="relative isolate overflow-hidden bg-ink py-20 sm:py-28">
-      <div class="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/90 to-ink/45" />
+      <div
+        class="absolute inset-0 -z-20 bg-cover bg-center"
+        style="background-image: url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=2200&q=85')"
+        aria-hidden="true"
+      />
+      <div class="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/95 to-ink/70" />
       <div class="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
         <div class="max-w-2xl text-white">
           <div

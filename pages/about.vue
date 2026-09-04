@@ -11,8 +11,8 @@ const services = [
     icon: 'M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25'
   },
   {
-    title: 'Borrow or buy',
-    desc: 'Borrow a digital copy for two weeks, or buy a copy outright to keep permanently.',
+    title: 'Borrow freely',
+    desc: 'Borrow a digital copy for two weeks and return it when you are done.',
     icon: 'M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z'
   },
   {
@@ -37,7 +37,7 @@ const mission = [
 const faqs = [
   {
     q: 'Is Marginalia really free?',
-    a: 'Reading and borrowing are always free. Buying a permanent copy is optional and shown on each book\u2019s page.'
+    a: 'Reading and borrowing are always free for every library member.'
   },
   {
     q: 'How does borrowing work?',
@@ -45,7 +45,7 @@ const faqs = [
   },
   {
     q: 'Can I read without an account?',
-    a: 'Browsing the catalog is open to everyone. Saving, borrowing, buying, and reading require a free account.'
+    a: 'Browsing the catalog is open to everyone. Saving, borrowing, and reading require a free account.'
   },
   {
     q: 'Who can add books to the catalog?',

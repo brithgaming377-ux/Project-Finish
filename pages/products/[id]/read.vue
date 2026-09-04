@@ -16,13 +16,13 @@ if (!book.value) {
 }
 
 const { isLoggedIn, user } = useAuth()
-const { isBorrowed, isPurchased } = useLibrary()
+const { isBorrowed } = useLibrary()
 if (import.meta.client && !isLoggedIn.value) {
   router.push({ path: '/login', query: { redirect: route.fullPath } })
 }
 
-// Redirect to book detail if book requires borrowing and user hasn't borrowed/purchased it
-if (import.meta.client && book.value?.requiresBorrow && !isBorrowed(id.value) && !isPurchased(id.value)) {
+// Redirect to book detail if book requires borrowing and user hasn't borrowed it
+if (import.meta.client && book.value?.requiresBorrow && !isBorrowed(id.value)) {
   router.replace(`/products/${id.value}`)
 }
 

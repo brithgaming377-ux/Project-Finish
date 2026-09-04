@@ -43,7 +43,7 @@ const labels: Record<string, string> = { admins: 'Admins', readers: 'Readers', m
 const title = computed(() => labels[section.value])
 
 const newAdminEmail = ref('')
-const adminBusy = ref(false)
+const adminBusy = ref<boolean | string | null>(false)
 
 async function addAdmin() {
   const email = newAdminEmail.value.trim().toLowerCase()
@@ -131,16 +131,11 @@ const readerStats = computed(() => {
   const today = new Date().toISOString().slice(0, 10)
   const registeredToday = readers.value.filter(r => r.createdOn === today).length
   const activeBorrowers = new Set(allRequests.value.filter(r => r.kind === 'borrow' && r.status === 'approved' && !r.processedOn).map(r => r.userEmail)).size
-  const totalPurchases = allRequests.value.filter(r => r.kind === 'purchase' && r.status === 'approved').length
-  return { registeredToday, activeBorrowers, totalPurchases }
+  return { registeredToday, activeBorrowers }
 })
 
 function getReaderBorrowedCount(email: string) {
   return allRequests.value.filter(r => r.userEmail === email && r.kind === 'borrow' && r.status === 'approved').length
-}
-
-function getReaderPurchasedCount(email: string) {
-  return allRequests.value.filter(r => r.userEmail === email && r.kind === 'purchase' && r.status === 'approved').length
 }
 
 function getReaderSavedCount(email: string) {
@@ -238,6 +233,26 @@ function issueLoan() { const book = bookFor(loanForm.bookId); if (!loanForm.memb
 function finishLoan(id: number) { const loan = returnLoan(id); if (!loan) return; const book = bookFor(loan.bookId); if (book) updateBook(book.id, { availability: { ...book.availability, checkedOut: Math.max(0, book.availability.checkedOut - 1) } }); toast('Book returned.') }
 function createFine() { if (!addFine(fineForm.memberId, Number(fineForm.amount), fineForm.reason)) return toast('Choose a member and enter a fine amount.', 'error'); fineForm.memberId = 0; fineForm.amount = 0; fineForm.reason = ''; toast('Fine added to the member account.') }
 function saveSettings() { updateSettings({ ...settingsForm, loanDays: Number(settingsForm.loanDays), finePerDay: Number(settingsForm.finePerDay) }); toast('Library settings saved.') }
+const reportItems = computed(() => [
+  { label: 'Members', value: data.value.members.length, tone: 'blue' },
+  { label: 'Catalog titles', value: books.value.length, tone: 'slate' },
+  { label: 'Available titles', value: availableBooks.value.length, tone: 'emerald' },
+  { label: 'Active loans', value: activeLoans.value.length, tone: 'amber' },
+  { label: 'Overdue loans', value: overdueLoans.value.length, tone: 'red' },
+  { label: 'Returned loans', value: allRequests.value.filter(request => request.kind === 'borrow' && request.status === 'returned').length, tone: 'violet' },
+  { label: 'Outstanding fines', value: `$${totalFineAmount.value.toFixed(2)}`, tone: 'rose' }
+])
+const reportCategories = computed(() => {
+  const counts: Record<string, number> = {}
+  books.value.forEach(book => { counts[book.category] = (counts[book.category] || 0) + 1 })
+  return Object.entries(counts).sort(([, first], [, second]) => second - first).slice(0, 6)
+})
+const reportInventory = computed(() => ({
+  digitalCopies: books.value.reduce((total, book) => total + book.availability.digitalCopies, 0),
+  checkedOutCopies: books.value.reduce((total, book) => total + book.availability.checkedOut, 0),
+  paidFines: data.value.fines.filter(fine => fine.paid).length,
+  pendingRequests: allRequests.value.filter(request => request.status === 'pending').length
+}))
 function downloadReport() { const rows = [['Metric', 'Value'], ['Members', String(data.value.members.length)], ['Active loans', String(activeLoans.value.length)], ['Overdue loans', String(overdueLoans.value.length)], ['Outstanding fines', `$${totalFineAmount.value.toFixed(2)}`], ['Catalog titles', String(books.value.length)]]; const url = URL.createObjectURL(new Blob([rows.map((row) => row.join(',')).join('\n')], { type: 'text/csv' })); const link = document.createElement('a'); link.href = url; link.download = 'etec-library-report.csv'; link.click(); URL.revokeObjectURL(url); toast('Report downloaded.') }
 if (!title.value) await navigateTo('/admin')
 </script>
@@ -252,7 +267,44 @@ if (!title.value) await navigateTo('/admin')
 
     <template v-else-if="section === 'fines'"><section class="grid gap-4 sm:grid-cols-3"><div class="card"><p>Outstanding</p><strong>{{ outstandingFines.length }}</strong></div><div class="card"><p>Amount due</p><strong>${{ totalFineAmount.toFixed(2) }}</strong></div><div class="card"><p>Paid fines</p><strong>{{ data.fines.filter(fine => fine.paid).length }}</strong></div></section><section class="grid gap-6 lg:grid-cols-[.8fr_1.5fr]"><form class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm" @submit.prevent="createFine"><h2 class="font-semibold text-slate-900">Add a fine</h2><p class="mt-1 text-xs text-slate-500">Use this for damaged, lost, or other library charges.</p><div class="mt-4 space-y-3"><select v-model.number="fineForm.memberId" class="field"><option :value="0">Select member</option><option v-for="member in data.members" :key="member.id" :value="member.id">{{ member.name }}</option></select><input v-model.number="fineForm.amount" min="0.01" step="0.01" type="number" placeholder="Amount (USD)" class="field" /><input v-model="fineForm.reason" placeholder="Reason, e.g. damaged book" class="field" /><button class="primary">Add fine</button></div></form><section class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"><div class="border-b border-slate-100 p-4"><h2 class="font-semibold text-slate-900">Fine register</h2></div><div v-if="data.fines.length" class="divide-y divide-slate-100"><div v-for="fine in data.fines" :key="fine.id" class="flex items-center gap-3 p-4"><span class="flex h-9 w-9 items-center justify-center rounded-full" :class="fine.paid ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'">$</span><div class="min-w-0 flex-1"><p class="font-medium text-slate-800">{{ memberFor(fine.memberId)?.name || 'Former member' }}</p><p class="truncate text-xs text-slate-500">{{ fine.reason || 'Library charge' }}<span v-if="fine.bookId"> · {{ bookFor(fine.bookId)?.title }}</span></p><p class="mt-0.5 text-[11px] text-slate-400">Created {{ fine.createdOn }}<span v-if="fine.paidOn"> · Paid {{ fine.paidOn }}</span></p></div><span class="font-semibold text-slate-800">${{ fine.amount.toFixed(2) }}</span><button v-if="!fine.paid" type="button" class="secondary" @click="payFine(fine.id)">Mark paid</button><span v-else class="text-xs font-semibold text-emerald-600">Paid</span></div></div><p v-else class="p-8 text-center text-sm text-slate-500">Fines are created automatically when an overdue book is returned, or you can add one manually.</p></section></section></template>
 
-    <template v-else-if="section === 'reports'"><section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"><div v-for="item in [{ label: 'Members', value: data.members.length }, { label: 'Active loans', value: activeLoans.length }, { label: 'Overdue', value: overdueLoans.length }, { label: 'Available books', value: availableBooks.length }]" :key="item.label" class="card"><p>{{ item.label }}</p><strong>{{ item.value }}</strong></div></section><section class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm"><h2 class="font-semibold text-slate-900">Library summary</h2><p class="mt-2 max-w-xl text-sm leading-6 text-slate-500">Download a CSV summary based on the current members, loans, fines, and catalog records.</p><button type="button" class="primary mt-5" @click="downloadReport">Download CSV report</button></section></template>
+    <template v-else-if="section === 'reports'">
+      <section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div v-for="item in reportItems" :key="item.label" class="card">
+          <div class="flex items-center justify-between gap-3">
+            <p>{{ item.label }}</p>
+            <span class="h-2.5 w-2.5 rounded-full" :class="{ 'bg-blue-500': item.tone === 'blue', 'bg-slate-500': item.tone === 'slate', 'bg-emerald-500': item.tone === 'emerald', 'bg-amber-500': item.tone === 'amber', 'bg-red-500': item.tone === 'red', 'bg-violet-500': item.tone === 'violet', 'bg-cyan-500': item.tone === 'cyan', 'bg-rose-500': item.tone === 'rose' }"></span>
+          </div>
+          <strong>{{ item.value }}</strong>
+        </div>
+      </section>
+
+      <section class="grid gap-6 lg:grid-cols-[1.15fr_.85fr]">
+        <article class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div><h2 class="font-semibold text-slate-900">Library summary</h2><p class="mt-1 text-sm text-slate-500">A current snapshot of circulation and inventory activity.</p></div>
+            <button type="button" class="primary" @click="downloadReport">Download CSV</button>
+          </div>
+          <div class="mt-6 grid gap-3 sm:grid-cols-2">
+            <div class="rounded-lg bg-slate-50 p-4"><p class="text-xs text-slate-500">Digital copies</p><p class="mt-1 text-2xl font-bold text-slate-900">{{ reportInventory.digitalCopies }}</p></div>
+            <div class="rounded-lg bg-blue-50 p-4"><p class="text-xs text-blue-600">Copies checked out</p><p class="mt-1 text-2xl font-bold text-slate-900">{{ reportInventory.checkedOutCopies }}</p></div>
+            <div class="rounded-lg bg-amber-50 p-4"><p class="text-xs text-amber-700">Pending requests</p><p class="mt-1 text-2xl font-bold text-slate-900">{{ reportInventory.pendingRequests }}</p></div>
+            <div class="rounded-lg bg-emerald-50 p-4"><p class="text-xs text-emerald-700">Paid fines</p><p class="mt-1 text-2xl font-bold text-slate-900">{{ reportInventory.paidFines }}</p></div>
+          </div>
+        </article>
+
+        <article class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h2 class="font-semibold text-slate-900">Collection by category</h2>
+          <p class="mt-1 text-sm text-slate-500">Titles currently in the catalog.</p>
+          <div class="mt-5 space-y-4">
+            <div v-for="([category, count]) in reportCategories" :key="category">
+              <div class="mb-1 flex items-center justify-between gap-3 text-sm"><span class="truncate text-slate-700">{{ category }}</span><span class="font-semibold text-slate-900">{{ count }}</span></div>
+              <div class="h-2 overflow-hidden rounded-full bg-slate-100"><div class="h-full rounded-full bg-blue-500" :style="{ width: `${Math.max(10, (count / Math.max(books.length, 1)) * 100)}%` }"></div></div>
+            </div>
+            <p v-if="!reportCategories.length" class="text-sm text-slate-500">No catalog categories yet.</p>
+          </div>
+        </article>
+      </section>
+    </template>
 
     <template v-else-if="section === 'settings'">
       <div class="space-y-6">
@@ -659,7 +711,7 @@ if (!title.value) await navigateTo('/admin')
           <p class="mt-1 text-xs text-slate-500">Only the owner or super-admin can manage admin access.</p>
           <div class="mt-4 space-y-3">
             <input v-model="newAdminEmail" required type="email" placeholder="Admin email address" class="field" />
-            <button class="primary" :disabled="adminBusy">{{ adminBusy ? 'Adding...' : 'Add admin' }}</button>
+            <button class="primary" :disabled="!!adminBusy">{{ adminBusy ? 'Adding...' : 'Add admin' }}</button>
           </div>
         </form>
         <section class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
@@ -679,7 +731,7 @@ if (!title.value) await navigateTo('/admin')
                 <p class="font-medium text-slate-800">{{ email }}</p>
                 <p class="text-xs text-slate-500">Administrator</p>
               </div>
-              <button type="button" class="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50" :disabled="adminBusy" @click="removeAdmin(email)">Remove</button>
+              <button type="button" class="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50" :disabled="!!adminBusy" @click="removeAdmin(email)">Remove</button>
             </div>
             <p v-if="!adminList.length" class="p-4 text-center text-sm text-slate-500">No additional admins yet.</p>
           </div>
@@ -691,7 +743,6 @@ if (!title.value) await navigateTo('/admin')
       <section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <div class="card"><p>Total readers</p><strong>{{ readers.length }}</strong></div>
         <div class="card"><p>Active borrowers</p><strong>{{ readerStats.activeBorrowers }}</strong></div>
-        <div class="card"><p>Total purchases</p><strong>{{ readerStats.totalPurchases }}</strong></div>
         <div class="card"><p>Registered today</p><strong>{{ readerStats.registeredToday }}</strong></div>
       </section>
       <section class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
@@ -722,7 +773,6 @@ if (!title.value) await navigateTo('/admin')
               <div class="flex flex-col items-end gap-2">
                 <div class="flex items-center gap-3 text-xs text-slate-500">
                   <span class="text-center"><strong class="block text-sm text-slate-700">{{ getReaderBorrowedCount(reader.email) }}</strong>Borrowed</span>
-                  <span class="text-center"><strong class="block text-sm text-slate-700">{{ getReaderPurchasedCount(reader.email) }}</strong>Purchased</span>
                 </div>
                 <div class="flex gap-1.5">
                   <button type="button" class="rounded-lg border border-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-50 flex items-center gap-1" @click="startEdit(reader)"><Edit3 class="h-3.5 w-3.5" /> Edit</button>

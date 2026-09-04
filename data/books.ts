@@ -37,7 +37,6 @@ export interface Book {
   readingTimeHours: number
   addedDate: string
   edition: number
-  price: number
   exchangeable: boolean
   requiresBorrow: boolean
   rating: number

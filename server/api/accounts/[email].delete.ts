@@ -26,11 +26,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 403, statusMessage: 'Only a super-admin can delete administrator accounts' })
   }
 
-  const next = accounts.filter((account) => account.email !== email)
-  if (next.length === accounts.length) {
-    return { ok: true, removed: false }
-  }
-
+  const next = accounts.filter((account) => account.email.toLowerCase() !== email)
   await writeAccounts(next)
   return { ok: true, removed: true }
 })

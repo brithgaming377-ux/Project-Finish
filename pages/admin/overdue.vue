@@ -9,6 +9,8 @@ import {
   RotateCcw,
   Eye
 } from '@lucide/vue'
+import { getCoverUrl } from '~/data/books'
+import BookCoverImage from '~/components/BookCoverImage.vue'
 
 const { books, updateBook } = useCatalog()
 const { requests, updateStatus } = useRequests()
@@ -74,7 +76,7 @@ async function onReturnBook(requestId: number, bookId: number) {
     updateStatus(requestId, 'returned')
     const book = books.value.find(b => b.id === bookId)
     if (book) {
-      updateBook(bookId, {
+      await updateBook(bookId, {
         availability: {
           ...book.availability,
           checkedOut: Math.max(0, book.availability.checkedOut - 1)
@@ -224,7 +226,7 @@ function clearSearch() {
               <tr class="hover:bg-slate-50 transition">
                 <td class="px-6 py-4">
                   <div class="flex items-center gap-3">
-                    <div class="h-10 w-7 rounded shrink-0" :style="{ background: item.book?.spineColor || '#ccc' }"></div>
+                    <BookCoverImage :src="item.book?.coverUrl" :fallback="getCoverUrl(item.book?.category || 'Other')" :alt="item.book?.title || 'Unknown Book'" :label="item.book?.title || 'Unknown Book'" class="h-10 w-7 shrink-0 overflow-hidden rounded" />
                     <p class="text-sm font-medium text-slate-900 truncate">{{ item.book?.title || 'Unknown Book' }}</p>
                   </div>
                 </td>

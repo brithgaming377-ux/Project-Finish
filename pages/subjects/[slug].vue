@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { BookOpen, Brain, FlaskConical, Globe2, Languages, Users } from '@lucide/vue'
 import { getSubjectBySlug } from '~/data/subjects'
 import { useCatalog } from '~/composables/useCatalog'
 
@@ -31,6 +32,7 @@ const levelCounts = computed(() => {
   })
   return counts
 })
+const subjectIcons = { technology: Brain, philosophy: BookOpen, science: FlaskConical, leadership: Users, language: Languages, history: Globe2, other: BookOpen }
 
 useHead(() => ({ title: subject.value ? `${subject.value.name} — Marginalia` : 'Marginalia' }))
 </script>
@@ -45,34 +47,20 @@ useHead(() => ({ title: subject.value ? `${subject.value.name} — Marginalia` :
       <span class="text-ink font-semibold">{{ subject.name }}</span>
     </nav>
 
-    <header class="flex items-start gap-5 mb-10 flex-wrap">
+    <RevealOnScroll as="header" class="mb-10 flex flex-wrap items-start gap-5">
       <div
         class="w-14 h-14 rounded-card flex items-center justify-center shrink-0"
         :style="{ background: subject.color + '1a' }"
       >
-        <svg
-          width="28"
-          height="28"
-          viewBox="0 0 24 24"
-          fill="none"
-          :style="{ color: subject.color }"
-        >
-          <path
-            :d="subject.icon"
-            stroke="currentColor"
-            stroke-width="1.6"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <component :is="subjectIcons[subject.slug as keyof typeof subjectIcons]" class="h-7 w-7" :style="{ color: subject.color }" aria-hidden="true" />
       </div>
       <div class="flex-1 min-w-[240px]">
         <h1 class="font-display font-semibold text-[clamp(26px,3.6vw,36px)]">{{ subject.name }}</h1>
         <p class="text-ink-soft text-[15px] mt-2 max-w-[62ch]">{{ subject.description }}</p>
       </div>
-    </header>
+    </RevealOnScroll>
 
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
+    <RevealOnScroll class="mb-12 grid grid-cols-2 gap-4 sm:grid-cols-4" :delay="80">
       <div class="border border-line rounded-card bg-white p-4 text-center">
         <p class="font-display font-semibold text-2xl">{{ shelfBooks.length }}</p>
         <p class="font-mono text-[10.5px] uppercase tracking-wide text-ink-soft mt-1">Titles</p>
@@ -89,16 +77,16 @@ useHead(() => ({ title: subject.value ? `${subject.value.name} — Marginalia` :
         <p class="font-display font-semibold text-2xl">{{ levelCounts.Advanced }}</p>
         <p class="font-mono text-[10.5px] uppercase tracking-wide text-ink-soft mt-1">Advanced</p>
       </div>
-    </div>
+    </RevealOnScroll>
 
-    <section v-if="topRated.length" class="mb-14">
+    <RevealOnScroll v-if="topRated.length" as="section" class="mb-14" :delay="120">
       <h2 class="text-xl font-display font-semibold mb-5">Top rated on this shelf</h2>
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <BookCard v-for="b in topRated" :key="b.id" :book="b" />
       </div>
-    </section>
+    </RevealOnScroll>
 
-    <section>
+    <RevealOnScroll as="section" :delay="160">
       <div class="flex items-baseline justify-between mb-5">
         <h2 class="text-xl font-display font-semibold">Full shelf</h2>
         <NuxtLink
@@ -110,6 +98,6 @@ useHead(() => ({ title: subject.value ? `${subject.value.name} — Marginalia` :
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <BookCard v-for="b in shelfBooks" :key="b.id" :book="b" />
       </div>
-    </section>
+    </RevealOnScroll>
   </div>
 </template>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { BookOpen, ChevronDown, Menu, X } from '@lucide/vue'
+
 const route = useRoute()
 const { user, isAdmin, logout } = useAuth()
 const { push: toast } = useToast()
@@ -32,13 +34,13 @@ function onMobileLogout() {
 </script>
 
 <template>
-  <header class="sticky top-0 z-20 bg-parchment/95 backdrop-blur-md">
+  <header class="sticky top-0 z-20 border-b border-line/80 bg-white/95 backdrop-blur-xl">
     <!-- Utility bar -->
-    <div class="hidden sm:block border-b border-line bg-ink text-white/80">
+    <div class="hidden border-b border-campus-light bg-campus text-white/80 sm:block">
       <div
         class="mx-auto flex max-w-7xl items-center justify-between px-6 py-2 font-mono text-[10px] uppercase tracking-[0.1em]"
       >
-        <span>Digital library catalog &middot; free access for all students</span>
+          <span>E-LIBRARY &middot; Open digital learning for every reader</span>
         <div class="flex items-center gap-4">
           <NuxtLink to="/about" class="hover:text-white">Help</NuxtLink>
           <span v-if="isAdmin" class="text-amber">Admin mode</span>
@@ -47,19 +49,24 @@ function onMobileLogout() {
     </div>
 
     <!-- Main nav -->
-    <div class="border-b border-line/80">
+    <div>
       <div class="mx-auto flex max-w-7xl items-center gap-8 px-6 py-4">
-        <NuxtLink to="/" class="mr-auto flex shrink-0 items-center gap-2.5">
-        
-          <span class="font-display text-2xl leading-none tracking-tight">ETEC-LIBRARY</span>
+        <NuxtLink to="/" class="mr-auto flex shrink-0 items-center gap-2.5" aria-label="E-LIBRARY home">
+          <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-ink text-amber shadow-sm">
+            <BookOpen class="h-5 w-5" stroke-width="1.8" aria-hidden="true" />
+          </span>
+          <span>
+            <span class="block font-display text-2xl leading-none tracking-tight text-campus">E-LIBRARY</span>
+            <span class="mt-1 block font-mono text-[8px] uppercase tracking-[0.18em] text-ink-soft">Digital knowledge centre</span>
+          </span>
         </NuxtLink>
 
-        <nav class="hidden md:flex gap-7" aria-label="Primary">
+        <nav class="hidden items-center gap-6 md:flex" aria-label="Primary">
           <NuxtLink
             v-for="link in links"
             :key="link.to"
             :to="link.to"
-            class="border-b-2 pb-1.5 text-[13px] font-bold tracking-[0.01em] transition-colors"
+            class="nav-link border-b-2 pb-1 text-[11px] font-bold uppercase tracking-[0.1em] transition-colors"
             :class="
               route.path === link.to
                 ? 'text-ink border-amber'
@@ -74,7 +81,7 @@ function onMobileLogout() {
         <NuxtLink
           v-if="!user"
           to="/login"
-          class="hidden items-center gap-2 rounded-xl bg-ink px-5 py-2.5 text-sm font-bold text-white shadow-premium transition hover:-translate-y-0.5 hover:bg-ink-light sm:inline-flex"
+          class="premium-interaction hidden items-center gap-2 rounded-lg bg-crimson px-5 py-2.5 text-sm font-bold text-white shadow-premium hover:-translate-y-0.5 hover:bg-campus sm:inline-flex"
         >
           Log in
         </NuxtLink>
@@ -82,7 +89,7 @@ function onMobileLogout() {
         <!-- Logged in -->
         <div v-else class="hidden sm:block relative">
           <button
-            class="flex items-center gap-2.5 rounded-xl border border-line bg-white py-1.5 pl-2.5 pr-3.5 shadow-sm transition hover:border-ink/40"
+            class="premium-interaction flex items-center gap-2.5 rounded-xl border border-line bg-white py-1.5 pl-2.5 pr-3.5 shadow-sm hover:border-ink/40"
             type="button"
             @click="menuOpen = !menuOpen"
           >
@@ -93,22 +100,15 @@ function onMobileLogout() {
               {{ user.name.charAt(0) }}
             </span>
             <span class="text-sm font-medium">{{ user.name }}</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M6 9l6 6 6-6"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <ChevronDown class="h-4 w-4" aria-hidden="true" />
           </button>
 
-          <div
-            v-if="menuOpen"
-            class="absolute right-0 top-full mt-2 w-48 bg-white border border-line rounded-card shadow-premium py-1.5 z-30"
-            @click="menuOpen = false"
-          >
+          <Transition name="dropdown">
+            <div
+              v-if="menuOpen"
+              class="absolute right-0 top-full z-30 mt-2 w-48 rounded-card border border-line bg-white py-1.5 shadow-premium"
+              @click="menuOpen = false"
+            >
             <p class="px-3.5 py-2 text-xs text-ink-soft border-b border-line mb-1">
               {{ user.email }} &middot; {{ isAdmin ? 'Admin' : 'Reader' }}
             </p>
@@ -128,7 +128,8 @@ function onMobileLogout() {
             >
               Sign out
             </button>
-          </div>
+            </div>
+          </Transition>
         </div>
 
         <button
@@ -137,19 +138,14 @@ function onMobileLogout() {
           aria-label="Toggle menu"
           @click="mobileOpen = !mobileOpen"
         >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M3 6h18M3 12h18M3 18h18"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-          </svg>
+          <X v-if="mobileOpen" class="h-5 w-5" aria-hidden="true" />
+          <Menu v-else class="h-5 w-5" aria-hidden="true" />
         </button>
       </div>
 
       <!-- Mobile menu -->
-      <div v-if="mobileOpen" class="md:hidden border-t border-line px-6 py-4 flex flex-col gap-3">
+      <Transition name="mobile-menu">
+        <div v-if="mobileOpen" class="mobile-menu md:hidden border-t border-line px-6 py-4 flex flex-col gap-3">
         <NuxtLink
           v-for="link in links"
           :key="link.to"
@@ -175,7 +171,8 @@ function onMobileLogout() {
         >
           Sign out
         </button>
-      </div>
+        </div>
+      </Transition>
     </div>
   </header>
 </template>

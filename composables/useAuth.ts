@@ -45,10 +45,11 @@ export function useAuth() {
   const user = authState()
   const adminAccess = useAdminAccess()
 
-  if (import.meta.client && !hydrated) {
+  onMounted(() => {
+    if (hydrated) return
     hydrated = true
     loadSession()
-  }
+  })
 
   async function tryAutoClaim(email: string) {
     try {

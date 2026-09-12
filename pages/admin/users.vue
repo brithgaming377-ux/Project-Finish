@@ -36,6 +36,12 @@ function canDeleteUser(user: ManagedUser) {
   return user.role === 'user' || canManageAdmins.value
 }
 
+function canEditUser(user: ManagedUser) {
+  if (user.email === currentUser.value?.email) return false
+  if (currentUser.value?.role === 'admin' && (user.role === 'admin' || user.role === 'super-admin')) return false
+  return true
+}
+
 async function fetchUsers() {
   loading.value = true
   try {
@@ -181,12 +187,12 @@ onMounted(() => {
 
 <template>
   <div class="mx-auto max-w-7xl space-y-7">
-    <div class="relative overflow-hidden rounded-2xl bg-[#17192d] px-6 py-7 text-white shadow-lg sm:px-8">
+    <div class="relative overflow-hidden rounded-2xl bg-white px-6 py-7 text-slate-900 shadow-lg sm:px-8 border border-slate-200">
       <div class="relative z-10 flex flex-wrap items-end justify-between gap-5">
       <div>
-        <div class="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#e2bf52]"><Users class="h-4 w-4" /> User management</div>
+        <div class="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#c9a227]"><Users class="h-4 w-4" /> User management</div>
         <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">People with access</h1>
-        <p class="mt-2 max-w-xl text-sm leading-6 text-slate-300">Manage readers, administrators, and the people who keep your digital library running.</p>
+        <p class="mt-2 max-w-xl text-sm leading-6 text-slate-500">Manage readers, administrators, and the people who keep your digital library running.</p>
       </div>
       <button
         type="button"
@@ -196,7 +202,7 @@ onMounted(() => {
         <Plus class="h-4 w-4" /> Add user
       </button>
       </div>
-      <div class="absolute -right-12 -top-20 h-64 w-64 rounded-full border-[34px] border-[#c9a227]/15" />
+      <div class="absolute -right-12 -top-20 h-64 w-64 rounded-full border-[34px] border-[#c9a227]/10" />
       <div class="absolute bottom-0 right-24 h-1 w-28 bg-[#c9a227]" />
     </div>
 
@@ -316,6 +322,7 @@ onMounted(() => {
               <td class="px-5 py-4">
                 <div class="flex justify-end gap-2">
                   <button
+                    v-if="canEditUser(u)"
                     type="button"
                     class="rounded-lg border border-slate-200 p-2 text-slate-500 opacity-70 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 group-hover:opacity-100"
                     title="Edit"

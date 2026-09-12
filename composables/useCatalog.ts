@@ -1,17 +1,8 @@
-import { books as seedBooks, getCoverUrl, type Book } from '~/data/books'
-
-const STORAGE_KEY = 'marginalia:catalog'
-const DELETED_STORAGE_KEY = 'marginalia:deleted-books'
-const SOURCE_SIGNATURE = JSON.stringify(seedBooks)
+import { books as seedBooks, getCoverUrl, normalizeFileUrl, type Book } from '~/data/books'
 
 export interface DeletedBook {
   book: Book
   deletedAt: string
-}
-
-interface StoredCatalog {
-  sourceSignature: string
-  books: Book[]
 }
 
 export interface NewBookInput {
@@ -32,6 +23,15 @@ export interface NewBookInput {
   requiresBorrow: boolean
 }
 
+function normalize(book: Book): Book {
+  return {
+    ...book,
+    coverUrl: book.coverUrl || getCoverUrl(book.category),
+    requiresBorrow: book.requiresBorrow ?? false,
+    fileUrl: normalizeFileUrl(book.fileUrl)
+  }
+}
+
 function catalogState() {
   return useState<Book[]>('catalog-books', () => JSON.parse(JSON.stringify(seedBooks)))
 }
@@ -40,93 +40,7 @@ function deletedBooksState() {
   return useState<DeletedBook[]>('deleted-catalog-books', () => [])
 }
 
-function persist(list: Book[]) {
-  if (!import.meta.client) return
-  try {
-    const stored: StoredCatalog = { sourceSignature: SOURCE_SIGNATURE, books: list }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(stored))
-  } catch {
-    // ignore storage errors
-  }
-}
-
-function persistDeleted(list: DeletedBook[]) {
-  if (!import.meta.client) return
-  try {
-    localStorage.setItem(DELETED_STORAGE_KEY, JSON.stringify(list))
-  } catch {
-    // ignore storage errors
-  }
-}
-
-function normalizeBook(book: Book): Book {
-  const seedBook = seedBooks.find((item) => item.id === book.id)
-  const defaultCover = getCoverUrl(book.category)
-  const savedCoverIsDefault = !book.coverUrl || book.coverUrl === defaultCover
-  const seedCover = seedBook?.coverUrl || getCoverUrl(seedBook?.category || book.category)
-
-  // Pick up cover URLs added to books.json, but keep an image chosen in Admin.
-  const coverUrl = savedCoverIsDefault ? seedCover : book.coverUrl
-
-  return { ...book, coverUrl }
-}
-
-function cloneSeedBooks(): Book[] {
-  return JSON.parse(JSON.stringify(seedBooks)) as Book[]
-}
-
-function isStoredCatalog(value: unknown): value is StoredCatalog {
-  return Boolean(
-    value &&
-      typeof value === 'object' &&
-      'sourceSignature' in value &&
-      'books' in value &&
-      typeof (value as StoredCatalog).sourceSignature === 'string' &&
-      Array.isArray((value as StoredCatalog).books)
-  )
-}
-
-function hydrate(list: ReturnType<typeof catalogState>) {
-  if (!import.meta.client) return
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return
-
-    const stored: unknown = JSON.parse(raw)
-    if (!isStoredCatalog(stored)) {
-      // Old browser data used a different shape, so refresh it from books.json.
-      list.value = cloneSeedBooks()
-      persist(list.value)
-      return
-    }
-
-    if (stored.sourceSignature === SOURCE_SIGNATURE) {
-      list.value = stored.books.map(normalizeBook)
-      return
-    }
-
-    // books.json changed: use its latest records and retain only Admin-added books.
-    const seedIds = new Set(seedBooks.map((book) => book.id))
-    const adminAddedBooks = stored.books.filter((book) => !seedIds.has(book.id)).map(normalizeBook)
-    list.value = [...cloneSeedBooks(), ...adminAddedBooks].sort((a, b) => a.id - b.id)
-    persist(list.value)
-  } catch {
-    // ignore corrupt storage, fall back to seed data
-  }
-}
-
-function hydrateDeleted(list: ReturnType<typeof deletedBooksState>) {
-  if (!import.meta.client) return
-  try {
-    const raw = localStorage.getItem(DELETED_STORAGE_KEY)
-    if (raw) list.value = JSON.parse(raw) as DeletedBook[]
-  } catch {
-    // ignore corrupt storage
-  }
-}
-
-let hydrated = false
-let deletedHydrated = false
+const STORAGE_KEY = 'marginalia:catalog'
 
 const categoryPrefixes: Record<string, string> = {
   Technology: 'QA76',
@@ -138,17 +52,82 @@ const categoryPrefixes: Record<string, string> = {
   Other: 'BF'
 }
 
+let clientHydrated = false
+let clientHydrationPromise: Promise<void> | null = null
+
+function isBookArray(value: unknown): value is Book[] {
+  return Array.isArray(value) && value.length > 0 && typeof value[0] === 'object' && value[0] !== null && 'id' in value[0] && 'title' in value[0]
+}
+
+function readStoredBooks(raw: string): Book[] | null {
+  try {
+    const stored = JSON.parse(raw)
+    if (isBookArray(stored)) {
+      return stored.map((book) => normalize(book))
+    }
+    if (stored && Array.isArray(stored.books)) {
+      return stored.books.map((book) => normalize(book))
+    }
+  } catch {
+    // ignore
+  }
+  return null
+}
+
+function persistClientBooks(books: Book[]) {
+  if (!import.meta.client) return
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(books))
+  } catch {
+    // ignore
+  }
+}
+
 export function useCatalog() {
   const books = catalogState()
   const deletedBooks = deletedBooksState()
 
-  if (import.meta.client && !hydrated) {
-    hydrated = true
-    hydrate(books)
+  if (import.meta.client && !clientHydrated) {
+    clientHydrated = true
+    clientHydrationPromise = (async () => {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY)
+        const remote = await $fetch<Book[]>('/api/books').catch(() => null)
+        if (remote) {
+          books.value = remote.map((book) => normalize(book))
+          persistClientBooks(books.value)
+          return
+        }
+        if (raw) {
+          const storedBooks = readStoredBooks(raw)
+          if (storedBooks) {
+            books.value = storedBooks
+          }
+        }
+      } catch {
+        // ignore
+      }
+    })()
   }
-  if (import.meta.client && !deletedHydrated) {
-    deletedHydrated = true
-    hydrateDeleted(deletedBooks)
+
+  if (import.meta.server) {
+    ;(async () => {
+      try {
+        const { readBooks } = await import('~/server/utils/books')
+        const fileBooks = await readBooks()
+        if (fileBooks.length) {
+          books.value = fileBooks.map((book) => normalize(book))
+        }
+      } catch {
+        // keep seed data if file read fails
+      }
+    })()
+  }
+
+  async function waitForHydration() {
+    if (import.meta.client && clientHydrationPromise) {
+      await clientHydrationPromise
+    }
   }
 
   function getById(id: number): Book | undefined {
@@ -163,7 +142,8 @@ export function useCatalog() {
     return books.value.reduce((max, b) => Math.max(max, b.id), 0) + 1
   }
 
-  function addBook(input: NewBookInput): Book {
+  async function addBook(input: NewBookInput): Promise<Book> {
+    await waitForHydration()
     const id = nextId()
     const prefix = categoryPrefixes[input.category] || 'Z'
     const book: Book = {
@@ -198,57 +178,135 @@ export function useCatalog() {
       reviews: [],
       availability: { digitalCopies: 5, checkedOut: 0 }
     }
-    books.value = [...books.value, book]
-    persist(books.value)
-    return book
+
+    let saved = book
+    if (import.meta.client) {
+      try {
+        saved = await $fetch<Book>('/api/books', {
+          method: 'POST',
+          body: book
+        })
+      } catch {
+        // keep local book if API fails
+      }
+    } else {
+      const { writeBooks } = await import('~/server/utils/books')
+      await writeBooks([...books.value, book])
+      saved = book
+    }
+
+    const existing = books.value.find((b) => b.id === saved.id)
+    if (existing) {
+      books.value = books.value.map((b) => (b.id === saved.id ? saved : b))
+    } else {
+      books.value = [...books.value, saved]
+    }
+    persistClientBooks(books.value)
+    return saved
   }
 
-  function updateBook(id: number, patch: Partial<Book>) {
-    books.value = books.value.map((b) => (b.id === id ? { ...b, ...patch } : b))
-    persist(books.value)
+  async function updateBook(id: number, patch: Partial<Book>) {
+    await waitForHydration()
+    const updated = books.value.map((b) => (b.id === id ? { ...b, ...patch } : b))
+
+    if (import.meta.client) {
+      try {
+        const saved = await $fetch<Book>(`/api/books/${id}`, {
+          method: 'PUT',
+          body: { ...patch, id }
+        })
+        books.value = books.value.map((b) => (b.id === id ? saved : b))
+      } catch {
+        books.value = updated
+      }
+    } else {
+      const { writeBooks } = await import('~/server/utils/books')
+      await writeBooks(updated)
+      books.value = updated
+    }
+
+    persistClientBooks(books.value)
   }
 
-  function deleteBook(id: number): Book | undefined {
+  async function deleteBook(id: number): Promise<Book | undefined> {
+    await waitForHydration()
     const deleted = books.value.find((b) => b.id === id)
-    books.value = books.value.filter((b) => b.id !== id)
-    persist(books.value)
+    const remaining = books.value.filter((b) => b.id !== id)
+
+    if (import.meta.client) {
+      await $fetch(`/api/books/${id}`, { method: 'DELETE' })
+    } else {
+      const { writeBooks } = await import('~/server/utils/books')
+      await writeBooks(remaining)
+    }
+
+    books.value = remaining
+    persistClientBooks(books.value)
     if (deleted) {
       deletedBooks.value = [
         { book: deleted, deletedAt: new Date().toISOString() },
         ...deletedBooks.value.filter((item) => item.book.id !== deleted.id)
       ]
-      persistDeleted(deletedBooks.value)
     }
     return deleted
   }
 
-  function restoreBook(book: Book) {
+  async function restoreBook(book: Book) {
+    await waitForHydration()
     if (books.value.some((current) => current.id === book.id)) return
-    books.value = [...books.value, book].sort((a, b) => a.id - b.id)
-    persist(books.value)
+    const restored = [...books.value, book].sort((a, b) => a.id - b.id)
+
+    if (import.meta.client) {
+      await $fetch('/api/books', {
+        method: 'POST',
+        body: book
+      })
+    } else {
+      const { writeBooks } = await import('~/server/utils/books')
+      await writeBooks(restored)
+    }
+
+    books.value = restored
+    persistClientBooks(books.value)
     deletedBooks.value = deletedBooks.value.filter((item) => item.book.id !== book.id)
-    persistDeleted(deletedBooks.value)
   }
 
-  function importBooks(incoming: Book[]) {
+  async function importBooks(incoming: Book[]) {
+    await waitForHydration()
     const valid = incoming.filter(
       (book) => book && typeof book.title === 'string' && typeof book.id === 'number'
     )
     const merged = [...books.value]
     valid.forEach((book) => {
       const position = merged.findIndex((current) => current.id === book.id)
-      const normalized = normalizeBook(book)
+      const normalized = normalize(book)
       if (position >= 0) merged[position] = normalized
       else merged.push(normalized)
     })
+
+    if (import.meta.client) {
+      for (const book of merged) {
+        const exists = books.value.find((b) => b.id === book.id)
+        if (exists) {
+          await $fetch(`/api/books/${book.id}`, { method: 'PUT', body: book })
+        } else {
+          await $fetch('/api/books', { method: 'POST', body: book })
+        }
+      }
+    } else {
+      const { writeBooks } = await import('~/server/utils/books')
+      await writeBooks(merged)
+    }
+
     books.value = merged
-    persist(books.value)
+    persistClientBooks(books.value)
     return valid.length
   }
 
   return {
     books,
     deletedBooks,
+    waitForHydration,
     getById,
     getAvailableCopies,
     addBook,

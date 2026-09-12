@@ -4,7 +4,7 @@ export interface Fine { id: number; loanId?: number; memberId: number; bookId?: 
 export interface AdminSettings { loanDays: number; finePerDay: number; libraryName: string }
 
 const STORAGE_KEY = 'etec-admin-library'
-const defaults = () => ({ members: [{ id: 1, name: 'John Dara', email: 'john.dara@etec.edu', role: 'Student' as const, joinedOn: '2026-01-12' }, { id: 2, name: 'Dara Phan', email: 'dara.phan@etec.edu', role: 'Student' as const, joinedOn: '2026-02-03' }, { id: 3, name: 'Sokha Kim', email: 'sokha.kim@etec.edu', role: 'Teacher' as const, joinedOn: '2026-03-18' }], loans: [] as AdminLoan[], fines: [] as Fine[], settings: { loanDays: 14, finePerDay: 0.5, libraryName: 'ETEC Library' } })
+const defaults = () => ({ members: [] as Member[], loans: [] as AdminLoan[], fines: [] as Fine[], settings: { loanDays: 14, finePerDay: 0.5, libraryName: 'E-LIBRARY' } })
 type AdminState = ReturnType<typeof defaults>
 const state = () => useState<AdminState>('admin-library-data', defaults)
 let hydrated = false

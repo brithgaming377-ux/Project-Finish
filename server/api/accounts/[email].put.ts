@@ -27,6 +27,11 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 404, statusMessage: 'Account not found' })
   }
 
+  const isElevated = isOwner || isSuperAdmin
+  if ((account.role === 'admin' || account.role === 'super-admin') && !isElevated) {
+    throw createError({ statusCode: 403, statusMessage: 'Only a super-admin or owner can update administrator accounts' })
+  }
+
   if (name) account.name = name
   account.role = role
 

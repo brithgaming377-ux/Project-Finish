@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { CircleAlert, CircleCheck } from '@lucide/vue'
+
 const { toasts, dismiss } = useToast()
 
 function toneClasses(tone: string) {
@@ -29,38 +31,8 @@ function runAction(id: number, action?: () => void) {
         :class="toneClasses(t.tone)"
         @click="dismiss(t.id)"
       >
-        <svg
-          v-if="t.tone === 'success'"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          class="shrink-0"
-        >
-          <path
-            d="M4.5 12.75l6 6 9-13.5"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-        <svg
-          v-else-if="t.tone === 'error'"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          class="shrink-0"
-        >
-          <path
-            d="M12 9v3.75m0 3.75h.008M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <CircleCheck v-if="t.tone === 'success'" class="h-4 w-4 shrink-0" aria-hidden="true" />
+        <CircleAlert v-else-if="t.tone === 'error'" class="h-4 w-4 shrink-0" aria-hidden="true" />
         <span class="flex-1">{{ t.message }}</span>
         <button
           v-if="t.actionLabel"

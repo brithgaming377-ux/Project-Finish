@@ -55,9 +55,9 @@ function clearFilters() {
 
 <template>
   <div class="page-shell">
-    <header class="mb-12 max-w-3xl">
+    <header class="mb-10 max-w-3xl border-l-2 border-amber pl-5">
       <p class="page-eyebrow">
-        ETEC-LIBRARY / Collection
+        E-LIBRARY / Collection
       </p>
       <h1 class="page-title">
         Find a book for every bright idea.
@@ -75,11 +75,11 @@ function clearFilters() {
           <h3 class="font-mono text-xs uppercase tracking-wide text-ink-soft mb-3">Subject</h3>
           <div class="flex flex-col gap-1.5">
             <button
-              class="text-left text-sm px-2.5 py-1.5 rounded-card"
+              class="premium-interaction border-l-2 border-transparent px-2.5 py-1.5 text-left text-sm"
               :class="
                 activeCategory === 'All'
-                  ? 'bg-ink text-parchment'
-                  : 'text-ink-soft hover:bg-parchment-dim'
+                  ? 'border-amber bg-ink text-parchment'
+                  : 'text-ink-soft hover:border-line hover:bg-parchment-dim'
               "
               @click="selectCategory('All')"
             >
@@ -88,11 +88,11 @@ function clearFilters() {
             <button
               v-for="cat in categories"
               :key="cat"
-              class="text-left text-sm px-2.5 py-1.5 rounded-card"
+              class="premium-interaction border-l-2 border-transparent px-2.5 py-1.5 text-left text-sm"
               :class="
                 activeCategory === cat
-                  ? 'bg-ink text-parchment'
-                  : 'text-ink-soft hover:bg-parchment-dim'
+                  ? 'border-amber bg-ink text-parchment'
+                  : 'text-ink-soft hover:border-line hover:bg-parchment-dim'
               "
               @click="selectCategory(cat)"
             >
@@ -105,7 +105,7 @@ function clearFilters() {
           <h3 class="font-mono text-xs uppercase tracking-wide text-ink-soft mb-3">Level</h3>
           <div class="flex flex-col gap-1.5">
             <button
-              class="text-left text-sm px-2.5 py-1.5 rounded-card"
+              class="premium-interaction rounded-card px-2.5 py-1.5 text-left text-sm"
               :class="
                 activeLevel === 'All'
                   ? 'bg-ink text-parchment'
@@ -118,7 +118,7 @@ function clearFilters() {
             <button
               v-for="lvl in levels"
               :key="lvl"
-              class="text-left text-sm px-2.5 py-1.5 rounded-card"
+              class="premium-interaction rounded-card px-2.5 py-1.5 text-left text-sm"
               :class="
                 activeLevel === lvl
                   ? 'bg-ink text-parchment'
@@ -147,12 +147,12 @@ function clearFilters() {
             type="search"
             placeholder="Search title, author, tag…"
             aria-label="Search books"
-            class="min-w-[200px] flex-1 rounded-xl border border-line bg-parchment-dim px-4 py-2.5 text-sm"
+            class="min-w-[200px] flex-1 rounded-lg border border-line bg-parchment-dim px-4 py-2.5 text-sm"
           />
           <select
             v-model="sortBy"
             aria-label="Sort books"
-            class="cursor-pointer rounded-xl border border-line bg-parchment-dim px-4 py-2.5 text-sm"
+            class="cursor-pointer rounded-lg border border-line bg-parchment-dim px-4 py-2.5 text-sm"
           >
             <option value="relevance">Sort: Relevance</option>
             <option value="rating">Sort: Highest rated</option>
@@ -165,13 +165,16 @@ function clearFilters() {
           Showing {{ filteredBooks.length }} of {{ books.length }} books
         </p>
 
-        <div
+        <TransitionGroup
           v-if="filteredBooks.length"
+          :key="`${activeCategory}-${activeLevel}-${query}-${sortBy}`"
+          name="book-grid"
+          tag="div"
           class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5"
         >
-          <BookCard v-for="book in filteredBooks" :key="book.id" :book="book" />
-        </div>
-        <p v-else class="text-ink-soft text-[15px] mt-8">
+          <BookCard v-for="book in filteredBooks" :key="book.id" :book="book" catalog />
+        </TransitionGroup>
+        <p v-else class="empty-state-enter text-ink-soft text-[15px] mt-8">
           No books match your filters. Try clearing them.
         </p>
       </div>

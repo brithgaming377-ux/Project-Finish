@@ -11,6 +11,11 @@ export default <Partial<Config>>{
           soft: '#64677A',
           light: '#292C47'
         },
+        campus: {
+          DEFAULT: '#12304A',
+          light: '#1C4969',
+          pale: '#EAF0F3'
+        },
         parchment: {
           DEFAULT: '#FCFCFD',
           dim: '#F5F5F7'
@@ -20,6 +25,7 @@ export default <Partial<Config>>{
           deep: '#A6821A'
         },
         sage: '#3F8F5F',
+        crimson: '#8C2638',
         rose: {
           DEFAULT: '#C24444',
           deep: '#A13636'

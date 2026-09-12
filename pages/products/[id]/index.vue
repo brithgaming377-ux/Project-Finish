@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { BookOpen, LockKeyhole, Pencil } from '@lucide/vue'
 import { formatYear, getCoverUrl } from '~/data/books'
 import { useCatalog } from '~/composables/useCatalog'
 import { useLibrary } from '~/composables/useLibrary'
@@ -40,6 +41,7 @@ const {
 const { push: toast } = useToast()
 const myRequests = computed(() => (user.value ? forUser(user.value.email).value : []))
 const borrowRequest = computed(() => myRequests.value.find((request) => request.bookId === id.value && request.kind === 'borrow' && ['pending', 'approved'].includes(request.status)))
+const approvedBorrow = computed(() => myRequests.value.some((request) => request.bookId === id.value && request.kind === 'borrow' && request.status === 'approved'))
 
 const activeTab = ref<'description' | 'contents' | 'reviews' | 'citation'>('description')
 const showExchangePanel = ref(false)
@@ -112,7 +114,7 @@ const swappableBooks = computed(() =>
 const canRead = computed(() => {
   if (!book.value) return false
   if (!book.value.requiresBorrow) return true
-  return isBorrowed(book.value.id)
+  return isBorrowed(book.value.id) || approvedBorrow.value
 })
 
 function onExchange(otherId: number) {
@@ -145,37 +147,29 @@ function onExchange(otherId: number) {
         :to="`/admin/${book.id}/edit`"
         class="ml-auto inline-flex items-center gap-1.5 text-amber-deep font-semibold hover:underline"
       >
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"
-            stroke="currentColor"
-            stroke-width="1.6"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <Pencil class="h-3.5 w-3.5" aria-hidden="true" />
         Edit in admin
       </NuxtLink>
     </nav>
 
-    <div class="grid lg:grid-cols-[260px_1fr] gap-12">
+    <div class="grid gap-8 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-14">
       <!-- Sidebar -->
-      <aside class="lg:sticky lg:top-24 self-start flex flex-col gap-4">
-        <div class="relative h-[300px] overflow-hidden rounded-card bg-parchment-dim shadow-cover">
+      <RevealOnScroll as="aside" class="self-start rounded-2xl border border-line bg-white/70 p-4 shadow-[0_18px_40px_-32px_rgba(23,25,45,0.55)] lg:sticky lg:top-24">
+        <div class="flex flex-col gap-4">
+        <div class="relative aspect-[2/3] max-h-[360px] overflow-hidden rounded-card bg-parchment-dim shadow-cover">
           <BookCoverImage
             :src="book.coverUrl"
             :fallback="getCoverUrl(book.category)"
             :alt="`Cover for ${book.title}`"
             class="h-full w-full object-cover"
           />
-          <div class="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-transparent" />
-          <div class="absolute inset-0 flex flex-col justify-between p-5 text-white">
-            <span class="self-start rounded-full bg-white/90 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide text-ink">{{ book.level }}</span>
-            <div>
-              <p class="font-display text-xl font-semibold leading-snug">{{ book.title }}</p>
-              <p class="mt-1.5 font-mono text-[11.5px] text-white/80">{{ book.pages }}p &middot; {{ book.format }}</p>
-            </div>
+        </div>
+        <div class="flex items-start justify-between gap-3 px-1 pt-1">
+          <div>
+            <p class="font-display text-lg font-semibold leading-snug text-ink">{{ book.title }}</p>
+            <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">{{ book.pages }}p &middot; {{ book.format }}</p>
           </div>
+          <span class="shrink-0 rounded-full bg-campus-pale px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-campus">{{ book.level }}</span>
         </div>
 
         <div class="flex items-center gap-2 text-[13px] text-ink-soft">
@@ -189,10 +183,10 @@ function onExchange(otherId: number) {
           <span v-else>All copies currently checked out</span>
         </div>
 
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2 border-t border-line pt-4">
           <button
             v-if="!isBorrowed(book.id)"
-            class="rounded-card bg-ink text-white font-semibold text-sm px-5 py-2.5 hover:bg-ink-light transition disabled:opacity-50 disabled:cursor-not-allowed"
+            class="premium-interaction rounded-card bg-ink text-white font-semibold text-sm px-5 py-2.5 hover:bg-ink-light disabled:opacity-50 disabled:cursor-not-allowed"
             type="button"
             :disabled="copiesLeft === 0 || !!borrowRequest"
             @click="onBorrow"
@@ -201,7 +195,7 @@ function onExchange(otherId: number) {
           </button>
           <button
             v-else
-            class="rounded-card border border-line text-ink font-semibold text-sm px-5 py-2.5 hover:border-ink transition"
+            class="premium-interaction rounded-card border border-line text-ink font-semibold text-sm px-5 py-2.5 hover:border-ink"
             type="button"
             @click="onReturn"
           >
@@ -210,7 +204,7 @@ function onExchange(otherId: number) {
 
           <div class="flex gap-2">
             <button
-              class="flex-1 rounded-card font-semibold text-sm px-4 py-2.5 transition text-center border"
+              class="premium-interaction flex-1 rounded-card font-semibold text-sm px-4 py-2.5 text-center border"
               :class="
                 isSaved(book.id)
                   ? 'border-ink text-ink'
@@ -223,7 +217,7 @@ function onExchange(otherId: number) {
             </button>
             <button
               v-if="book.exchangeable"
-              class="flex-1 rounded-card border border-line text-ink-soft text-sm font-semibold px-4 py-2.5 hover:border-ink hover:text-ink transition"
+              class="premium-interaction flex-1 rounded-card border border-line text-ink-soft text-sm font-semibold px-4 py-2.5 hover:border-ink hover:text-ink"
               type="button"
               @click="showExchangePanel = !showExchangePanel"
             >
@@ -231,53 +225,27 @@ function onExchange(otherId: number) {
             </button>
           </div>
 
-          <a
+          <NuxtLink
             v-if="canRead && book.fileUrl"
-            :href="book.fileUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="rounded-card border border-amber-deep text-amber-deep font-semibold text-sm px-5 py-2.5 text-center hover:bg-amber hover:text-ink hover:border-amber transition flex items-center justify-center gap-2"
+            :to="`/products/${book.id}/read`"
+            class="premium-interaction rounded-card border border-amber-deep text-amber-deep font-semibold text-sm px-5 py-2.5 text-center hover:bg-amber hover:text-ink hover:border-amber flex items-center justify-center gap-2"
           >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
-                stroke="currentColor"
-                stroke-width="1.6"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <BookOpen class="h-4 w-4" aria-hidden="true" />
             Read now
-          </a>
+          </NuxtLink>
           <NuxtLink
             v-else-if="canRead"
             :to="`/products/${book.id}/read`"
-            class="rounded-card border border-amber-deep text-amber-deep font-semibold text-sm px-5 py-2.5 text-center hover:bg-amber hover:text-ink hover:border-amber transition flex items-center justify-center gap-2"
+            class="premium-interaction rounded-card border border-amber-deep text-amber-deep font-semibold text-sm px-5 py-2.5 text-center hover:bg-amber hover:text-ink hover:border-amber flex items-center justify-center gap-2"
           >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
-                stroke="currentColor"
-                stroke-width="1.6"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <BookOpen class="h-4 w-4" aria-hidden="true" />
             Read now
           </NuxtLink>
           <p
             v-else
             class="rounded-card border border-line text-ink-soft text-sm px-5 py-2.5 text-center flex items-center justify-center gap-2"
           >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M12 15v2m0 0v3m0-3h3m-3 0H9m3-12a8.967 8.967 0 00-6 2.292c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
-                stroke="currentColor"
-                stroke-width="1.6"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <LockKeyhole class="h-4 w-4" aria-hidden="true" />
             Borrow to read
           </p>
         </div>
@@ -304,7 +272,7 @@ function onExchange(otherId: number) {
           </p>
         </div>
 
-        <dl class="flex flex-col gap-2.5 pt-3.5 border-t border-line text-[12.5px]">
+        <dl class="flex flex-col gap-2.5 border-t border-line pt-4 text-[12.5px]">
           <div class="flex justify-between gap-3">
             <dt class="text-ink-soft">Call number</dt>
             <dd class="font-mono font-semibold">{{ book.callNumber }}</dd>
@@ -338,10 +306,11 @@ function onExchange(otherId: number) {
             <dd class="font-semibold">{{ book.addedDate }}</dd>
           </div>
         </dl>
-      </aside>
+        </div>
+      </RevealOnScroll>
 
       <!-- Main -->
-      <div>
+      <RevealOnScroll :delay="100">
         <span class="font-mono text-[11.5px] uppercase tracking-wide text-amber-deep">{{
           book.category
         }}</span>
@@ -352,7 +321,7 @@ function onExchange(otherId: number) {
           by {{ book.author }} &middot; {{ formatYear(book.year) }}
         </p>
 
-        <div class="flex items-center gap-2.5 flex-wrap mt-4">
+        <div class="mt-5 flex flex-wrap items-center gap-2.5 rounded-xl border border-line bg-white/70 px-4 py-3">
           <StarRating :rating="book.rating" :size="16" />
           <span class="font-bold text-[15px]">{{ book.rating.toFixed(1) }}</span>
           <span class="text-[13px] text-ink-soft"
@@ -373,7 +342,7 @@ function onExchange(otherId: number) {
         </div>
 
         <!-- Tabs -->
-        <div class="flex gap-5 mt-7 border-b border-line overflow-x-auto">
+        <div class="mt-8 flex gap-6 overflow-x-auto border-b border-line">
           <button
             v-for="tab in tabs"
             :key="tab.id"
@@ -466,15 +435,15 @@ function onExchange(otherId: number) {
             {{ apaCitation }}
           </div>
         </div>
-      </div>
+      </RevealOnScroll>
     </div>
 
     <!-- Related -->
-    <section v-if="related.length" class="mt-16 pt-8 border-t border-line">
+    <RevealOnScroll v-if="related.length" as="section" :delay="80" class="mt-16 border-t border-line pt-8">
       <h2 class="text-xl font-display font-semibold mb-5">More in {{ book.category }}</h2>
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <BookCard v-for="b in related" :key="b.id" :book="b" />
       </div>
-    </section>
+    </RevealOnScroll>
   </div>
 </template>

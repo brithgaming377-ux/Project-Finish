@@ -8,8 +8,8 @@ const { addBook } = useCatalog()
 const { push: toast } = useToast()
 const router = useRouter()
 
-function onSubmit(input: NewBookInput) {
-  const book = addBook(input)
+async function onSubmit(input: NewBookInput) {
+  const book = await addBook(input)
   toast(`Added "${book.title}" to the catalog.`)
   router.push(`/products/${book.id}`)
 }

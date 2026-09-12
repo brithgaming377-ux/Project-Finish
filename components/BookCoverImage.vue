@@ -48,7 +48,7 @@ function useFallback() {
       class="flex h-full w-full flex-col justify-between bg-gradient-to-br from-white/25 via-white/10 to-ink/30 p-4 text-white"
     >
       <span class="font-mono text-[9px] uppercase tracking-[0.18em] text-white/75"
-        >ETEC Library</span
+        >E-Library</span
       >
       <span class="font-display text-5xl leading-none">{{ fallbackInitial }}</span>
       <span class="h-px w-8 bg-white/50" />

@@ -75,12 +75,5 @@
     "password": "koko123",
     "role": "user",
     "createdOn": "2026-09-04"
-  },
-  {
-    "name": "Bong",
-    "email": "bong377@gmail.com",
-    "password": "@aa123",
-    "role": "admin",
-    "createdOn": "2026-09-04"
   }
 ]

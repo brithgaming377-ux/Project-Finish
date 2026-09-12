@@ -126,6 +126,22 @@ npm run dev
 
 Then open http://localhost:3000
 
+### AI library guide
+
+The assistant works in offline catalog mode by default. To enable the smarter
+catalog-aware ChatGPT integration, copy `.env.example` to `.env` and replace
+the placeholder with your own OpenAI API key:
+
+```powershell
+Copy-Item .env.example .env
+# Edit .env and replace your_openai_api_key_here with your key.
+npm run dev
+```
+
+Nuxt loads `.env` automatically. Keep the key server-side; do not put it in a
+`VITE_` or `NUXT_PUBLIC_` variable. `AI_MODEL` is optional and can be changed
+to another compatible OpenAI chat-completions model.
+
 ## Build for production
 
 ```bash

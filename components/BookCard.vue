@@ -7,7 +7,7 @@ defineProps<{ book: Book }>()
 <template>
   <NuxtLink
     :to="`/products/${book.id}`"
-    class="group block overflow-hidden rounded-2xl border border-line bg-white p-3 shadow-premium transition duration-300 hover:-translate-y-1 hover:border-ink/15 hover:shadow-card"
+    class="motion-rise premium-interaction sheen-on-hover group block overflow-hidden rounded-2xl border border-line bg-white p-3 shadow-premium hover:-translate-y-1 hover:border-ink/15 hover:shadow-card"
   >
     <div
       class="relative flex h-60 items-center justify-center overflow-hidden rounded-xl p-5 sm:h-64"
@@ -19,7 +19,7 @@ defineProps<{ book: Book }>()
         :fallback="getCoverUrl(book.category)"
         :alt="`Cover for ${book.title}`"
         :label="book.title"
-        class="relative aspect-[2/3] h-full max-w-[11rem] overflow-hidden rounded-md border border-white/30 bg-white/10 shadow-cover transition duration-500 group-hover:-translate-y-1 group-hover:rotate-[-1deg]"
+        class="relative aspect-[2/3] h-full max-w-[11rem] overflow-hidden rounded-md border border-white/30 bg-white/10 shadow-cover transition duration-700 [transition-timing-function:var(--ease-luxury)] group-hover:-translate-y-1 group-hover:rotate-[-1deg] group-hover:scale-[1.015]"
       />
       <span
         class="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-wide text-ink"

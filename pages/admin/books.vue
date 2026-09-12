@@ -3,6 +3,7 @@ definePageMeta({ middleware: 'admin', layout: 'admin' })
 
 import {
   Search,
+  ArrowRight,
   Plus,
   Edit2,
   Trash2,
@@ -85,7 +86,7 @@ async function onDelete(bookId: number) {
   try {
     const book = books.value.find(b => b.id === bookId)
     if (book) {
-      deleteBook(bookId)
+      await deleteBook(bookId)
       toast(`"${book.title}" has been deleted.`, 'success')
       deleteConfirming.value = null
     }
@@ -100,10 +101,10 @@ function cancelDelete() {
   deleteConfirming.value = null
 }
 
-function onRestore(bookId: number) {
+async function onRestore(bookId: number) {
   const deleted = deletedBooks.value.find(item => item.book.id === bookId)
   if (!deleted) return
-  restoreBook(deleted.book)
+  await restoreBook(deleted.book)
   toast(`"${deleted.book.title}" has been restored.`, 'success')
 }
 
@@ -264,7 +265,7 @@ function getStockStatus(book: Book): 'low' | 'healthy' {
           @click="goToNew"
           class="mt-4 text-sm font-semibold text-blue-600 hover:underline"
         >
-          Add the first book →
+          Add the first book <ArrowRight class="ml-1 inline h-3.5 w-3.5 align-[-2px]" aria-hidden="true" />
         </button>
       </div>
 

@@ -18,15 +18,15 @@ if (!book.value) {
 const { push: toast } = useToast()
 const confirmingDelete = ref(false)
 
-function onSubmit(input: NewBookInput) {
-  updateBook(id.value, input)
+async function onSubmit(input: NewBookInput) {
+  await updateBook(id.value, input)
   toast(`Saved changes to "${input.title}".`)
   router.push(`/products/${id.value}`)
 }
 
-function onDelete() {
+async function onDelete() {
   if (!book.value) return
-  const deleted = deleteBook(id.value)
+  const deleted = await deleteBook(id.value)
   if (deleted) {
     toast(`Deleted "${deleted.title}".`, 'info', {
       label: 'Restore',

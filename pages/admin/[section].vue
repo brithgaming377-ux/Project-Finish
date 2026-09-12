@@ -29,6 +29,8 @@ import {
   BookText,
   Sparkles
 } from '@lucide/vue'
+import { getCoverUrl } from '~/data/books'
+import BookCoverImage from '~/components/BookCoverImage.vue'
 
 const route = useRoute()
 const { books, updateBook } = useCatalog()
@@ -142,6 +144,12 @@ function getReaderSavedCount(email: string) {
   return libraryState.value.saved.length
 }
 
+function canEditReader(reader: { name: string; email: string; role: string; createdOn: string }) {
+  if (reader.email === user.value?.email) return false
+  if (user.value?.role === 'admin' && (reader.role === 'admin' || reader.role === 'super-admin')) return false
+  return true
+}
+
 const editingReader = ref<{ name: string; email: string; role: string; createdOn: string } | null>(null)
 const editForm = reactive({ name: '', role: 'user' })
 const editBusy = ref(false)
@@ -229,8 +237,22 @@ const outstandingFines = computed(() => data.value.fines.filter((fine) => !fine.
 const availableBooks = computed(() => books.value.filter((book) => book.availability.digitalCopies > book.availability.checkedOut))
 const totalFineAmount = computed(() => outstandingFines.value.reduce((sum, fine) => sum + fine.amount, 0))
 function createMember() { if (!memberForm.name.trim() || !memberForm.email.trim()) return toast('Enter a member name and email.', 'error'); addMember({ ...memberForm, name: memberForm.name.trim(), email: memberForm.email.trim() }); memberForm.name = ''; memberForm.email = ''; toast('Member added.') }
-function issueLoan() { const book = bookFor(loanForm.bookId); if (!loanForm.memberId || !book) return toast('Choose both a member and a book.', 'error'); if (!createLoan(loanForm.memberId, book.id)) return toast('This member already has that title.', 'error'); updateBook(book.id, { availability: { ...book.availability, checkedOut: book.availability.checkedOut + 1 } }); loanForm.memberId = 0; loanForm.bookId = 0; toast('Loan issued.') }
-function finishLoan(id: number) { const loan = returnLoan(id); if (!loan) return; const book = bookFor(loan.bookId); if (book) updateBook(book.id, { availability: { ...book.availability, checkedOut: Math.max(0, book.availability.checkedOut - 1) } }); toast('Book returned.') }
+async function issueLoan() {
+  const book = bookFor(loanForm.bookId)
+  if (!loanForm.memberId || !book) return toast('Choose both a member and a book.', 'error')
+  if (!createLoan(loanForm.memberId, book.id)) return toast('This member already has that title.', 'error')
+  await updateBook(book.id, { availability: { ...book.availability, checkedOut: book.availability.checkedOut + 1 } })
+  loanForm.memberId = 0
+  loanForm.bookId = 0
+  toast('Loan issued.')
+}
+async function finishLoan(id: number) {
+  const loan = returnLoan(id)
+  if (!loan) return
+  const book = bookFor(loan.bookId)
+  if (book) await updateBook(book.id, { availability: { ...book.availability, checkedOut: Math.max(0, book.availability.checkedOut - 1) } })
+  toast('Book returned.')
+}
 function createFine() { if (!addFine(fineForm.memberId, Number(fineForm.amount), fineForm.reason)) return toast('Choose a member and enter a fine amount.', 'error'); fineForm.memberId = 0; fineForm.amount = 0; fineForm.reason = ''; toast('Fine added to the member account.') }
 function saveSettings() { updateSettings({ ...settingsForm, loanDays: Number(settingsForm.loanDays), finePerDay: Number(settingsForm.finePerDay) }); toast('Library settings saved.') }
 const reportItems = computed(() => [
@@ -355,7 +377,7 @@ if (!title.value) await navigateTo('/admin')
               <form class="mt-6 grid gap-5 md:grid-cols-2" @submit.prevent="saveSettings">
                 <label class="block md:col-span-2">
                   <span class="mb-1.5 block text-sm font-medium text-slate-700">Library name</span>
-                  <input v-model="settingsForm.libraryName" class="field" placeholder="ETEC Library" />
+                  <input v-model="settingsForm.libraryName" class="field" placeholder="E-LIBRARY" />
                   <p class="mt-2 text-xs text-slate-500">This value is used on the public library pages and the admin dashboard.</p>
                 </label>
 
@@ -775,8 +797,8 @@ if (!title.value) await navigateTo('/admin')
                   <span class="text-center"><strong class="block text-sm text-slate-700">{{ getReaderBorrowedCount(reader.email) }}</strong>Borrowed</span>
                 </div>
                 <div class="flex gap-1.5">
-                  <button type="button" class="rounded-lg border border-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-50 flex items-center gap-1" @click="startEdit(reader)"><Edit3 class="h-3.5 w-3.5" /> Edit</button>
-                  <button type="button" class="rounded-lg border border-red-200 px-2.5 py-1 text-xs font-semibold text-red-600 hover:bg-red-50 flex items-center gap-1" @click="deleteReader(reader.email)"><Trash2 class="h-3.5 w-3.5" /> Delete</button>
+                  <button v-if="canEditReader(reader)" type="button" class="rounded-lg border border-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-50 flex items-center gap-1" @click="startEdit(reader)"><Edit3 class="h-3.5 w-3.5" /> Edit</button>
+                  <button v-if="canEditReader(reader)" type="button" class="rounded-lg border border-red-200 px-2.5 py-1 text-xs font-semibold text-red-600 hover:bg-red-50 flex items-center gap-1" @click="deleteReader(reader.email)"><Trash2 class="h-3.5 w-3.5" /> Delete</button>
                 </div>
               </div>
             </div>

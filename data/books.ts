@@ -43,7 +43,6 @@ export interface Book {
   ratingsCount: number
   reviews: Review[]
   availability: Availability
-  pdfUrl?: string
 }
 
 export const categories = [
@@ -70,12 +69,26 @@ export function getCoverUrl(category: string): string {
   return subjectCovers[category] || subjectCovers.Other
 }
 
+export function normalizeFileUrl(fileUrl?: string): string {
+  if (!fileUrl) return ''
+
+  const trimmed = fileUrl.trim()
+  if (!trimmed) return ''
+  if (/^https?:\/\//i.test(trimmed) || trimmed.startsWith('/')) return trimmed
+
+  let cleaned = trimmed.replace(/\\/g, '/')
+  cleaned = cleaned.replace(/^(\.\.\/)+/, '').replace(/^(\.\/)+/, '')
+  cleaned = cleaned.replace(/^\/+/, '')
+
+  return cleaned ? `/${cleaned}` : ''
+}
+
 // `books.json` is the single catalog source. Local covers keep the UI usable offline.
 export const books = (raw as Book[]).map((book) => ({
   ...book,
   coverUrl: book.coverUrl || getCoverUrl(book.category),
   requiresBorrow: book.requiresBorrow ?? false,
-  fileUrl: book.fileUrl || ''
+  fileUrl: normalizeFileUrl(book.fileUrl)
 }))
 
 export function formatYear(year: number): string {

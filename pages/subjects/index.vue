@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ArrowRight, BookOpen, Brain, FlaskConical, Globe2, Languages, Users } from '@lucide/vue'
 import { subjects } from '~/data/subjects'
 import { useCatalog } from '~/composables/useCatalog'
 
@@ -7,6 +8,7 @@ const { books } = useCatalog()
 const subjectCounts = computed(() =>
   subjects.map((s) => ({ ...s, count: books.value.filter((b) => b.category === s.name).length }))
 )
+const subjectIcons = { technology: Brain, philosophy: BookOpen, science: FlaskConical, leadership: Users, language: Languages, history: Globe2, other: BookOpen }
 </script>
 
 <template>
@@ -33,22 +35,14 @@ const subjectCounts = computed(() =>
           class="w-11 h-11 rounded-card flex items-center justify-center mb-4"
           :style="{ background: s.color + '1a' }"
         >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" :style="{ color: s.color }">
-            <path
-              :d="s.icon"
-              stroke="currentColor"
-              stroke-width="1.6"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <component :is="subjectIcons[s.slug as keyof typeof subjectIcons]" class="h-5 w-5" :style="{ color: s.color }" aria-hidden="true" />
         </div>
         <h2 class="font-display font-semibold text-lg">{{ s.name }}</h2>
         <p class="text-sm text-ink-soft mt-1.5">{{ s.tagline }}</p>
         <div class="flex items-center gap-1.5 mt-4 text-xs font-mono text-ink-soft">
           <span>{{ s.count }} titles</span>
           <span>&middot;</span>
-          <span class="text-amber-deep group-hover:underline">Browse shelf &rarr;</span>
+          <span class="inline-flex items-center gap-1 text-amber-deep group-hover:underline">Browse shelf <ArrowRight class="h-3.5 w-3.5" aria-hidden="true" /></span>
         </div>
       </NuxtLink>
     </div>

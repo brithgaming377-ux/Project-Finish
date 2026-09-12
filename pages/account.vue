@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { BookCoverImage } from '#components'
+import { LogOut } from '@lucide/vue'
+import { getCoverUrl } from '~/data/books'
 import { useCatalog } from '~/composables/useCatalog'
 import { useLibrary } from '~/composables/useLibrary'
 import { useAuth } from '~/composables/useAuth'
@@ -27,12 +30,12 @@ function daysLeft(dueOn: string) {
   return diff
 }
 
-function onReturn(id: number) {
+async function onReturn(id: number) {
   const request = approvedBorrowRequests.value.find((item) => item.bookId === id)
   if (request) {
     updateStatus(request.id, 'returned')
     const book = getById(id)
-    if (book) updateBook(id, { availability: { ...book.availability, checkedOut: Math.max(0, book.availability.checkedOut - 1) } })
+    if (book) await updateBook(id, { availability: { ...book.availability, checkedOut: Math.max(0, book.availability.checkedOut - 1) } })
     toast('Return recorded. Thanks!')
     return
   }
@@ -74,6 +77,7 @@ async function onClaim() {
         class="rounded-card border border-line text-ink text-sm font-semibold px-5 py-2.5 hover:border-ink transition"
         @click="onLogout"
       >
+        <LogOut class="mr-1.5 inline h-4 w-4 align-[-3px]" aria-hidden="true" />
         Sign out
       </button>
     </header>
@@ -140,9 +144,8 @@ async function onClaim() {
         >
           <NuxtLink
             :to="`/products/${r.book!.id}`"
-            class="w-9 h-11 rounded shrink-0"
-            :style="{ background: r.book!.spineColor }"
-          />
+            class="h-14 w-10 shrink-0 overflow-hidden rounded border border-line bg-parchment-dim"
+          ><BookCoverImage :src="r.book!.coverUrl" :fallback="getCoverUrl(r.book!.category)" :alt="r.book!.title" :label="r.book!.title" class="h-full w-full" /></NuxtLink>
           <NuxtLink :to="`/products/${r.book!.id}`" class="flex-1">
             <p class="text-sm font-semibold">{{ r.book!.title }}</p>
             <p class="text-xs" :class="daysLeft(r.dueOn) <= 3 ? 'text-rose' : 'text-ink-soft'">
@@ -180,9 +183,8 @@ async function onClaim() {
         >
           <NuxtLink
             :to="`/products/${book!.id}`"
-            class="w-9 h-11 rounded shrink-0"
-            :style="{ background: book!.spineColor }"
-          />
+            class="h-14 w-10 shrink-0 overflow-hidden rounded border border-line bg-parchment-dim"
+          ><BookCoverImage :src="book!.coverUrl" :fallback="getCoverUrl(book!.category)" :alt="book!.title" :label="book!.title" class="h-full w-full" /></NuxtLink>
           <NuxtLink :to="`/products/${book!.id}`" class="flex-1">
             <p class="text-sm font-semibold">{{ book!.title }}</p>
             <p class="text-xs text-ink-soft">{{ book!.author }} &middot; {{ book!.format }}</p>

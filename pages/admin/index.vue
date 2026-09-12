@@ -16,7 +16,7 @@ import {
   Search,
   UserPlus,
   BookMarked,
-  CheckCircle2,
+  RotateCcw,
   TrendingUp,
 } from '@lucide/vue'
 import { getCoverUrl } from '~/data/books'
@@ -217,7 +217,7 @@ const recentActivity = computed(() => {
     } else if (req.kind === 'borrow' && req.status === 'approved') {
       activities.push({ icon: BookMarked, text: `${req.userName} borrowed "${bookTitle}"`, time, type: 'borrow' })
     } else if (req.kind === 'borrow' && req.status === 'returned') {
-      activities.push({ icon: CheckCircle2, text: `${req.userName} returned "${bookTitle}"`, time, type: 'return' })
+      activities.push({ icon: RotateCcw, text: `${req.userName} returned "${bookTitle}"`, time, type: 'return' })
     }
   }
 
@@ -230,13 +230,13 @@ const recentActivity = computed(() => {
   return activities.slice(0, 8)
 })
 
-function processRequest(id: number, decision: 'approved' | 'declined') {
+async function processRequest(id: number, decision: 'approved' | 'declined') {
   const request = pending.value.find(item => item.id === id)
   if (!request) return
   const book = bookMap.value.get(request.bookId)
   if (decision === 'approved' && request.kind === 'borrow') {
     if (!book || book.availability.checkedOut >= book.availability.digitalCopies) return toast('This book no longer has an available copy.', 'error')
-    updateBook(book.id, { availability: { ...book.availability, checkedOut: book.availability.checkedOut + 1 } })
+    await updateBook(book.id, { availability: { ...book.availability, checkedOut: book.availability.checkedOut + 1 } })
   }
   updateStatus(id, decision)
   toast(`Borrow request ${decision}.`)
@@ -435,8 +435,16 @@ function onSearch() {
           <p class="mt-1 text-xs text-slate-500">Latest library events</p>
         </div>
         <div class="divide-y divide-slate-100">
-          <div v-for="(activity, i) in recentActivity" :key="i" class="flex items-start gap-3 px-5 py-3">
-            <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-600"><component :is="activity.icon" class="h-4 w-4" /></span>
+          <div v-for="(activity, i) in recentActivity" :key="i" class="flex items-start gap-3 px-5 py-3 transition-colors hover:bg-slate-50">
+            <span
+              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
+              :class="{
+                'bg-blue-50 text-blue-600': activity.type === 'request',
+                'bg-amber-50 text-amber-600': activity.type === 'borrow',
+                'bg-emerald-50 text-emerald-600': activity.type === 'return',
+                'bg-violet-50 text-violet-600': activity.type === 'new'
+              }"
+            ><component :is="activity.icon" class="h-4 w-4" aria-hidden="true" /></span>
             <div class="min-w-0 flex-1">
               <p class="text-sm text-slate-700">{{ activity.text }}</p>
               <p class="text-xs text-slate-400">{{ activity.time }}</p>

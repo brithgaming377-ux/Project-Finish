@@ -508,7 +508,7 @@
     "requiresBorrow": false,
     "availability": {
       "digitalCopies": 6,
-      "checkedOut": 1
+      "checkedOut": 2
     },
     "rating": 4.8,
     "ratingsCount": 69,
@@ -644,7 +644,7 @@
     "publisher": "Random House",
     "language": "English",
     "format": "EPUB",
-    "fileUrl": "/files/book4.pdf",
+    "fileUrl": "/files/inovation.pdf",
     "isbn": "978-106888888",
     "fileSizeMb": 4.8,
     "callNumber": "Q163.J9",
@@ -1307,7 +1307,7 @@
     "requiresBorrow": false,
     "availability": {
       "digitalCopies": 5,
-      "checkedOut": 4
+      "checkedOut": 5
     },
     "rating": 4.1,
     "ratingsCount": 208,
@@ -2790,6 +2790,51 @@
     "fileSizeMb": 3.9,
     "readingTimeHours": 7.8,
     "addedDate": "2026-09-07",
+    "edition": 1,
+    "exchangeable": true,
+    "requiresBorrow": false,
+    "rating": 4,
+    "ratingsCount": 0,
+    "reviews": [],
+    "availability": {
+      "digitalCopies": 5,
+      "checkedOut": 0
+    }
+  },
+  {
+    "id": 41,
+    "title": "Phyton",
+    "author": "Reak",
+    "category": "Technology",
+    "pages": 250,
+    "year": 2026,
+    "spineColor": "#1B1F3B",
+    "coverUrl": "https://m.media-amazon.com/images/I/61ViPUXS8ZL._AC_UF1000,1000_QL80_.jpg",
+    "description": "Study hard",
+    "longDescription": [
+      "Study hard"
+    ],
+    "tableOfContents": [
+      "Introduction",
+      "Main Content",
+      "Conclusion"
+    ],
+    "tags": [
+      "technology"
+    ],
+    "subjects": [
+      "Technology"
+    ],
+    "callNumber": "QA76387.P41",
+    "level": "Beginner",
+    "publisher": "The best book ",
+    "language": "English",
+    "format": "PDF",
+    "fileUrl": "https://cfm.ehu.es/ricardo/docs/python/Learning_Python.pdf",
+    "isbn": "978-131382716-1",
+    "fileSizeMb": 2.8,
+    "readingTimeHours": 5.6,
+    "addedDate": "2026-09-14",
     "edition": 1,
     "exchangeable": true,
     "requiresBorrow": false,

@@ -75,5 +75,19 @@
     "password": "koko123",
     "role": "user",
     "createdOn": "2026-09-04"
+  },
+  {
+    "name": "Phen Vireak",
+    "email": "phenvireak06@gmail.com",
+    "password": "@reak123",
+    "role": "user",
+    "createdOn": "2026-09-15"
+  },
+  {
+    "name": "Gamming",
+    "email": "phen06@gmail.com",
+    "password": "123345",
+    "role": "user",
+    "createdOn": "2026-09-15"
   }
 ]

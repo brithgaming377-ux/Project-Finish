@@ -14,16 +14,22 @@ export default defineEventHandler(async (event) => {
 
   const config = await readConfig()
   const accounts = await readAccounts()
-  const approver = accounts.find((account) => account.email.toLowerCase() === approverEmail)
-  const isOwner = config.ownerEmail !== '' && approverEmail === config.ownerEmail.toLowerCase()
-  const isSuperAdmin = approver?.role === 'super-admin' || config.superAdmins.map((admin) => admin.toLowerCase()).includes(approverEmail)
-  const isAdmin = isOwner || isSuperAdmin || config.admins.map((admin) => admin.toLowerCase()).includes(approverEmail)
+  const isPublicRegistration = !approverEmail
 
-  if (!isAdmin) {
-    throw createError({ statusCode: 403, statusMessage: 'Only administrators can create accounts' })
-  }
+  if (!isPublicRegistration) {
+    const approver = accounts.find((account) => account.email.toLowerCase() === approverEmail)
+    const isOwner = config.ownerEmail !== '' && approverEmail === config.ownerEmail.toLowerCase()
+    const isSuperAdmin = approver?.role === 'super-admin' || config.superAdmins.map((admin) => admin.toLowerCase()).includes(approverEmail)
+    const isAdmin = isOwner || isSuperAdmin || config.admins.map((admin) => admin.toLowerCase()).includes(approverEmail)
 
-  if (requestedRole !== 'user' && !isOwner && !isSuperAdmin) {
+    if (!isAdmin) {
+      throw createError({ statusCode: 403, statusMessage: 'Only administrators can create accounts' })
+    }
+
+    if (requestedRole !== 'user' && !isOwner && !isSuperAdmin) {
+      throw createError({ statusCode: 403, statusMessage: 'Only the owner or super-admin can create admin accounts' })
+    }
+  } else if (requestedRole !== 'user') {
     throw createError({ statusCode: 403, statusMessage: 'Only the owner or super-admin can create admin accounts' })
   }
 

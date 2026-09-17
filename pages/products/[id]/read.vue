@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { normalizeFileUrl } from '~/data/books'
-
 const route = useRoute()
 
 const { getById } = useCatalog()
@@ -8,7 +6,6 @@ const { getById } = useCatalog()
 const book = computed(() => getById(Number(route.params.id)))
 
 const pdfUrl = computed(() => book.value?.fileUrl ?? '')
-const isPdfLoading = ref(true)
 
 if (!book.value) {
   throw createError({
@@ -17,10 +14,6 @@ if (!book.value) {
     fatal: true
   })
 }
-
-watch(pdfUrl, () => {
-  isPdfLoading.value = Boolean(pdfUrl.value)
-}, { immediate: true })
 
 useHead(() => ({
   title: book.value
@@ -57,25 +50,23 @@ useHead(() => ({
         rel="noopener noreferrer"
         class="rounded-card border border-line px-4 py-2 text-sm font-semibold text-ink-soft hover:border-ink hover:text-ink"
       >
-        Open PDF separately
+        Download PDF
       </a>
     </div>
 
-    <!-- PDF -->
+    <!-- PDF Viewer -->
     <div v-if="pdfUrl" class="reader-shell relative w-full overflow-hidden rounded-2xl border border-line bg-white">
-      <div v-if="isPdfLoading" class="absolute inset-0 z-10 flex min-h-[40vh] items-center justify-center bg-white/90 backdrop-blur-sm" aria-live="polite">
-        <div class="flex items-center gap-3 text-sm text-ink-soft">
-          <span class="reader-spinner" aria-hidden="true" />
-          Loading reader...
-        </div>
-      </div>
-      <iframe
-        :src="pdfUrl"
-        title="Book PDF"
+      <object
+        :data="pdfUrl"
+        type="application/pdf"
         class="block w-full"
-        style="height: 80vh; border: 0;"
-        @load="isPdfLoading = false"
-      ></iframe>
+        style="height: 80vh;"
+      >
+        <p>
+          Your browser does not support PDFs.
+          <a :href="pdfUrl" target="_blank" class="text-amber-deep underline">Download the PDF instead</a>
+        </p>
+      </object>
     </div>
 
     <!-- No PDF -->

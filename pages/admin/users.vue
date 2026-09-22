@@ -12,6 +12,7 @@ interface ManagedUser {
   email: string
   role: 'super-admin' | 'admin' | 'user'
   createdOn: string
+  avatar?: string
 }
 
 const users = ref<ManagedUser[]>([])
@@ -294,7 +295,7 @@ onMounted(() => {
             <tr v-for="u in filteredUsers" :key="u.email" class="group transition-colors hover:bg-[#fffdf5]">
               <td class="px-5 py-4">
                 <div class="flex items-center gap-3">
-                  <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#17192d] text-sm font-semibold text-[#e2bf52]">{{ u.name?.[0]?.toUpperCase() || '?' }}</span>
+                  <ProfileAvatar :name="u.name" :avatar="u.avatar" :alt="`${u.name} profile`" class="h-10 w-10 border border-line bg-[#17192d] text-sm font-semibold text-[#e2bf52] shadow-sm" />
                   <div>
                     <p class="text-sm font-medium text-slate-800">{{ u.name || 'Unnamed' }}</p>
                     <p class="mt-0.5 text-xs text-slate-400">{{ u.email }}</p>

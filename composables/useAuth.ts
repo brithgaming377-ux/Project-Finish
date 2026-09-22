@@ -4,6 +4,7 @@ export interface AuthUser {
   name: string
   email: string
   role: Role
+  avatar?: string
 }
 
 interface StoredAccount extends AuthUser {
@@ -45,11 +46,12 @@ export function useAuth() {
   const user = authState()
   const adminAccess = useAdminAccess()
 
-  onMounted(() => {
-    if (hydrated) return
+  // Route middleware runs before component mounting. Restore a browser session
+  // immediately so protected routes can evaluate an existing admin correctly.
+  if (import.meta.client && !hydrated) {
     hydrated = true
     loadSession()
-  })
+  }
 
   async function tryAutoClaim(email: string) {
     try {
@@ -94,9 +96,12 @@ export function useAuth() {
         return { ok: false, error: 'Email or password is incorrect.' }
       }
 
-      user.value = { name: account.name, email: account.email, role: account.role }
+      user.value = { name: account.name, email: account.email, role: account.role, avatar: account.avatar }
       saveSession(user.value)
 
+      // Load configured owner/admin access for this account before the caller
+      // decides where to redirect it.
+      await adminAccess.refresh()
       await tryAutoClaim(account.email)
       return { ok: true }
     } catch {
@@ -109,9 +114,27 @@ export function useAuth() {
     saveSession(null)
   }
 
+  async function updateProfile(name: string, password = '', avatar = ''): Promise<AuthResult> {
+    if (!user.value) return { ok: false, error: 'You must be signed in.' }
+    if (!name.trim()) return { ok: false, error: 'Name cannot be empty.' }
+    if (password && password.length < 6) return { ok: false, error: 'Password must contain at least 6 characters.' }
+
+    try {
+      await $fetch(`/api/accounts/${encodeURIComponent(user.value.email)}`, {
+        method: 'PUT',
+        body: { approverEmail: user.value.email, name: name.trim(), ...(password ? { password } : {}), ...(avatar ? { avatar } : {}) }
+      })
+      user.value = { ...user.value, name: name.trim(), ...(avatar ? { avatar } : {}) }
+      saveSession(user.value)
+      return { ok: true }
+    } catch (err: any) {
+      return { ok: false, error: err?.data?.statusMessage || 'Unable to update profile.' }
+    }
+  }
+
   const isAdmin = computed(() => isLoggedIn.value && (user.value?.role === 'admin' || user.value?.role === 'super-admin' || adminAccess.isAdminDevice.value))
   const isOwner = computed(() => isLoggedIn.value && (user.value?.role === 'super-admin' || adminAccess.isOwnerDevice.value))
   const isLoggedIn = computed(() => user.value !== null)
 
-  return { user, register, login, logout, isAdmin, isOwner, isLoggedIn }
+  return { user, register, login, logout, updateProfile, isAdmin, isOwner, isLoggedIn }
 }

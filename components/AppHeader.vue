@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { BookOpen, ChevronDown, Menu, X } from '@lucide/vue'
+import { ChevronDown, Menu, X } from '@lucide/vue'
 
 const route = useRoute()
 const { user, isAdmin, logout } = useAuth()
+const { data: libraryData } = useAdminLibrary()
 const { push: toast } = useToast()
 
 const links = computed(() => {
@@ -34,14 +35,15 @@ function onMobileLogout() {
 </script>
 
 <template>
-  <header class="sticky top-0 z-20 border-b border-line/80 bg-white/95 backdrop-blur-xl">
+  <header class="institution-header sticky top-0 z-20 border-b border-line/80 bg-white/95 backdrop-blur-xl">
     <!-- Utility bar -->
     <div class="hidden border-b border-campus-light bg-campus text-white/80 sm:block">
       <div
         class="mx-auto flex max-w-7xl items-center justify-between px-6 py-2 font-mono text-[10px] uppercase tracking-[0.1em]"
       >
-          <span>E-LIBRARY &middot; Open digital learning for every reader</span>
+          <span>{{ libraryData.settings.libraryName }} &middot; Open digital learning for every reader</span>
         <div class="flex items-center gap-4">
+          <span class="hidden text-white/45 sm:inline">ETEC CENTER</span>
           <NuxtLink to="/about" class="hover:text-white">Help</NuxtLink>
           <span v-if="isAdmin" class="text-amber">Admin mode</span>
         </div>
@@ -50,23 +52,21 @@ function onMobileLogout() {
 
     <!-- Main nav -->
     <div>
-      <div class="mx-auto flex max-w-7xl items-center gap-8 px-6 py-4">
-        <NuxtLink to="/" class="mr-auto flex shrink-0 items-center gap-2.5" aria-label="E-LIBRARY home">
-          <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-ink text-amber shadow-sm">
-            <BookOpen class="h-5 w-5" stroke-width="1.8" aria-hidden="true" />
-          </span>
-          <span>
-            <span class="block font-display text-2xl leading-none tracking-tight text-campus">E-LIBRARY</span>
+      <div class="mx-auto flex max-w-7xl items-center gap-8 px-6 py-3.5">
+        <NuxtLink to="/" class="mr-auto flex min-w-0 shrink items-center gap-5 sm:gap-6" aria-label="E-LIBRARY home">
+          <img src="/images/digital-library-logo.png" alt="DigitalLibrary" class="h-12 w-12 rounded-full object-contain" />
+          <span class="institution-wordmark min-w-0 pl-1">
+            <span class="block truncate font-display text-xl font-black leading-none tracking-[-0.06em] text-campus sm:text-2xl">{{ libraryData.settings.libraryName }}</span>
             <span class="mt-1 block font-mono text-[8px] uppercase tracking-[0.18em] text-ink-soft">Digital knowledge centre</span>
           </span>
         </NuxtLink>
 
-        <nav class="hidden items-center gap-6 md:flex" aria-label="Primary">
+        <nav class="hidden items-center gap-7 md:flex" aria-label="Primary">
           <NuxtLink
             v-for="link in links"
             :key="link.to"
             :to="link.to"
-            class="nav-link border-b-2 pb-1 text-[11px] font-bold uppercase tracking-[0.1em] transition-colors"
+            class="nav-link border-b-2 pb-1 text-[10px] font-bold uppercase tracking-[0.14em] transition-colors"
             :class="
               route.path === link.to
                 ? 'text-ink border-amber'
@@ -93,12 +93,12 @@ function onMobileLogout() {
             type="button"
             @click="menuOpen = !menuOpen"
           >
-            <span
-              class="w-7 h-7 rounded-full flex items-center justify-center font-display font-semibold text-xs shrink-0"
+            <ProfileAvatar
+              :name="user.name"
+              :avatar="user.avatar"
+              class="h-8 w-8 shrink-0 border border-line font-display text-xs font-semibold shadow-sm"
               :class="isAdmin ? 'bg-amber text-ink' : 'bg-ink text-white'"
-            >
-              {{ user.name.charAt(0) }}
-            </span>
+            />
             <span class="text-sm font-medium">{{ user.name }}</span>
             <ChevronDown class="h-4 w-4" aria-hidden="true" />
           </button>

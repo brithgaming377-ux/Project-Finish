@@ -27,7 +27,7 @@ export async function readConfig(): Promise<AdminConfig> {
       requests: Array.isArray(parsed.requests) ? parsed.requests : []
     }
   } catch {
-    return { ownerEmail: '', admins: [], requests: [] }
+    return { ownerEmail: '', superAdmins: [], admins: [], requests: [] }
   }
 }
 

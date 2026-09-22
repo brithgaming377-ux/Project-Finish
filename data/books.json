@@ -122,16 +122,16 @@
     "publisher": "Addison-Wesley",
     "language": "English",
     "format": "PDF",
-    "fileUrl": "/files/book1.pdf",
+    "fileUrl": "/uploads/1789917715914-52gw4l.pdf",
     "isbn": "978-101530864",
     "fileSizeMb": 4.4,
     "callNumber": "QA76114.C2",
     "addedDate": "2026-03-03",
     "exchangeable": false,
-    "requiresBorrow": false,
+    "requiresBorrow": true,
     "availability": {
       "digitalCopies": 4,
-      "checkedOut": 1
+      "checkedOut": 4
     },
     "rating": 4.7,
     "ratingsCount": 85,
@@ -200,7 +200,7 @@
     "requiresBorrow": false,
     "availability": {
       "digitalCopies": 3,
-      "checkedOut": 0
+      "checkedOut": 2
     },
     "rating": 4,
     "ratingsCount": 111,
@@ -2075,7 +2075,7 @@
     "requiresBorrow": false,
     "availability": {
       "digitalCopies": 7,
-      "checkedOut": 5
+      "checkedOut": 6
     },
     "rating": 3.9,
     "ratingsCount": 295,

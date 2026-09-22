@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ArrowRight, BookOpen, Eye, EyeOff, LoaderCircle } from '@lucide/vue'
+import { ArrowRight, Eye, EyeOff, LoaderCircle } from '@lucide/vue'
 
 const route = useRoute()
 const router = useRouter()
-const { login, register, user } = useAuth()
+const { login, register, user, isAdmin } = useAuth()
 const { isConfigured } = useAdminAccess()
+const { data: adminData } = useAdminLibrary()
 const { push } = useToast()
 
 const mode = ref<'login' | 'register'>('login')
@@ -18,11 +19,15 @@ const showPassword = ref(false)
 function redirectTarget() {
   const target = route.query.redirect
   if (typeof target === 'string' && target.startsWith('/')) return target
-  return user.value?.role === 'admin' || user.value?.role === 'super-admin' ? '/admin' : '/account'
+  return isAdmin.value ? '/admin' : '/account'
 }
 
 async function onSubmit() {
   error.value = ''
+  if (mode.value === 'register' && !adminData.value.settings.allowRegistration) {
+    error.value = 'New member registration is currently disabled.'
+    return
+  }
   isSubmitting.value = true
   try {
     const result = await (mode.value === 'login'
@@ -42,6 +47,10 @@ async function onSubmit() {
 }
 
 function switchMode(nextMode: 'login' | 'register') {
+  if (nextMode === 'register' && !adminData.value.settings.allowRegistration) {
+    error.value = 'New member registration is currently disabled.'
+    return
+  }
   mode.value = nextMode
   error.value = ''
   password.value = ''
@@ -51,20 +60,20 @@ function switchMode(nextMode: 'login' | 'register') {
 
 <template>
   <div class="flex min-h-[72vh] items-center justify-center px-6 py-16">
-    <div class="surface-card w-full max-w-[460px] p-8 shadow-premium sm:p-10">
-      <div class="auth-brand" aria-label="E-LIBRARY">
-        <span class="auth-brand-mark"><BookOpen class="h-5 w-5" stroke-width="1.8" aria-hidden="true" /></span>
-        <span class="auth-brand-name">E-LIBRARY</span>
-        <span class="auth-brand-caption">Digital knowledge centre</span>
+    <div class="surface-card motion-scale-in w-full max-w-[460px] p-8 shadow-premium sm:p-10">
+      <div class="auth-brand" aria-label="DigitalLibrary">
+        <img src="/images/digital-library-logo.png" alt="DigitalLibrary" class="h-32 w-32 rounded-full object-contain" />
       </div>
-      <p class="page-eyebrow mt-8">E-LIBRARY account</p>
-      <h1 class="page-title text-4xl">{{ mode === 'login' ? 'Welcome back' : 'Create your account' }}</h1>
-      <p class="mt-2 text-sm text-ink-soft">{{ mode === 'login' ? 'Sign in with the email and password you registered.' : 'Readers can register freely. Admin access is granted by the owner from the JSON config.' }}</p>
+      <template v-if="mode === 'login'">
+        <p class="page-eyebrow mt-8">E-LIBRARY account</p>
+        <h1 class="page-title text-4xl">Welcome back</h1>
+        <p class="mt-2 text-sm text-ink-soft">Sign in with the email and password you registered.</p>
+      </template>
 
       <div class="auth-mode-switch mt-6 grid grid-cols-2 rounded-xl bg-parchment-dim p-1" role="tablist" aria-label="Account access mode">
         <span class="auth-mode-indicator" :class="{ 'auth-mode-indicator-register': mode === 'register' }" aria-hidden="true" />
-        <button type="button" role="tab" :aria-selected="mode === 'login'" class="auth-mode-button" :class="{ 'auth-mode-button-active': mode === 'login' }" @click="switchMode('login')">Log in</button>
-        <button type="button" role="tab" :aria-selected="mode === 'register'" class="auth-mode-button" :class="{ 'auth-mode-button-active': mode === 'register' }" @click="switchMode('register')">Register</button>
+        <button type="button" role="tab" :aria-selected="mode === 'login'" class="auth-mode-button" :class="{ 'auth-mode-button-active': mode === 'login' }" @click="switchMode('login')">Login</button>
+        <button type="button" role="tab" :aria-selected="mode === 'register'" class="auth-mode-button" :class="{ 'auth-mode-button-active': mode === 'register' }" @click="switchMode('register')">Sign up</button>
       </div>
 
       <form class="mt-6 flex flex-col gap-4" @submit.prevent="onSubmit">
@@ -75,7 +84,7 @@ function switchMode(nextMode: 'login' | 'register') {
         <p v-if="error" class="text-[13px] text-rose" role="alert">{{ error }}</p>
         <button type="submit" class="auth-submit premium-interaction group mt-1 flex w-full items-center justify-center gap-2 rounded-card bg-ink px-5 py-3 text-sm font-semibold text-white hover:-translate-y-0.5 hover:bg-ink-light disabled:cursor-wait disabled:opacity-80" :disabled="isSubmitting">
           <LoaderCircle v-if="isSubmitting" class="h-4 w-4 animate-spin" aria-hidden="true" />
-          <span>{{ isSubmitting ? (mode === 'login' ? 'Signing in' : 'Creating account') : mode === 'login' ? 'Log in' : 'Create reader account' }}</span>
+          <span>{{ isSubmitting ? (mode === 'login' ? 'Signing in' : 'Creating account') : mode === 'login' ? 'Login' : 'Sign up' }}</span>
           <ArrowRight v-if="!isSubmitting" class="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
         </button>
       </form>
@@ -84,10 +93,6 @@ function switchMode(nextMode: 'login' | 'register') {
         No owner is set yet. After you log in, open your account page and click <strong>Claim ownership</strong> to become the admin.
       </p>
 
-      <p class="mt-4 text-center text-xs text-ink-soft">
-        Are you an admin?
-        <NuxtLink to="/admin/login" class="text-amber-deep underline">Admin sign in</NuxtLink>
-      </p>
     </div>
   </div>
 </template>

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "book-category-5-history",
+    "name": "History",
+    "createdAt": ""
+  },
+  {
+    "id": "book-category-4-language",
+    "name": "Language",
+    "createdAt": ""
+  },
+  {
+    "id": "cat-1789972176123",
+    "name": "Matematic",
+    "createdAt": "2026-09-21"
+  },
+  {
+    "id": "cat-1789972540697",
+    "name": "Website",
+    "createdAt": "2026-09-21"
+  }
+]

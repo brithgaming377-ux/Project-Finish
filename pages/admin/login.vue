@@ -3,7 +3,7 @@ import { ArrowRight, BookOpen, Eye, EyeOff, LoaderCircle } from '@lucide/vue'
 
 definePageMeta({ layout: 'default' })
 const router = useRouter()
-const { login, user } = useAuth()
+const { login, isAdmin } = useAuth()
 const { push } = useToast()
 
 const email = ref('')
@@ -21,7 +21,7 @@ async function onSubmit() {
       error.value = result.error || 'Login failed.'
       return
     }
-    if (user.value?.role !== 'admin' && user.value?.role !== 'super-admin') {
+    if (!isAdmin.value) {
       error.value = 'This account is not an admin. Use your reader login, or request admin access from your account page.'
       return
     }

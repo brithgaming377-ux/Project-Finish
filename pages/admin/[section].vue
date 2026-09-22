@@ -31,10 +31,11 @@ import {
 } from '@lucide/vue'
 import { getCoverUrl } from '~/data/books'
 import BookCoverImage from '~/components/BookCoverImage.vue'
+import { getDefaultAdminSettings, type AdminSettings } from '~/composables/useAdminLibrary'
 
 const route = useRoute()
 const { books, updateBook } = useCatalog()
-const { data, activeLoans, overdueLoans, addMember, createLoan, returnLoan, addFine, payFine, updateSettings } = useAdminLibrary()
+const { data, activeLoans, overdueLoans, addMember, createLoan, returnLoan, addFine, payFine, updateSettings, clearDemoData } = useAdminLibrary()
 const { requests: allRequests } = useRequests()
 const { push: toast } = useToast()
 const { user } = useAuth()
@@ -229,6 +230,9 @@ const settingsSections = [
 ]
 const activeSettingsSection = ref('library')
 const settingsForm = reactive({ ...data.value.settings })
+const defaultSettings = getDefaultAdminSettings()
+const savedSettings = ref({ ...data.value.settings })
+const settingsDirty = computed(() => JSON.stringify(settingsForm) !== JSON.stringify(savedSettings.value))
 const search = ref('')
 const memberFor = (id: number) => data.value.members.find((item) => item.id === id)
 const bookFor = (id: number) => books.value.find((item) => item.id === id)
@@ -254,7 +258,57 @@ async function finishLoan(id: number) {
   toast('Book returned.')
 }
 function createFine() { if (!addFine(fineForm.memberId, Number(fineForm.amount), fineForm.reason)) return toast('Choose a member and enter a fine amount.', 'error'); fineForm.memberId = 0; fineForm.amount = 0; fineForm.reason = ''; toast('Fine added to the member account.') }
-function saveSettings() { updateSettings({ ...settingsForm, loanDays: Number(settingsForm.loanDays), finePerDay: Number(settingsForm.finePerDay) }); toast('Library settings saved.') }
+function resetSettings() {
+  Object.assign(settingsForm, savedSettings.value)
+  toast('Unsaved settings discarded.')
+}
+function resetSettingsToDefaults() {
+  if (!confirm('Reset all settings to their default values?')) return
+  Object.assign(settingsForm, defaultSettings)
+  updateSettings({ ...defaultSettings })
+  savedSettings.value = { ...defaultSettings }
+  toast('Settings reset to defaults.')
+}
+function downloadBackup() {
+  const payload = { settings: data.value.settings, members: data.value.members, loans: data.value.loans, fines: data.value.fines, exportedOn: new Date().toISOString() }
+  const url = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' }))
+  const link = document.createElement('a')
+  link.href = url
+  link.download = 'etec-library-backup.json'
+  link.click()
+  URL.revokeObjectURL(url)
+  toast('Backup downloaded.')
+}
+function checkSystemHealth() { toast(`System healthy: ${books.value.length} books, ${settingsStats.value.categories} categories, and ${allRequests.value.length} activity records loaded.`) }
+function clearLocalDemoData() {
+  if (!confirm('Clear local demo members, loans, and fines? Catalog books, accounts, and borrow requests will not be deleted.')) return
+  clearDemoData()
+  toast('Local demo data cleared.')
+}
+function saveSettings() {
+  if (!settingsForm.libraryName.trim()) return toast('Library name is required.', 'error')
+  if (!settingsForm.primaryEmail.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(settingsForm.primaryEmail)) return toast('Enter a valid primary email address.', 'error')
+  if (settingsForm.loanDays < 1 || settingsForm.loanDays > 365) return toast('Loan period must be between 1 and 365 days.', 'error')
+  if (settingsForm.finePerDay < 0 || settingsForm.maxBooks < 1 || settingsForm.booksPerPage < 1 || settingsForm.maxRenewals < 0) return toast('Numeric settings must use valid positive values.', 'error')
+  updateSettings({ ...settingsForm, loanDays: Number(settingsForm.loanDays), finePerDay: Number(settingsForm.finePerDay), maxBooks: Number(settingsForm.maxBooks), booksPerPage: Number(settingsForm.booksPerPage), maxRenewals: Number(settingsForm.maxRenewals) })
+  savedSettings.value = { ...settingsForm }
+  toast('Library settings saved successfully.')
+}
+const settingKeys: Record<string, (keyof AdminSettings)[]> = {
+  library: ['libraryName', 'description', 'primaryEmail'],
+  catalog: ['catalogSort', 'booksPerPage', 'showUnavailable', 'allowSearch', 'allowCategoryFilter', 'allowAuthorFilter', 'newBooksVisible'],
+  borrow: ['loanDays', 'finePerDay', 'maxBooks', 'borrowingEnabled', 'allowRenewals', 'maxRenewals'],
+  notifications: ['borrowingNotifications', 'returnReminders', 'overdueNotifications', 'newBookNotifications', 'adminNotifications'],
+  members: ['allowRegistration', 'allowProfileEditing', 'requireVerifiedEmail', 'manualAdminApproval', 'memberAccountsEnabled', 'defaultMemberStatus'],
+  appearance: ['theme', 'accentColor', 'sidebarCompact'],
+  language: ['language', 'dateFormat', 'timeFormat', 'timezone'],
+  security: ['requireTwoFactor', 'sessionTimeout', 'passwordPolicy']
+}
+function resetCurrentSection() {
+  const defaults = getDefaultAdminSettings()
+  for (const key of settingKeys[activeSettingsSection.value] || []) settingsForm[key] = defaults[key] as never
+  toast('This section was reset to defaults.')
+}
 const reportItems = computed(() => [
   { label: 'Members', value: data.value.members.length, tone: 'blue' },
   { label: 'Catalog titles', value: books.value.length, tone: 'slate' },
@@ -337,7 +391,7 @@ if (!title.value) await navigateTo('/admin')
           </div>
           <div class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700">
             <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-            All changes saved automatically
+            Settings are saved in this browser
           </div>
         </header>
 
@@ -365,6 +419,8 @@ if (!title.value) await navigateTo('/admin')
           </aside>
 
           <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <Transition name="settings-panel" mode="out-in">
+              <div :key="activeSettingsSection">
             <div v-if="activeSettingsSection === 'library'">
               <div class="flex items-center justify-between gap-3 border-b border-slate-200 pb-4">
                 <div>
@@ -383,17 +439,17 @@ if (!title.value) await navigateTo('/admin')
 
                 <label class="block md:col-span-2">
                   <span class="mb-1.5 block text-sm font-medium text-slate-700">Description</span>
-                  <textarea rows="4" placeholder="Short description of the library and its mission" class="field resize-none"></textarea>
+                  <textarea v-model="settingsForm.description" rows="4" placeholder="Short description of the library and its mission" class="field resize-none"></textarea>
                 </label>
 
                 <label class="block">
                   <span class="mb-1.5 block text-sm font-medium text-slate-700">Primary email</span>
-                  <input type="email" :value="settingsStats.currentUser" class="field" />
+                  <input v-model="settingsForm.primaryEmail" type="email" class="field" />
                 </label>
 
                 <label class="block">
                   <span class="mb-1.5 block text-sm font-medium text-slate-700">Library profile</span>
-                  <input type="text" :value="`${settingsStats.books} titles · ${settingsStats.categories} categories`" class="field" />
+                  <input type="text" :value="`${settingsStats.books} titles · ${settingsStats.categories} categories`" readonly class="field bg-slate-100" />
                 </label>
 
                 <div class="md:col-span-2 flex justify-end pt-2">
@@ -436,9 +492,11 @@ if (!title.value) await navigateTo('/admin')
                       <p class="font-medium text-slate-800">Default catalog view</p>
                       <p class="text-sm text-slate-500">Controls how books are displayed on the bookstore and subject pages.</p>
                     </div>
-                    <select class="field max-w-[180px]">
-                      <option>Grid view</option>
-                      <option>List view</option>
+                    <select v-model="settingsForm.catalogSort" class="field max-w-[180px]">
+                      <option value="relevance">Relevance</option>
+                      <option value="rating">Highest rated</option>
+                      <option value="newest">Newest</option>
+                      <option value="title">Title A-Z</option>
                     </select>
                   </div>
                 </div>
@@ -450,10 +508,20 @@ if (!title.value) await navigateTo('/admin')
                       <p class="text-sm text-slate-500">Refreshes after admin edits in the digital catalog.</p>
                     </div>
                     <label class="flex items-center gap-2 text-sm text-slate-700">
-                      <input type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-500" />
-                      Enabled
+                      <input v-model="settingsForm.newBooksVisible" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-500" />
+                      New books visible
                     </label>
                   </div>
+                </div>
+
+                <div class="grid gap-4 sm:grid-cols-2">
+                  <label class="block"><span class="mb-1.5 block text-sm font-medium text-slate-700">Books per page</span><input v-model.number="settingsForm.booksPerPage" min="1" max="100" type="number" class="field" /></label>
+                  <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700"><span>Show unavailable books</span><input v-model="settingsForm.showUnavailable" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-violet-600" /></label>
+                </div>
+                <div class="grid gap-3 sm:grid-cols-3">
+                  <label class="flex items-center gap-2 text-sm text-slate-700"><input v-model="settingsForm.allowSearch" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-violet-600" /> Search</label>
+                  <label class="flex items-center gap-2 text-sm text-slate-700"><input v-model="settingsForm.allowCategoryFilter" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-violet-600" /> Categories</label>
+                  <label class="flex items-center gap-2 text-sm text-slate-700"><input v-model="settingsForm.allowAuthorFilter" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-violet-600" /> Authors</label>
                 </div>
               </div>
             </div>
@@ -471,7 +539,7 @@ if (!title.value) await navigateTo('/admin')
                 <label class="block">
                   <span class="mb-1.5 block text-sm font-medium text-slate-700">Default loan period</span>
                   <div class="relative">
-                    <input v-model.number="settingsForm.loanDays" min="1" type="number" class="field pr-10" />
+                    <input v-model.number="settingsForm.loanDays" min="1" max="365" type="number" class="field pr-10" />
                     <span class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-xs font-medium text-slate-400">days</span>
                   </div>
                 </label>
@@ -486,8 +554,12 @@ if (!title.value) await navigateTo('/admin')
 
                 <label class="block md:col-span-2">
                   <span class="mb-1.5 block text-sm font-medium text-slate-700">Borrow limit per member</span>
-                  <input type="number" :value="Math.max(1, settingsForm.loanDays || 14)" class="field" />
+                  <input v-model.number="settingsForm.maxBooks" min="1" max="100" type="number" class="field" />
                 </label>
+
+                <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700"><span>Borrowing enabled</span><input v-model="settingsForm.borrowingEnabled" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-emerald-600" /></label>
+                <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700"><span>Allow renewals</span><input v-model="settingsForm.allowRenewals" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-emerald-600" /></label>
+                <label class="block"><span class="mb-1.5 block text-sm font-medium text-slate-700">Maximum renewals</span><input v-model.number="settingsForm.maxRenewals" min="0" max="10" type="number" class="field" /></label>
 
                 <div class="md:col-span-2 flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">
                   <span>Active loans in the system</span>
@@ -530,15 +602,17 @@ if (!title.value) await navigateTo('/admin')
               <div class="mt-6 space-y-4">
                 <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
                   <span>Toast notifications for admin actions</span>
-                  <input type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+                  <input v-model="settingsForm.adminNotifications" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
                 </label>
+                <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700"><span>Borrowing notifications</span><input v-model="settingsForm.borrowingNotifications" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-blue-600" /></label>
+                <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700"><span>New book notifications</span><input v-model="settingsForm.newBookNotifications" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-blue-600" /></label>
                 <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
                   <span>Due date reminders for borrowed books</span>
-                  <input type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+                  <input v-model="settingsForm.returnReminders" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
                 </label>
                 <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
                   <span>Overdue alerts and fine warnings</span>
-                  <input type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+                  <input v-model="settingsForm.overdueNotifications" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
                 </label>
               </div>
             </div>
@@ -570,15 +644,15 @@ if (!title.value) await navigateTo('/admin')
               <div class="mt-6 space-y-4">
                 <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
                   <span>Allow self-registration from the public site</span>
-                  <input type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-rose-600 focus:ring-rose-500" />
+                  <input v-model="settingsForm.allowRegistration" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-rose-600 focus:ring-rose-500" />
                 </label>
                 <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
                   <span>Require verified email before access</span>
-                  <input type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-rose-600 focus:ring-rose-500" />
+                  <input v-model="settingsForm.requireVerifiedEmail" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-rose-600 focus:ring-rose-500" />
                 </label>
                 <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
                   <span>Manual admin approval for new roles</span>
-                  <input type="checkbox" class="h-4 w-4 rounded border-slate-300 text-rose-600 focus:ring-rose-500" />
+                  <input v-model="settingsForm.manualAdminApproval" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-rose-600 focus:ring-rose-500" />
                 </label>
               </div>
             </div>
@@ -595,16 +669,17 @@ if (!title.value) await navigateTo('/admin')
               <div class="mt-6 grid gap-5 md:grid-cols-2">
                 <label class="block">
                   <span class="mb-1.5 block text-sm font-medium text-slate-700">Primary theme</span>
-                  <select class="field">
-                    <option>Default</option>
-                    <option>Warm</option>
-                    <option>Dark</option>
+                  <select v-model="settingsForm.theme" class="field">
+                    <option value="light">Light</option>
+                    <option value="system">System</option>
+                    <option value="dark">Dark</option>
                   </select>
                 </label>
                 <label class="block">
                   <span class="mb-1.5 block text-sm font-medium text-slate-700">Accent color</span>
-                  <input type="color" value="#c9a227" class="field h-11 cursor-pointer px-2 py-2" />
+                  <input v-model="settingsForm.accentColor" type="color" class="field h-11 cursor-pointer px-2 py-2" />
                 </label>
+                <label class="flex items-center gap-2 text-sm text-slate-700"><input v-model="settingsForm.sidebarCompact" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-orange-600" /> Compact sidebar</label>
               </div>
 
               <div class="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
@@ -624,19 +699,19 @@ if (!title.value) await navigateTo('/admin')
               <div class="mt-6 grid gap-5 md:grid-cols-2">
                 <label class="block">
                   <span class="mb-1.5 block text-sm font-medium text-slate-700">Language</span>
-                  <select class="field">
+                  <select v-model="settingsForm.language" class="field">
                     <option>English</option>
-                    <option>French</option>
-                    <option>Khmer</option>
                   </select>
                 </label>
                 <label class="block">
                   <span class="mb-1.5 block text-sm font-medium text-slate-700">Timezone</span>
-                  <select class="field">
+                  <select v-model="settingsForm.timezone" class="field">
                     <option>Asia/Phnom_Penh</option>
                     <option>UTC</option>
                   </select>
                 </label>
+                <label class="block"><span class="mb-1.5 block text-sm font-medium text-slate-700">Date format</span><select v-model="settingsForm.dateFormat" class="field"><option value="YYYY-MM-DD">YYYY-MM-DD</option><option value="DD/MM/YYYY">DD/MM/YYYY</option><option value="MM/DD/YYYY">MM/DD/YYYY</option></select></label>
+                <label class="block"><span class="mb-1.5 block text-sm font-medium text-slate-700">Time format</span><select v-model="settingsForm.timeFormat" class="field"><option value="24h">24-hour</option><option value="12h">12-hour</option></select></label>
               </div>
             </div>
 
@@ -660,17 +735,17 @@ if (!title.value) await navigateTo('/admin')
                 </div>
                 <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
                   <span>Require two-factor authentication</span>
-                  <input type="checkbox" class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-500" />
+                  <input v-model="settingsForm.requireTwoFactor" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-500" />
                 </label>
                 <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
                   <span>Session timeout after inactivity</span>
-                  <input type="checkbox" checked class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-500" />
+                  <input v-model="settingsForm.sessionTimeout" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-500" />
                 </label>
                 <label class="block rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
                   <span class="mb-1.5 block font-medium">Password policy</span>
-                  <select class="field">
-                    <option>Strong password required</option>
-                    <option>Standard password policy</option>
+                  <select v-model="settingsForm.passwordPolicy" class="field">
+                    <option value="strong">Strong password required</option>
+                    <option value="standard">Standard password policy</option>
                   </select>
                 </label>
               </div>
@@ -694,16 +769,32 @@ if (!title.value) await navigateTo('/admin')
                   <p class="text-sm font-semibold text-slate-800">Sync admin access</p>
                   <p class="mt-1 text-xs text-slate-500">Refreshes the owner and admin list used by permissions.</p>
                 </button>
-                <button type="button" class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-left transition hover:bg-white">
+                <button type="button" class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-left transition hover:bg-white" @click="downloadBackup">
                   <p class="text-sm font-semibold text-slate-800">Backup data</p>
                   <p class="mt-1 text-xs text-slate-500">Creates a snapshot of the library data stored locally.</p>
                 </button>
-                <button type="button" class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-left transition hover:bg-white">
+                <button type="button" class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-left transition hover:bg-white" @click="checkSystemHealth">
                   <p class="text-sm font-semibold text-slate-800">System health</p>
                   <p class="mt-1 text-xs text-slate-500">Checks the status of catalog, borrowing, and permissions.</p>
                 </button>
+                <button type="button" class="rounded-2xl border border-red-200 bg-red-50 p-4 text-left transition hover:bg-white" @click="clearLocalDemoData">
+                  <p class="text-sm font-semibold text-red-700">Clear local demo data</p>
+                  <p class="mt-1 text-xs text-red-600">Removes only local members, loans, and fines after confirmation.</p>
+                </button>
               </div>
             </div>
+
+            <div v-if="activeSettingsSection !== 'system'" class="mt-8 flex flex-wrap items-center justify-end gap-3 border-t border-slate-200 pt-5">
+              <span v-if="settingsDirty" class="mr-auto text-xs text-amber-700">You have unsaved changes.</span>
+              <button type="button" class="secondary" @click="resetCurrentSection">Reset section</button>
+              <button type="button" class="secondary" :disabled="!settingsDirty" @click="resetSettings">Cancel</button>
+              <button type="button" class="primary inline-flex items-center gap-2" @click="saveSettings"><Save class="h-4 w-4" /> Save settings</button>
+            </div>
+            <div v-else class="mt-8 flex justify-end border-t border-slate-200 pt-5">
+              <button type="button" class="secondary" @click="resetSettingsToDefaults">Reset all settings</button>
+            </div>
+              </div>
+            </Transition>
           </section>
         </div>
       </div>

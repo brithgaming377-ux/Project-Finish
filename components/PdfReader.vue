@@ -10,7 +10,7 @@ const { pdf, pages } = usePDF(props.url)
 </script>
 
 <template>
-  <div class="overflow-auto rounded-2xl border border-line bg-ink/5 p-3 sm:p-6">
+  <div class="motion-scale-in overflow-auto rounded-2xl border border-line bg-ink/5 p-3 sm:p-6">
     <div v-if="!pdf" class="flex min-h-[60vh] items-center justify-center text-sm text-ink-soft">
       Loading PDF...
     </div>

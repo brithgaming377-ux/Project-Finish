@@ -7,6 +7,7 @@ export interface StoredAccount {
   password: string
   role: 'super-admin' | 'admin' | 'user'
   createdOn: string
+  avatar?: string
 }
 
 const ACCOUNTS_PATH = join(process.cwd(), 'data', 'accounts.json')

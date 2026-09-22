@@ -22,18 +22,40 @@ export function useAdminAccess() {
   const config = useState<AdminConfig>('admin-config', () => ({ configured: false, isOwner: false, isSuperAdmin: false, isAdmin: false, hasPendingRequest: false, requests: [] }))
   const loaded = useState<boolean>('admin-config-loaded', () => false)
   const loading = useState<boolean>('admin-config-loading', () => false)
+  const refreshingEmail = useState<string>('admin-config-refreshing-email', () => '')
 
   async function refresh() {
     if (!import.meta.client) return
-    if (loading.value) return
+
+    const requestedEmail = email.value
+    // A refresh can begin before the saved session is restored. Wait for that
+    // request, then fetch again if it was for a different account.
+    if (loading.value) {
+      const wasRefreshingForRequestedEmail = refreshingEmail.value === requestedEmail
+      await new Promise<void>((resolve) => {
+        const stop = watch(loading, (isLoading) => {
+          if (!isLoading) {
+            stop()
+            resolve()
+          }
+        })
+      })
+      if (wasRefreshingForRequestedEmail) return
+      return refresh()
+    }
+
     loading.value = true
+    refreshingEmail.value = requestedEmail
     try {
-      const data = await $fetch<AdminConfig>('/api/admin/config', { query: { email: email.value } })
+      const data = await $fetch<AdminConfig>('/api/admin/config', { query: { email: requestedEmail } })
       config.value = data
       loaded.value = true
     } finally {
       loading.value = false
+      refreshingEmail.value = ''
     }
+
+    if (email.value !== requestedEmail) await refresh()
   }
 
   const isAdminDevice = computed(() => loaded.value && config.value.isAdmin)

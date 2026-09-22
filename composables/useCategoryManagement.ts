@@ -1,137 +1,54 @@
-import { categories as seedCategories } from '~/data/books'
+export interface Category { id: string; name: string; createdAt: string; booksCount?: number; borrowedCount?: number; availableCount?: number }
 
-const CATEGORIES_STORAGE_KEY = 'marginalia:categories'
-
-export interface Category {
-  id: string
-  name: string
-  createdAt: string
-  booksCount?: number
-  borrowedCount?: number
-  availableCount?: number
-}
-
-function categoriesState() {
-  return useState<Category[]>('categories', () => {
-    return seedCategories.map((name, index) => ({
-      id: `cat-${index}`,
-      name,
-      createdAt: new Date().toISOString().slice(0, 10)
-    }))
-  })
-}
-
-function persist(list: Category[]) {
-  if (!import.meta.client) return
-  try {
-    localStorage.setItem(CATEGORIES_STORAGE_KEY, JSON.stringify(list))
-  } catch {
-    // ignore storage errors
-  }
-}
-
-function hydrate(list: ReturnType<typeof categoriesState>) {
-  if (!import.meta.client) return
-  try {
-    const raw = localStorage.getItem(CATEGORIES_STORAGE_KEY)
-    if (raw) {
-      const stored = JSON.parse(raw) as Category[]
-      list.value = stored
-    }
-  } catch {
-    // ignore corrupt storage
-  }
-}
-
+const categoryState = () => useState<Category[]>('categories', () => [])
 let hydrated = false
+let refreshTimer: ReturnType<typeof setInterval> | undefined
 
 export function useCategoryManagement() {
-  const categories = categoriesState()
+  const categories = categoryState()
   const { books } = useCatalog()
+
+  async function refresh() {
+    if (!import.meta.client) return
+    categories.value = await $fetch<Category[]>('/api/categories')
+  }
 
   if (import.meta.client && !hydrated) {
     hydrated = true
-    hydrate(categories)
+    refresh().catch(() => undefined)
+    refreshTimer = setInterval(() => refresh().catch(() => undefined), 10_000)
   }
 
-  // Get category statistics
   function getCategoryStats(categoryName: string) {
-    const booksInCategory = books.value.filter(b => b.category === categoryName)
-    const borrowedCount = booksInCategory.reduce((sum, b) => sum + b.availability.checkedOut, 0)
-    const availableCount = booksInCategory.reduce((sum, b) => 
-      sum + Math.max(b.availability.digitalCopies - b.availability.checkedOut, 0), 0
-    )
+    const booksInCategory = books.value.filter((book) => book.category === categoryName)
     return {
       booksCount: booksInCategory.length,
-      borrowedCount,
-      availableCount
+      borrowedCount: booksInCategory.reduce((sum, book) => sum + book.availability.checkedOut, 0),
+      availableCount: booksInCategory.reduce((sum, book) => sum + Math.max(book.availability.digitalCopies - book.availability.checkedOut, 0), 0)
     }
   }
 
-  function getCategories() {
-    return categories.value.map(cat => ({
-      ...cat,
-      ...getCategoryStats(cat.name)
-    }))
-  }
+  const categoriesWithStats = computed(() => categories.value.map((category) => ({ ...category, ...getCategoryStats(category.name) })))
 
-  function addCategory(name: string) {
-    if (!name.trim()) throw new Error('Category name is required')
-    if (categories.value.some(c => c.name.toLowerCase() === name.toLowerCase())) {
-      throw new Error('Category already exists')
-    }
-
-    const newCategory: Category = {
-      id: `cat-${Date.now()}`,
-      name: name.trim(),
-      createdAt: new Date().toISOString().slice(0, 10)
-    }
-
-    categories.value = [...categories.value, newCategory]
-    persist(categories.value)
-    return newCategory
-  }
-
-  function updateCategory(id: string, name: string) {
-    if (!name.trim()) throw new Error('Category name is required')
-
-    const category = categories.value.find(c => c.id === id)
-    if (!category) throw new Error('Category not found')
-
-    if (categories.value.some(c => c.id !== id && c.name.toLowerCase() === name.toLowerCase())) {
-      throw new Error('Category name already exists')
-    }
-
-    // Update books with the old category name to the new name
-    books.value = books.value.map(book => 
-      book.category === category.name 
-        ? { ...book, category: name.trim() }
-        : book
-    )
-
-    category.name = name.trim()
-    categories.value = [...categories.value]
-    persist(categories.value)
+  async function addCategory(name: string) {
+    const category = await $fetch<Category>('/api/categories', { method: 'POST', body: { name } })
+    categories.value = [...categories.value, category]
     return category
   }
 
-  function deleteCategory(id: string) {
-    const category = categories.value.find(c => c.id === id)
-    if (!category) throw new Error('Category not found')
-
-    const booksInCategory = books.value.filter(b => b.category === category.name)
-    if (booksInCategory.length > 0) {
-      throw new Error(`Cannot delete category with ${booksInCategory.length} book(s). Move or delete the books first.`)
-    }
-
-    categories.value = categories.value.filter(c => c.id !== id)
-    persist(categories.value)
+  async function updateCategory(id: string, name: string) {
+    const previousName = categories.value.find((item) => item.id === id)?.name
+    const category = await $fetch<Category>(`/api/categories/${id}`, { method: 'PUT', body: { name, oldName: previousName } })
+    categories.value = categories.value.map((item) => item.id === id ? category : item)
+    // The server also renamed matching books; update this device immediately.
+    if (previousName) books.value = books.value.map((book) => book.category === previousName ? { ...book, category: category.name } : book)
+    return category
   }
 
-  return {
-    categories: computed(() => getCategories()),
-    addCategory,
-    updateCategory,
-    deleteCategory
+  async function deleteCategory(id: string) {
+    await $fetch(`/api/categories/${id}`, { method: 'DELETE' })
+    categories.value = categories.value.filter((category) => category.id !== id)
   }
+
+  return { categories: categoriesWithStats, refresh, addCategory, updateCategory, deleteCategory }
 }

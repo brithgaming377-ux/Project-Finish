@@ -1,14 +1,18 @@
 <script setup lang="ts">
-import { categories } from '~/data/books'
 import { useCatalog } from '~/composables/useCatalog'
 
 const { books } = useCatalog()
+const { data: adminData } = useAdminLibrary()
 const route = useRoute()
+
+const categoryOptions = computed(() => {
+  return Array.from(new Set(books.value.map((book) => book.category))).sort()
+})
 
 const activeCategory = ref((route.query.category as string) || 'All')
 const query = ref((route.query.q as string) || '')
 const activeLevel = ref<'All' | 'Beginner' | 'Intermediate' | 'Advanced'>('All')
-const sortBy = ref<'relevance' | 'rating' | 'newest' | 'title'>('relevance')
+const sortBy = ref<'relevance' | 'rating' | 'newest' | 'title'>(adminData.value.settings.catalogSort)
 
 const levels = ['Beginner', 'Intermediate', 'Advanced'] as const
 
@@ -18,11 +22,21 @@ const filteredBooks = computed(() => {
       ? books.value
       : books.value.filter((b) => b.category === activeCategory.value)
 
+  if (!adminData.value.settings.showUnavailable) {
+    list = list.filter((book) => book.availability.digitalCopies > book.availability.checkedOut)
+  }
+
+  if (!adminData.value.settings.newBooksVisible) {
+    const cutoff = new Date()
+    cutoff.setDate(cutoff.getDate() - 30)
+    list = list.filter((book) => new Date(book.addedDate) < cutoff)
+  }
+
   if (activeLevel.value !== 'All') {
     list = list.filter((b) => b.level === activeLevel.value)
   }
 
-  if (query.value.trim()) {
+  if (query.value.trim() && adminData.value.settings.allowSearch) {
     const q = query.value.trim().toLowerCase()
     list = list.filter(
       (b) =>
@@ -38,10 +52,11 @@ const filteredBooks = computed(() => {
   else if (sortBy.value === 'newest') sorted.sort((a, b) => b.year - a.year)
   else if (sortBy.value === 'title') sorted.sort((a, b) => a.title.localeCompare(b.title))
 
-  return sorted
+  return sorted.slice(0, adminData.value.settings.booksPerPage)
 })
 
 function selectCategory(cat: string) {
+  if (!adminData.value.settings.allowCategoryFilter) return
   activeCategory.value = cat
 }
 
@@ -86,7 +101,7 @@ function clearFilters() {
               All subjects
             </button>
             <button
-              v-for="cat in categories"
+              v-for="cat in categoryOptions"
               :key="cat"
               class="premium-interaction border-l-2 border-transparent px-2.5 py-1.5 text-left text-sm"
               :class="

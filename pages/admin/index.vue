@@ -21,8 +21,8 @@ import {
 } from '@lucide/vue'
 import { getCoverUrl } from '~/data/books'
 
-const { books, updateBook } = useCatalog()
-const { requests, pending, updateStatus } = useRequests()
+const { books, refresh: refreshBooks, updateBook } = useCatalog()
+const { requests, pending, refresh: refreshRequests, updateStatus } = useRequests()
 const { push: toast } = useToast()
 const { state: libraryState } = useLibrary()
 const { user } = useAuth()
@@ -47,8 +47,12 @@ async function fetchUserCount() {
   }
 }
 
-onMounted(() => {
-  fetchUserCount()
+onMounted(async () => {
+  await Promise.allSettled([
+    fetchUserCount(),
+    refreshBooks(),
+    refreshRequests()
+  ])
 })
 
 // Pre-compute book lookup map to avoid O(n) find() in loops
@@ -134,6 +138,11 @@ const chartLabels = computed(() => {
   return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 })
 
+function parseActivityDate(value: string) {
+  const [year, month, day] = value.slice(0, 10).split('-').map(Number)
+  return new Date(year, month - 1, day)
+}
+
 const chartData = computed(() => {
   const labels = chartLabels.value
   const is7d = activityFilter.value === '7d'
@@ -142,9 +151,9 @@ const chartData = computed(() => {
   const borrowData = labels.map((_, i) => {
     return requests.value.filter(r => {
       if (r.kind !== 'borrow') return false
-      const d = new Date(r.requestedOn)
-      if (is7d) return (new Date().getDay() + i) % 7 === d.getDay()
-      if (is30d) return Math.floor(d.getDate() / 7) === i
+      const d = parseActivityDate(r.requestedOn)
+      if (is7d) return (d.getDay() + 6) % 7 === i
+      if (is30d) return Math.ceil(d.getDate() / 7) - 1 === i
       return d.getMonth() === i
     }).length
   })
@@ -152,9 +161,9 @@ const chartData = computed(() => {
   const returnData = labels.map((_, i) => {
     return requests.value.filter(r => {
       if (r.kind !== 'borrow' || r.status !== 'returned') return false
-      const d = new Date(r.processedOn || r.requestedOn)
-      if (is7d) return (new Date().getDay() + i) % 7 === d.getDay()
-      if (is30d) return Math.floor(d.getDate() / 7) === i
+      const d = parseActivityDate(r.processedOn || r.requestedOn)
+      if (is7d) return (d.getDay() + 6) % 7 === i
+      if (is30d) return Math.ceil(d.getDate() / 7) - 1 === i
       return d.getMonth() === i
     }).length
   })
@@ -238,7 +247,7 @@ async function processRequest(id: number, decision: 'approved' | 'declined') {
     if (!book || book.availability.checkedOut >= book.availability.digitalCopies) return toast('This book no longer has an available copy.', 'error')
     await updateBook(book.id, { availability: { ...book.availability, checkedOut: book.availability.checkedOut + 1 } })
   }
-  updateStatus(id, decision)
+  await updateStatus(id, decision)
   toast(`Borrow request ${decision}.`)
 }
 
@@ -254,10 +263,10 @@ function onSearch() {
     <!-- Header -->
     <div class="flex flex-wrap items-end justify-between gap-4">
       <div>
-        <p class="text-sm text-slate-500">Library Management</p>
+        <p class="admin-eyebrow">Library management</p>
         <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-900">E-Library Dashboard</h1>
       </div>
-      <div class="flex items-center gap-2 text-sm text-slate-500">
+      <div class="admin-muted flex items-center gap-2 text-sm">
         <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
         System Online
       </div>
@@ -286,7 +295,7 @@ function onSearch() {
           <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600"><BookOpen class="h-5 w-5" /></div>
           <span class="text-xs text-slate-400">Total</span>
         </div>
-        <p class="mt-3 text-2xl font-bold text-slate-900">{{ totalBooks.toLocaleString() }}</p>
+        <p class="admin-number mt-3 text-2xl font-bold">{{ totalBooks.toLocaleString() }}</p>
         <p class="mt-1 text-xs text-slate-500">Books in library</p>
       </article>
       <article class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md transition">
@@ -294,7 +303,7 @@ function onSearch() {
           <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600"><BookCheck class="h-5 w-5" /></div>
           <span class="text-xs text-slate-400">Available</span>
         </div>
-        <p class="mt-3 text-2xl font-bold text-slate-900">{{ availableCopies.toLocaleString() }}</p>
+        <p class="admin-number mt-3 text-2xl font-bold">{{ availableCopies.toLocaleString() }}</p>
         <p class="mt-1 text-xs text-slate-500">Copies available</p>
       </article>
       <article class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md transition">
@@ -302,15 +311,15 @@ function onSearch() {
           <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-50 text-amber-600"><RefreshCw class="h-5 w-5" /></div>
           <span class="text-xs text-slate-400">Borrowed</span>
         </div>
-        <p class="mt-3 text-2xl font-bold text-slate-900">{{ borrowedCopies.toLocaleString() }}</p>
+        <p class="admin-number mt-3 text-2xl font-bold">{{ borrowedCopies.toLocaleString() }}</p>
         <p class="mt-1 text-xs text-slate-500">Copies on loan</p>
       </article>
       <article class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md transition">
         <div class="flex items-start justify-between">
           <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-50 text-violet-600"><Users class="h-5 w-5" /></div>
-          <span class="text-xs text-slate-400">Users</span>
+          <span class="text-xs text-slate-400">Accounts</span>
         </div>
-        <p class="mt-3 text-2xl font-bold text-slate-900">{{ totalUsers.toLocaleString() }}</p>
+        <p class="admin-number mt-3 text-2xl font-bold">{{ totalUsers.toLocaleString() }}</p>
         <p class="mt-1 text-xs text-slate-500">{{ adminCount }} admins · {{ readerCount }} readers</p>
       </article>
       <article class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md transition">

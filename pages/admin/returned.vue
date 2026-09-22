@@ -11,9 +11,12 @@ import {
 import { getCoverUrl } from '~/data/books'
 import BookCoverImage from '~/components/BookCoverImage.vue'
 
-const { books } = useCatalog()
-const { requests } = useRequests()
-const { getById } = useCatalog()
+const { books, getById, refresh: refreshBooks } = useCatalog()
+const { requests, refresh: refreshRequests } = useRequests()
+
+onMounted(async () => {
+  await Promise.allSettled([refreshBooks(), refreshRequests()])
+})
 
 const searchQuery = ref('')
 const sortBy = ref<'return-date' | 'borrower' | 'book'>('return-date')

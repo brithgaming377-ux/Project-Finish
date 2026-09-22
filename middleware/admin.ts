@@ -6,9 +6,9 @@ export default defineNuxtRouteMiddleware(async () => {
   const { isAdmin, isLoggedIn } = useAuth()
   const adminAccess = useAdminAccess()
 
-  if (!adminAccess.loaded.value) {
-    await adminAccess.refresh()
-  }
+  // Always refresh for the current session. The app may have initially loaded
+  // permissions before localStorage restored the signed-in account.
+  await adminAccess.refresh()
 
   if (!isLoggedIn.value || !isAdmin.value) {
     return navigateTo('/admin/login')

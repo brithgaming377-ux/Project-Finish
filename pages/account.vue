@@ -33,7 +33,7 @@ function daysLeft(dueOn: string) {
 async function onReturn(id: number) {
   const request = approvedBorrowRequests.value.find((item) => item.bookId === id)
   if (request) {
-    updateStatus(request.id, 'returned')
+    await updateStatus(request.id, 'returned')
     const book = getById(id)
     if (book) await updateBook(id, { availability: { ...book.availability, checkedOut: Math.max(0, book.availability.checkedOut - 1) } })
     toast('Return recorded. Thanks!')
@@ -83,12 +83,12 @@ async function onClaim() {
     </header>
 
     <section class="surface-card mb-6 flex items-center gap-4 p-5">
-      <div
-        class="w-11 h-11 rounded-full flex items-center justify-center font-display font-semibold shrink-0"
+      <ProfileAvatar
+        :name="user.name"
+        :avatar="user.avatar"
+        class="h-14 w-14 shrink-0 border-2 border-white font-display text-lg font-semibold shadow-card"
         :class="isAdmin ? 'bg-amber text-ink' : 'bg-ink text-white'"
-      >
-        {{ user.name.charAt(0) }}
-      </div>
+      />
       <div>
         <p class="text-sm font-semibold">{{ user.name }}</p>
         <p class="text-[13.5px] text-ink-soft">{{ user.email }}</p>

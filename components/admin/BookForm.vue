@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { categories } from '~/data/books'
 import type { NewBookInput } from '~/composables/useCatalog'
 
 const props = defineProps<{
@@ -7,12 +6,24 @@ const props = defineProps<{
   submitLabel: string
 }>()
 
+const { books } = useCatalog()
+const { categories: managedCategories } = useCategoryManagement()
+
 const emit = defineEmits<{ submit: [NewBookInput] }>()
+
+const defaultCategories = ['Technology', 'Philosophy', 'Science', 'Leadership', 'Language', 'History', 'Other']
+
+const subjectOptions = computed(() => {
+  const names = new Set<string>(defaultCategories)
+  for (const category of managedCategories.value) names.add(category.name)
+  for (const book of books.value) names.add(book.category)
+  return Array.from(names).sort()
+})
 
 const form = reactive<NewBookInput>({
   title: props.initial?.title ?? '',
   author: props.initial?.author ?? '',
-  category: props.initial?.category ?? categories[0],
+  category: props.initial?.category ?? subjectOptions.value[0] ?? 'Other',
   level: props.initial?.level ?? 'Beginner',
   pages: props.initial?.pages ?? 200,
   year: props.initial?.year ?? new Date().getFullYear(),
@@ -106,7 +117,7 @@ async function onSubmit() {
           v-model="form.category"
           class="text-sm font-normal px-3 py-2.5 rounded-card border border-line bg-white"
         >
-          <option v-for="c in categories" :key="c" :value="c">{{ c }}</option>
+          <option v-for="c in subjectOptions" :key="c" :value="c">{{ c }}</option>
         </select>
       </label>
       <label class="flex flex-col gap-1.5 text-[13px] font-semibold">

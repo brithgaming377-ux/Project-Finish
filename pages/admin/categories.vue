@@ -10,11 +10,12 @@ import {
   ChevronDown,
   BookOpen,
   BookMarked,
-  BookCheck
+  BookCheck,
+  X
 } from '@lucide/vue'
 
 const { push: toast } = useToast()
-const { categories, addCategory, updateCategory, deleteCategory } = useCategoryManagement()
+const { categories, refresh, addCategory, updateCategory, deleteCategory } = useCategoryManagement()
 
 const searchQuery = ref('')
 const sortBy = ref<'name' | 'books' | 'borrowed'>('name')
@@ -23,6 +24,7 @@ const editingId = ref<string | null>(null)
 const editingName = ref('')
 const deleteConfirming = ref<string | null>(null)
 const isLoading = ref(false)
+const showAddCategory = ref(false)
 
 const filteredCategories = computed(() => {
   let result = categories.value
@@ -68,11 +70,14 @@ async function onAddCategory() {
 
   isLoading.value = true
   try {
-    await addCategory(newCategoryName.value.trim())
-    toast(`Category "${newCategoryName.value.trim()}" added successfully.`, 'success')
+    const name = newCategoryName.value.trim()
+    await addCategory(name)
+    await refresh()
+    toast(`Category "${name}" added successfully.`, 'success')
     newCategoryName.value = ''
+    showAddCategory.value = false
   } catch (err: any) {
-    toast(err?.message || 'Failed to add category.', 'error')
+    toast(err?.data?.statusMessage || err?.message || 'Failed to add category.', 'error')
   } finally {
     isLoading.value = false
   }
@@ -183,26 +188,46 @@ async function onDelete(id: string) {
       </article>
     </section>
 
-    <!-- Add Category Form -->
-    <section class="rounded-xl border border-slate-200 bg-white shadow-sm p-6">
-      <h2 class="font-semibold text-slate-900 mb-4">Add New Category</h2>
-      <form @submit.prevent="onAddCategory" class="flex gap-3">
+    <!-- Add Category Action -->
+    <section class="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div>
+        <h2 class="font-semibold text-slate-900">Categories</h2>
+        <p class="mt-1 text-sm text-slate-500">Create a new subject for your library.</p>
+      </div>
+      <button
+        type="button"
+        class="inline-flex shrink-0 items-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+        @click="showAddCategory = true"
+      >
+        <Plus class="h-4 w-4" />
+        Add Category
+      </button>
+    </section>
+
+    <div v-if="showAddCategory" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4" @click.self="showAddCategory = false">
+      <form class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl" @submit.prevent="onAddCategory">
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold text-slate-900">Add New Category</h2>
+          <button type="button" class="rounded-lg p-2 text-slate-400 hover:bg-slate-100" aria-label="Close" @click="showAddCategory = false">
+            <X class="h-5 w-5" />
+          </button>
+        </div>
         <input
           v-model="newCategoryName"
           type="text"
+          required
+          autofocus
           placeholder="Enter category name..."
-          class="flex-1 rounded-lg border border-slate-200 bg-white py-2.5 px-4 text-sm outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+          class="mt-5 w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
         />
-        <button
-          type="submit"
-          :disabled="isLoading"
-          class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50 transition"
-        >
-          <Plus class="h-4 w-4" />
-          {{ isLoading ? 'Adding...' : 'Add Category' }}
-        </button>
+        <div class="mt-5 flex justify-end gap-3">
+          <button type="button" class="rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50" @click="showAddCategory = false">Cancel</button>
+          <button type="submit" :disabled="isLoading" class="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50">
+            {{ isLoading ? 'Adding...' : 'Save Category' }}
+          </button>
+        </div>
       </form>
-    </section>
+    </div>
 
     <!-- Search & Filters -->
     <section class="space-y-4">

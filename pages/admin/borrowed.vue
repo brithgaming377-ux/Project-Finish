@@ -23,9 +23,13 @@ import { getCoverUrl } from '~/data/books'
 import BookCoverImage from '~/components/BookCoverImage.vue'
 
 const router = useRouter()
-const { books, updateBook } = useCatalog()
-const { requests, updateStatus } = useRequests()
+const { books, refresh: refreshBooks, updateBook } = useCatalog()
+const { requests, refresh: refreshRequests, updateStatus } = useRequests()
 const { push: toast } = useToast()
+
+onMounted(async () => {
+  await Promise.allSettled([refreshBooks(), refreshRequests()])
+})
 
 const searchQuery = ref('')
 const statusFilter = ref<'all' | 'borrowed' | 'due-soon' | 'overdue' | 'returned'>('borrowed')
@@ -201,7 +205,7 @@ function getDaysUntilDueIcon(daysUntilDue: number) {
 async function onReturnBook(requestId: number, bookId: number) {
   returningId.value = requestId
   try {
-    updateStatus(requestId, 'returned')
+    await updateStatus(requestId, 'returned')
     const book = books.value.find(b => b.id === bookId)
     if (book) {
       await updateBook(bookId, {
@@ -276,7 +280,7 @@ async function submitNewBorrow() {
   isSubmittingBorrow.value = true
   try {
     const { submit } = useRequests()
-    const success = submit('borrow', newBorrowForm.bookId, newBorrowForm.userName.trim(), newBorrowForm.userEmail.trim())
+    const success = await submit('borrow', newBorrowForm.bookId, newBorrowForm.userName.trim(), newBorrowForm.userEmail.trim())
     
     if (!success) {
       toast('This borrow request already exists.', 'error')
@@ -298,7 +302,7 @@ async function submitNewBorrow() {
     const requests_ = useRequests()
     const lastRequest = requests_.requests.value[0]
     if (lastRequest && lastRequest.bookId === newBorrowForm.bookId && lastRequest.userEmail === newBorrowForm.userEmail) {
-      requests_.updateStatus(lastRequest.id, 'approved')
+      await requests_.updateStatus(lastRequest.id, 'approved')
     }
 
     toast(`Borrow record created for ${newBorrowForm.userName}!`, 'success')

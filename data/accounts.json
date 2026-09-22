@@ -1,7 +1,7 @@
 [
   {
     "name": "Rith Kong",
-    "email": "ngki5093@gmail.com",
+    "email": "",
     "password": "password123",
     "role": "admin",
     "createdOn": "2026-08-29"
@@ -46,7 +46,8 @@
     "email": "brithgaming377@gmail.com",
     "password": "@Rith090107",
     "role": "super-admin",
-    "createdOn": "2026-09-01"
+    "createdOn": "2026-09-01",
+    "avatar": "/uploads/avatars/1789878302720-1ep4rz.jpg"
   },
   {
     "name": "Pheatra",
@@ -89,5 +90,12 @@
     "password": "123345",
     "role": "user",
     "createdOn": "2026-09-15"
+  },
+  {
+    "name": "Lin Lin",
+    "email": "lin1223@gmail.com",
+    "password": "@12345",
+    "role": "user",
+    "createdOn": "2026-09-20"
   }
 ]

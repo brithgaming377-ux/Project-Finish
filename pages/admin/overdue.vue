@@ -12,9 +12,13 @@ import {
 import { getCoverUrl } from '~/data/books'
 import BookCoverImage from '~/components/BookCoverImage.vue'
 
-const { books, updateBook } = useCatalog()
-const { requests, updateStatus } = useRequests()
+const { books, refresh: refreshBooks, updateBook } = useCatalog()
+const { requests, refresh: refreshRequests, updateStatus } = useRequests()
 const { push: toast } = useToast()
+
+onMounted(async () => {
+  await Promise.allSettled([refreshBooks(), refreshRequests()])
+})
 
 const searchQuery = ref('')
 const sortBy = ref<'overdue-days' | 'due-date' | 'borrower'>('overdue-days')
@@ -73,7 +77,7 @@ const criticalOverdue = computed(() => overdueBooks.value.filter(r => r.daysOver
 async function onReturnBook(requestId: number, bookId: number) {
   returningId.value = requestId
   try {
-    updateStatus(requestId, 'returned')
+    await updateStatus(requestId, 'returned')
     const book = books.value.find(b => b.id === bookId)
     if (book) {
       await updateBook(bookId, {

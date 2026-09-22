@@ -1,0 +1,129 @@
+[
+  {
+    "id": 13,
+    "kind": "borrow",
+    "bookId": 2,
+    "userName": "BunHeng",
+    "userEmail": "angbunheng4227@gmail.com",
+    "status": "approved",
+    "requestedOn": "2026-09-20",
+    "processedOn": "2026-09-20"
+  },
+  {
+    "id": 12,
+    "kind": "borrow",
+    "bookId": 2,
+    "userName": "BunHeng",
+    "userEmail": "angbunheng4227@gmail.com",
+    "status": "declined",
+    "requestedOn": "2026-09-20",
+    "processedOn": "2026-09-20"
+  },
+  {
+    "id": 11,
+    "kind": "borrow",
+    "bookId": 2,
+    "userName": "Ahh Dam",
+    "userEmail": "maisokkong69@gmail.com",
+    "status": "approved",
+    "requestedOn": "2026-09-20",
+    "processedOn": "2026-09-20"
+  },
+  {
+    "id": 10,
+    "kind": "borrow",
+    "bookId": 3,
+    "userName": "Ahh Dam",
+    "userEmail": "maisokkong69@gmail.com",
+    "status": "approved",
+    "requestedOn": "2026-09-20",
+    "processedOn": "2026-09-20"
+  },
+  {
+    "id": 9,
+    "kind": "borrow",
+    "bookId": 2,
+    "userName": "Lin Lin",
+    "userEmail": "lin1223@gmail.com",
+    "status": "pending",
+    "requestedOn": "2026-09-20"
+  },
+  {
+    "id": 8,
+    "kind": "borrow",
+    "bookId": 2,
+    "userName": "Seyha",
+    "userEmail": "seyha123@gmail.com",
+    "status": "approved",
+    "requestedOn": "2026-09-20",
+    "processedOn": "2026-09-20"
+  },
+  {
+    "id": 7,
+    "kind": "borrow",
+    "bookId": 2,
+    "userName": "Seyha",
+    "userEmail": "seyha123@gmail.com",
+    "status": "declined",
+    "requestedOn": "2026-09-20",
+    "processedOn": "2026-09-20"
+  },
+  {
+    "id": 6,
+    "kind": "borrow",
+    "bookId": 29,
+    "userName": "Lin Lin",
+    "userEmail": "lin1223@gmail.com",
+    "status": "approved",
+    "requestedOn": "2026-09-20",
+    "processedOn": "2026-09-20"
+  },
+  {
+    "id": 5,
+    "kind": "borrow",
+    "bookId": 14,
+    "userName": "Lin Lin",
+    "userEmail": "lin1223@gmail.com",
+    "status": "pending",
+    "requestedOn": "2026-09-20"
+  },
+  {
+    "id": 4,
+    "kind": "borrow",
+    "bookId": 3,
+    "userName": "Pheatra",
+    "userEmail": "tra123@gmail.com",
+    "status": "approved",
+    "requestedOn": "2026-09-20",
+    "processedOn": "2026-09-20"
+  },
+  {
+    "id": 3,
+    "kind": "borrow",
+    "bookId": 7,
+    "userName": "Pheatra",
+    "userEmail": "tra123@gmail.com",
+    "status": "pending",
+    "requestedOn": "2026-09-20"
+  },
+  {
+    "id": 2,
+    "kind": "borrow",
+    "bookId": 3,
+    "userName": "Seyha",
+    "userEmail": "seyha123@gmail.com",
+    "status": "returned",
+    "requestedOn": "2026-09-20",
+    "processedOn": "2026-09-20"
+  },
+  {
+    "id": 1,
+    "kind": "borrow",
+    "bookId": 1,
+    "userName": "Seyha",
+    "userEmail": "seyha123@gmail.com",
+    "status": "returned",
+    "requestedOn": "2026-09-20",
+    "processedOn": "2026-09-20"
+  }
+]

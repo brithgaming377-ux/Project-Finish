@@ -28,6 +28,7 @@ useHead(() => ({
 }))
 
 const { isAdmin, isLoggedIn, user } = useAuth()
+const { data: adminData } = useAdminLibrary()
 const { submit, forUser } = useRequests()
 const {
   isSaved,
@@ -42,6 +43,7 @@ const { push: toast } = useToast()
 const myRequests = computed(() => (user.value ? forUser(user.value.email).value : []))
 const borrowRequest = computed(() => myRequests.value.find((request) => request.bookId === id.value && request.kind === 'borrow' && ['pending', 'approved'].includes(request.status)))
 const approvedBorrow = computed(() => myRequests.value.some((request) => request.bookId === id.value && request.kind === 'borrow' && request.status === 'approved'))
+const activeBorrowCount = computed(() => myRequests.value.filter((request) => request.kind === 'borrow' && ['pending', 'approved'].includes(request.status)).length)
 
 const activeTab = ref<'description' | 'contents' | 'reviews' | 'citation'>('description')
 const showExchangePanel = ref(false)
@@ -88,13 +90,21 @@ function onSave() {
   })
 }
 
-function onBorrow() {
-  requireLogin(() => {
+async function onBorrow() {
+  requireLogin(async () => {
+    if (!adminData.value.settings.borrowingEnabled) {
+      toast('Borrowing is currently disabled by the library.', 'error')
+      return
+    }
+    if (activeBorrowCount.value >= adminData.value.settings.maxBooks) {
+      toast(`You can borrow up to ${adminData.value.settings.maxBooks} books.`, 'error')
+      return
+    }
     if (copiesLeft.value === 0) {
       toast('No copies available right now.', 'error')
       return
     }
-    if (!submit('borrow', id.value, user.value!.name, user.value!.email)) return toast('You already have a request for this book.', 'error')
+    if (!await submit('borrow', id.value, user.value!.name, user.value!.email)) return toast('You already have a request for this book.', 'error')
     toast('Borrow request sent to the admin for approval.')
   })
 }
@@ -188,10 +198,10 @@ function onExchange(otherId: number) {
             v-if="!isBorrowed(book.id)"
             class="premium-interaction rounded-card bg-ink text-white font-semibold text-sm px-5 py-2.5 hover:bg-ink-light disabled:opacity-50 disabled:cursor-not-allowed"
             type="button"
-            :disabled="copiesLeft === 0 || !!borrowRequest"
+            :disabled="copiesLeft === 0 || !!borrowRequest || !adminData.settings.borrowingEnabled"
             @click="onBorrow"
           >
-            {{ borrowRequest?.status === 'approved' ? 'Borrow approved ✓' : borrowRequest ? 'Borrow requested' : copiesLeft > 0 ? 'Borrow this book' : 'Join waitlist' }}
+            {{ !adminData.settings.borrowingEnabled ? 'Borrowing disabled' : borrowRequest?.status === 'approved' ? 'Borrow approved ✓' : borrowRequest ? 'Borrow requested' : copiesLeft > 0 ? 'Borrow this book' : 'Join waitlist' }}
           </button>
           <button
             v-else

@@ -54,6 +54,7 @@ const categoryPrefixes: Record<string, string> = {
 
 let clientHydrated = false
 let clientHydrationPromise: Promise<void> | null = null
+let catalogRefreshTimer: ReturnType<typeof setInterval> | undefined
 
 function isBookArray(value: unknown): value is Book[] {
   return Array.isArray(value) && value.length > 0 && typeof value[0] === 'object' && value[0] !== null && 'id' in value[0] && 'title' in value[0]
@@ -87,6 +88,13 @@ export function useCatalog() {
   const books = catalogState()
   const deletedBooks = deletedBooksState()
 
+  async function refresh() {
+    if (!import.meta.client) return
+    const remote = await $fetch<Book[]>('/api/books')
+    books.value = remote.map((book) => normalize(book))
+    persistClientBooks(books.value)
+  }
+
   if (import.meta.client && !clientHydrated) {
     clientHydrated = true
     clientHydrationPromise = (async () => {
@@ -108,9 +116,14 @@ export function useCatalog() {
         // ignore
       }
     })()
+    // The catalog is shared by every administrator using this server.
+    catalogRefreshTimer = setInterval(() => refresh().catch(() => undefined), 10_000)
   }
 
   if (import.meta.server) {
+    if (!books.value.length) {
+      books.value = JSON.parse(JSON.stringify(seedBooks))
+    }
     ;(async () => {
       try {
         const { readBooks } = await import('~/server/utils/books')
@@ -131,6 +144,9 @@ export function useCatalog() {
   }
 
   function getById(id: number): Book | undefined {
+    if (import.meta.server && !books.value.length) {
+      books.value = JSON.parse(JSON.stringify(seedBooks))
+    }
     return books.value.find((b) => b.id === id)
   }
 
@@ -306,6 +322,7 @@ export function useCatalog() {
   return {
     books,
     deletedBooks,
+    refresh,
     waitForHydration,
     getById,
     getAvailableCopies,

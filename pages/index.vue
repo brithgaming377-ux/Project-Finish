@@ -160,6 +160,20 @@ function onSearch() {
         <NuxtLink to="/products" class="ml-auto hidden shrink-0 font-semibold text-campus hover:text-crimson sm:inline-flex sm:items-center sm:gap-1">View collection <ArrowRight class="h-4 w-4" aria-hidden="true" /></NuxtLink>
       </div>
     </section>
+    <RevealOnScroll as="section" class="border-b border-line bg-white" :delay="80">
+      <div class="mx-auto grid max-w-7xl gap-8 px-6 py-12 md:grid-cols-[1.2fr_.8fr] md:items-end">
+        <div>
+          <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-amber-deep">Welcome to E-LIBRARY</p>
+          <h2 class="mt-3 max-w-2xl font-display text-3xl leading-tight text-campus sm:text-4xl">A digital academic home for the ETEC community.</h2>
+          <p class="mt-4 max-w-2xl leading-7 text-ink-soft">Discover course-ready books, build a personal shelf, and move confidently from your next question to a deeper understanding.</p>
+        </div>
+        <div class="grid grid-cols-3 gap-3 border-l border-line pl-6">
+          <div><strong class="block font-display text-2xl text-campus">{{ books.length }}+</strong><span class="mt-1 block text-[10px] uppercase tracking-wider text-ink-soft">Titles</span></div>
+          <div><strong class="block font-display text-2xl text-campus">{{ subjects.length }}</strong><span class="mt-1 block text-[10px] uppercase tracking-wider text-ink-soft">Shelves</span></div>
+          <div><strong class="block font-display text-2xl text-campus">24/7</strong><span class="mt-1 block text-[10px] uppercase tracking-wider text-ink-soft">Access</span></div>
+        </div>
+      </div>
+    </RevealOnScroll>
     <RevealOnScroll as="section" class="mx-auto max-w-7xl px-6 py-20">
       <div class="flex flex-wrap items-end justify-between gap-4">
         <div>
@@ -212,6 +226,32 @@ function onSearch() {
         <div class="motion-stagger mt-8 grid gap-5 md:grid-cols-3">
           <BookCard v-for="book in featured" :key="book.id" :book="book" />
         </div>
+      </div>
+    </RevealOnScroll>
+    <RevealOnScroll as="section" class="mx-auto max-w-7xl px-6 py-16" :delay="140">
+      <div class="flex flex-wrap items-end justify-between gap-4 border-b border-line pb-5">
+        <div>
+          <p class="font-mono text-xs uppercase tracking-[0.16em] text-amber-deep">Learning in motion</p>
+          <h2 class="mt-2 font-display text-4xl leading-none tracking-[-0.02em]">Explore the library pillars.</h2>
+        </div>
+        <NuxtLink to="/about" class="text-sm font-semibold text-campus hover:text-crimson">About E-LIBRARY <ArrowRight class="ml-1 inline h-4 w-4 align-[-3px]" /></NuxtLink>
+      </div>
+      <div class="motion-stagger mt-8 grid gap-px overflow-hidden border border-line bg-line md:grid-cols-3">
+        <article class="library-pillar bg-white p-6 transition hover:bg-campus hover:text-white">
+          <p class="font-mono text-[10px] uppercase tracking-[0.16em] text-amber-deep">01 / Discover</p>
+          <h3 class="mt-12 font-display text-2xl">A clearer path to the right book.</h3>
+          <p class="mt-3 text-sm leading-6 text-ink-soft">Search by subject, author, level, or idea across a growing digital collection.</p>
+        </article>
+        <article class="library-pillar bg-white p-6 transition hover:bg-campus hover:text-white">
+          <p class="font-mono text-[10px] uppercase tracking-[0.16em] text-amber-deep">02 / Read</p>
+          <h3 class="mt-12 font-display text-2xl">Study deeply, wherever you are.</h3>
+          <p class="mt-3 text-sm leading-6 text-ink-soft">Keep your reading focused with browser-based access and personal shelves.</p>
+        </article>
+        <article class="library-pillar bg-white p-6 transition hover:bg-campus hover:text-white">
+          <p class="font-mono text-[10px] uppercase tracking-[0.16em] text-amber-deep">03 / Share</p>
+          <h3 class="mt-12 font-display text-2xl">Build a stronger learning community.</h3>
+          <p class="mt-3 text-sm leading-6 text-ink-soft">Borrow, exchange, and return resources as your academic journey evolves.</p>
+        </article>
       </div>
     </RevealOnScroll>
     <RevealOnScroll as="section" class="mx-auto max-w-7xl px-6 py-16" :delay="120">

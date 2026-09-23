@@ -1,6 +1,6 @@
 ::selection {
-  background: #c9a227;
-  color: #17192d;
+  background: #0f766e;
+  color: #f0fdf4;
 }
 
 html {
@@ -11,10 +11,15 @@ html {
   --motion-fast: 150ms;
   --motion-normal: 250ms;
   --motion-slow: 420ms;
-  --color-ink: #17192d;
-  --color-ink-soft: #64677a;
-  --color-campus: #12304a;
-  --color-line: #e7e8ee;
+  --color-ink: #12372f;
+  --color-ink-soft: #526b62;
+  --color-campus: #0f766e;
+  --color-campus-deep: #0b4d43;
+  --color-campus-pale: #dff4ee;
+  --color-line: #d9e8e3;
+  --color-gold: #d8a74d;
+  --color-gold-deep: #b57f28;
+  --color-ivory: #f4faf7;
   --font-sans: 'Google Sans', 'Product Sans', 'Segoe UI', Arial, sans-serif;
   --font-display: 'Google Sans', 'Product Sans', 'Segoe UI', Arial, sans-serif;
   --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
@@ -41,8 +46,22 @@ h6 {
   letter-spacing: -0.02em;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-ink);
+}
+
+label,
+strong {
+  color: var(--color-ink);
+}
+
 .institution-header {
-  box-shadow: 0 8px 28px -24px rgba(18, 48, 74, 0.5);
+  box-shadow: 0 12px 32px -26px rgba(15, 118, 110, 0.48);
 }
 
 .institution-wordmark {
@@ -55,7 +74,7 @@ h6 {
   left: -0.9rem;
   width: 2px;
   height: 2.35rem;
-  background: #c9a227;
+  background: var(--color-gold);
   content: '';
   transform: translateY(-50%);
 }
@@ -748,8 +767,8 @@ select {
 }
 
 body {
-  background-color: #f5f4ef;
-  color: #17192d;
+  background: linear-gradient(180deg, #f4faf7 0%, #edf8f3 100%);
+  color: #12372f;
 }
 
 body {
@@ -761,8 +780,8 @@ body {
 
 main {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(245, 244, 239, 0.94)),
-    #f5f4ef;
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(244, 250, 247, 0.94)),
+    #f4faf7;
   min-height: 100%;
 }
 
@@ -783,7 +802,7 @@ textarea:focus {
 .page-shell {
   margin-inline: auto;
   max-width: 80rem;
-  padding: 4.5rem 1.5rem 6rem;
+  padding: 5.25rem 1.5rem 6.5rem;
 }
 
 .page-eyebrow {
@@ -792,7 +811,7 @@ textarea:focus {
   font-weight: 500;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: #a6821a;
+  color: #0f766e;
 }
 
 .page-title {
@@ -801,21 +820,22 @@ textarea:focus {
   font-size: clamp(2.15rem, 4vw, 3.25rem);
   line-height: 1.02;
   letter-spacing: -0.025em;
+  color: #12372f;
 }
 
 .page-description {
   margin-top: 1rem;
   max-width: 42rem;
-  color: #64677a;
+  color: #51706a;
   font-size: 0.9375rem;
   line-height: 1.75;
 }
 
 .surface-card {
-  border: 1px solid rgba(23, 25, 45, 0.1);
+  border: 1px solid rgba(15, 118, 110, 0.14);
   border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.78);
-  box-shadow: 0 18px 38px -30px rgba(23, 25, 45, 0.42);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 18px 38px -30px rgba(15, 118, 110, 0.28);
 }
 
 :focus-visible {
@@ -839,4 +859,108 @@ textarea:focus {
 
 .dark .page-eyebrow {
   color: #fbbf24;
+}
+
+/* User-facing admin workspace uses the same green and white library identity. */
+.admin-shell {
+  background: #ffffff !important;
+}
+
+.admin-shell > header,
+.admin-shell > div > aside {
+  border-color: #cfe5dd !important;
+  background: #ffffff !important;
+}
+
+.admin-shell > div > main {
+  background: #ffffff;
+}
+
+.admin-shell [class*='border-slate-200'],
+.admin-shell [class*='border-slate-100'] {
+  border-color: #d4e8e1 !important;
+}
+
+.admin-shell [class*='bg-slate-50'],
+.admin-shell [class*='bg-slate-100'] {
+  background-color: #eff9f5 !important;
+}
+
+.admin-shell [class*='hover:bg-slate-50']:hover,
+.admin-shell [class*='hover:bg-slate-100']:hover {
+  background-color: #e3f4ed !important;
+}
+
+.admin-shell [class*='bg-blue-50'] {
+  background-color: #dff4ee !important;
+}
+
+.admin-shell [class*='text-blue-700'],
+.admin-shell [class*='text-blue-600'] {
+  color: #0f766e !important;
+}
+
+.admin-shell [class*='bg-blue-600'],
+.admin-shell [class*='bg-blue-700'] {
+  background-color: #0f766e !important;
+  color: #ffffff !important;
+}
+
+.admin-shell [class*='focus:border-blue-400']:focus {
+  border-color: #159a8c !important;
+}
+
+.admin-shell [class*='focus:ring-blue-100']:focus,
+.admin-shell [class*='focus:ring-blue-200']:focus {
+  --tw-ring-color: rgba(15, 118, 110, 0.2) !important;
+}
+
+.admin-shell [class*='text-slate-900'],
+.admin-shell [class*='text-slate-800'] {
+  color: #12372f !important;
+}
+
+.admin-shell [class*='text-slate-700'],
+.admin-shell [class*='text-slate-600'],
+.admin-shell [class*='text-slate-500'],
+.admin-shell [class*='text-slate-400'] {
+  color: #526b62 !important;
+}
+
+.admin-shell article {
+  border-color: #d4e8e1 !important;
+  background: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(15, 118, 110, 0.08);
+  transition: border-color 180ms var(--ease-soft);
+}
+
+.admin-shell article:hover {
+  border-color: #a9d7c8 !important;
+  box-shadow: 0 1px 3px rgba(15, 118, 110, 0.08);
+}
+
+.admin-shell aside a {
+  transition: color 180ms var(--ease-soft), transform 180ms var(--ease-luxury);
+}
+
+.admin-shell aside a:active {
+  color: #0f766e !important;
+  transform: translateX(3px);
+}
+
+.admin-shell aside a:active svg {
+  color: #0f766e !important;
+}
+
+.admin-shell > div > aside nav a,
+.admin-shell > div > aside nav a:hover,
+.admin-shell > div > aside nav a[class*='bg-blue-50'],
+.admin-shell > div > aside > div a,
+.admin-shell > div > aside > div a:hover {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-shell article { transition: none; }
 }

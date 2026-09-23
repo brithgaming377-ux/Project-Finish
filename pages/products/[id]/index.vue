@@ -141,17 +141,17 @@ function onExchange(otherId: number) {
       class="flex items-center gap-2 flex-wrap text-xs text-ink-soft mb-7"
       aria-label="Breadcrumb"
     >
-      <NuxtLink to="/" class="hover:text-ink hover:underline">Home</NuxtLink>
+      <NuxtLink to="/" class="text-emerald-700 hover:text-emerald-900 hover:underline">Home</NuxtLink>
       <span>/</span>
-      <NuxtLink to="/products" class="hover:text-ink hover:underline">Products</NuxtLink>
+      <NuxtLink to="/products" class="text-emerald-700 hover:text-emerald-900 hover:underline">Products</NuxtLink>
       <span>/</span>
       <NuxtLink
         :to="`/products?category=${book.category}`"
-        class="hover:text-ink hover:underline"
+        class="text-emerald-700 hover:text-emerald-900 hover:underline"
         >{{ book.category }}</NuxtLink
       >
       <span>/</span>
-      <span class="text-ink font-semibold">{{ book.title }}</span>
+      <span class="font-semibold text-emerald-900">{{ book.title }}</span>
       <NuxtLink
         v-if="isAdmin"
         :to="`/admin/${book.id}/edit`"
@@ -164,9 +164,9 @@ function onExchange(otherId: number) {
 
     <div class="grid gap-8 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-14">
       <!-- Sidebar -->
-      <RevealOnScroll as="aside" class="self-start rounded-2xl border border-line bg-white/70 p-4 shadow-[0_18px_40px_-32px_rgba(23,25,45,0.55)] lg:sticky lg:top-24">
+      <RevealOnScroll as="aside" class="self-start rounded-2xl border border-emerald-200 bg-gradient-to-br from-white via-emerald-50/60 to-white p-4 shadow-[0_18px_40px_-32px_rgba(15,118,110,0.35)] lg:sticky lg:top-24">
         <div class="flex flex-col gap-4">
-        <div class="relative aspect-[2/3] max-h-[360px] overflow-hidden rounded-card bg-parchment-dim shadow-cover">
+        <div class="relative aspect-[2/3] max-h-[360px] overflow-hidden rounded-card bg-emerald-50 shadow-cover">
           <BookCoverImage
             :src="book.coverUrl"
             :fallback="getCoverUrl(book.category)"
@@ -176,13 +176,13 @@ function onExchange(otherId: number) {
         </div>
         <div class="flex items-start justify-between gap-3 px-1 pt-1">
           <div>
-            <p class="font-display text-lg font-semibold leading-snug text-ink">{{ book.title }}</p>
-            <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-ink-soft">{{ book.pages }}p &middot; {{ book.format }}</p>
+            <p class="font-display text-lg font-semibold leading-snug text-emerald-900">{{ book.title }}</p>
+            <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-emerald-700">{{ book.pages }}p &middot; {{ book.format }}</p>
           </div>
-          <span class="shrink-0 rounded-full bg-campus-pale px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-campus">{{ book.level }}</span>
+          <span class="shrink-0 rounded-full bg-emerald-100 px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-emerald-800">{{ book.level }}</span>
         </div>
 
-        <div class="flex items-center gap-2 text-[13px] text-ink-soft">
+        <div class="flex items-center gap-2 text-[13px] text-emerald-700">
           <span
             class="w-2 h-2 rounded-full shrink-0"
             :class="copiesLeft > 0 ? 'bg-sage' : 'bg-rose'"
@@ -196,7 +196,7 @@ function onExchange(otherId: number) {
         <div class="flex flex-col gap-2 border-t border-line pt-4">
           <button
             v-if="!isBorrowed(book.id)"
-            class="premium-interaction rounded-card bg-ink text-white font-semibold text-sm px-5 py-2.5 hover:bg-ink-light disabled:opacity-50 disabled:cursor-not-allowed"
+            class="premium-interaction rounded-card bg-emerald-700 text-white font-semibold text-sm px-5 py-2.5 hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed"
             type="button"
             :disabled="copiesLeft === 0 || !!borrowRequest || !adminData.settings.borrowingEnabled"
             @click="onBorrow"
@@ -205,7 +205,7 @@ function onExchange(otherId: number) {
           </button>
           <button
             v-else
-            class="premium-interaction rounded-card border border-line text-ink font-semibold text-sm px-5 py-2.5 hover:border-ink"
+            class="premium-interaction rounded-card border border-emerald-200 text-emerald-900 font-semibold text-sm px-5 py-2.5 hover:border-emerald-400"
             type="button"
             @click="onReturn"
           >
@@ -238,7 +238,7 @@ function onExchange(otherId: number) {
           <NuxtLink
             v-if="canRead && book.fileUrl"
             :to="`/products/${book.id}/read`"
-            class="premium-interaction rounded-card border border-amber-deep text-amber-deep font-semibold text-sm px-5 py-2.5 text-center hover:bg-amber hover:text-ink hover:border-amber flex items-center justify-center gap-2"
+            class="premium-interaction rounded-card border border-emerald-500 bg-emerald-600 text-white font-semibold text-sm px-5 py-2.5 text-center hover:bg-emerald-500 flex items-center justify-center gap-2"
           >
             <BookOpen class="h-4 w-4" aria-hidden="true" />
             Read now
@@ -246,7 +246,7 @@ function onExchange(otherId: number) {
           <NuxtLink
             v-else-if="canRead"
             :to="`/products/${book.id}/read`"
-            class="premium-interaction rounded-card border border-amber-deep text-amber-deep font-semibold text-sm px-5 py-2.5 text-center hover:bg-amber hover:text-ink hover:border-amber flex items-center justify-center gap-2"
+            class="premium-interaction rounded-card border border-emerald-500 bg-emerald-600 text-white font-semibold text-sm px-5 py-2.5 text-center hover:bg-emerald-500 flex items-center justify-center gap-2"
           >
             <BookOpen class="h-4 w-4" aria-hidden="true" />
             Read now

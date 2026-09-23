@@ -29,16 +29,16 @@ useHead(() => ({
       <div>
         <NuxtLink
           :to="`/products/${book?.id}`"
-          class="text-sm font-semibold text-amber-deep hover:underline"
+          class="text-sm font-semibold text-emerald-700 hover:text-emerald-900 hover:underline"
         >
           Back to book
         </NuxtLink>
 
-        <h1 class="mt-3 font-display text-4xl leading-tight">
+        <h1 class="mt-3 font-display text-4xl leading-tight text-emerald-900">
           {{ book?.title }}
         </h1>
 
-        <p class="mt-1 text-sm text-ink-soft">
+        <p class="mt-1 text-sm text-emerald-700">
           {{ book?.author }}
         </p>
       </div>
@@ -48,14 +48,14 @@ useHead(() => ({
         :href="pdfUrl"
         target="_blank"
         rel="noopener noreferrer"
-        class="rounded-card border border-line px-4 py-2 text-sm font-semibold text-ink-soft hover:border-ink hover:text-ink"
+        class="rounded-card border border-emerald-200 bg-white px-4 py-2 text-sm font-semibold text-emerald-800 hover:border-emerald-400 hover:bg-emerald-50"
       >
         Download PDF
       </a>
     </div>
 
     <!-- PDF Viewer -->
-    <div v-if="pdfUrl" class="reader-shell relative w-full overflow-hidden rounded-2xl border border-line bg-white">
+    <div v-if="pdfUrl" class="reader-shell relative w-full overflow-hidden rounded-2xl border border-emerald-200 bg-white shadow-[0_18px_45px_rgba(15,118,110,0.12)]">
       <object
         :data="pdfUrl"
         type="application/pdf"
@@ -72,7 +72,7 @@ useHead(() => ({
     <!-- No PDF -->
     <div
       v-else
-      class="empty-state-enter rounded-2xl border border-line bg-white p-8 text-center text-ink-soft"
+      class="empty-state-enter rounded-2xl border border-emerald-200 bg-emerald-50 p-8 text-center text-emerald-700"
     >
       This book does not have a PDF file attached yet.
     </div>

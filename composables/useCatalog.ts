@@ -91,8 +91,10 @@ export function useCatalog() {
   async function refresh() {
     if (!import.meta.client) return
     const remote = await $fetch<Book[]>('/api/books')
-    books.value = remote.map((book) => normalize(book))
-    persistClientBooks(books.value)
+    if (remote.length) {
+      books.value = remote.map((book) => normalize(book))
+      persistClientBooks(books.value)
+    }
   }
 
   if (import.meta.client && !clientHydrated) {
@@ -101,7 +103,7 @@ export function useCatalog() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY)
         const remote = await $fetch<Book[]>('/api/books').catch(() => null)
-        if (remote) {
+        if (remote?.length) {
           books.value = remote.map((book) => normalize(book))
           persistClientBooks(books.value)
           return

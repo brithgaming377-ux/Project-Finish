@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 
-import { buildAiMessages, buildOfflineLibraryReply, LIBRARY_ASSISTANT_PROMPT, normalizeAiReply, searchCatalogBooks } from '../server/utils/ai.js'
+import { buildAiMessages, buildOfflineLibraryReply, buildProjectContext, LIBRARY_ASSISTANT_PROMPT, normalizeAiReply, resolveProjectAction, searchCatalogBooks } from '../server/utils/ai.js'
 
 test('buildAiMessages keeps the latest conversation context', () => {
   const history = [
@@ -69,6 +69,52 @@ test('current book answers use supplied catalog context', () => {
 
   assert.match(reply, /A guide to structuring software systems/)
   assert.match(reply, /full PDF text is not available/i)
+})
+
+test('project context includes the current page and permissions', () => {
+  const context = buildProjectContext({
+    currentPath: '/admin/books',
+    userRole: 'admin',
+    totalBooks: 30,
+    currentBook: { title: 'Clean Architecture', author: 'R. C. Martin' }
+  })
+
+  assert.match(context, /\/admin\/books/i)
+  assert.match(context, /admin/i)
+  assert.match(context, /30 books/i)
+  assert.match(context, /Clean Architecture/i)
+})
+
+test('offline AI can answer project navigation questions', () => {
+  const reply = buildOfflineLibraryReply('what can you do on this page?', [
+    { title: 'Clean Architecture', author: 'R. C. Martin', category: 'Technology', level: 'Intermediate', rating: 5, tags: [], subjects: [] }
+  ], null, {
+    currentPath: '/admin/index',
+    userRole: 'admin',
+    totalBooks: 30
+  })
+
+  assert.match(reply, /admin dashboard/i)
+  assert.match(reply, /manage books/i)
+})
+
+test('offline AI explains expanded project capabilities', () => {
+  const reply = buildOfflineLibraryReply('what can you do beyond basic recommendations?', [
+    { title: 'Clean Architecture', author: 'R. C. Martin', category: 'Technology', level: 'Intermediate', rating: 5, tags: [], subjects: [] }
+  ], null, {
+    currentPath: '/admin/index',
+    userRole: 'admin',
+    totalBooks: 30
+  })
+
+  assert.match(reply, /compare|recommend|subject|admin|manage|summarize/i)
+  assert.match(reply, /can help/i)
+})
+
+test('project action parser can control the app routes', () => {
+  assert.deepEqual(resolveProjectAction('open admin books'), { route: '/admin/books', label: 'Admin books page' })
+  assert.deepEqual(resolveProjectAction('show me the technology shelf'), { route: '/subjects/technology', label: 'Technology subject page' })
+  assert.equal(resolveProjectAction('recommend a beginner science book'), null)
 })
 
 test('normalizeAiReply strips empty fallback text', () => {

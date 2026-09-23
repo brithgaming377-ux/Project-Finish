@@ -3,6 +3,7 @@ import rawBooks from '~/data/books.json'
 import {
   buildAiMessages,
   buildOfflineLibraryReply,
+  buildProjectContext,
   isBookRequest,
   LIBRARY_ASSISTANT_PROMPT,
   normalizeAiReply,
@@ -20,6 +21,8 @@ export default defineEventHandler(async (event) => {
     message?: string
     history?: Message[]
     currentBookId?: number
+    currentPath?: string
+    userRole?: string
   }
   const userMessage = String(body?.message || '').trim()
 
@@ -50,22 +53,28 @@ export default defineEventHandler(async (event) => {
   const currentBook = Number.isInteger(body.currentBookId)
     ? books.find((book) => book.id === body.currentBookId) || null
     : null
+  const projectContext = buildProjectContext({
+    currentPath: body.currentPath,
+    userRole: body.userRole,
+    totalBooks: books.length,
+    currentBook
+  })
   const matches = searchCatalogBooks(userMessage, books)
 
   if (isBookRequest(userMessage) && matches.length === 0 && !currentBook) {
-    return { reply: buildOfflineLibraryReply(userMessage, books, currentBook) }
+    return { reply: buildOfflineLibraryReply(userMessage, books, currentBook, { currentPath: body.currentPath, userRole: body.userRole, totalBooks: books.length }) }
   }
 
   const apiKey = process.env.AI_API_KEY
   if (!apiKey) {
-    return { reply: buildOfflineLibraryReply(userMessage, books, currentBook) }
+    return { reply: buildOfflineLibraryReply(userMessage, books, currentBook, { currentPath: body.currentPath, userRole: body.userRole, totalBooks: books.length }) }
   }
 
   const contextBooks = matches.length ? matches : books
   const currentBookContext = currentBook
     ? `\nCURRENT BOOK BEING READ:\n${JSON.stringify(currentBook, null, 2)}\n`
     : ''
-  const catalogContext = `${LIBRARY_ASSISTANT_PROMPT}${currentBookContext}\nMATCHING CATALOG RECORDS:\n${JSON.stringify(contextBooks, null, 2)}`
+  const catalogContext = `${LIBRARY_ASSISTANT_PROMPT}\nPROJECT CONTEXT:\n${projectContext}\n${currentBookContext}\nMATCHING CATALOG RECORDS:\n${JSON.stringify(contextBooks, null, 2)}`
 
   const history: Message[] = Array.isArray(body?.history) ? body.history.slice(-10) : []
   const messages: Message[] = [

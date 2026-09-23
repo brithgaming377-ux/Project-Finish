@@ -70,14 +70,14 @@ function clearFilters() {
 
 <template>
   <div class="page-shell">
-    <header class="mb-10 max-w-3xl border-l-2 border-amber pl-5">
+    <header class="mb-10 max-w-3xl border-l-2 border-emerald-500 pl-5">
       <p class="page-eyebrow">
         E-LIBRARY / Collection
       </p>
-      <h1 class="page-title">
+      <h1 class="page-title text-emerald-900">
         Find a book for every bright idea.
       </h1>
-      <p class="page-description">
+      <p class="page-description text-emerald-800/80">
         Every book in Marginalia, in one place — filter by subject or level, search by title, tag or
         author.
       </p>
@@ -85,16 +85,16 @@ function clearFilters() {
 
     <div class="grid lg:grid-cols-[230px_1fr] gap-8">
       <!-- Sidebar filters -->
-      <aside class="surface-card h-fit space-y-7 p-5 lg:sticky lg:top-28">
+      <aside class="surface-card h-fit space-y-7 bg-emerald-50/60 p-5 lg:sticky lg:top-28">
         <div>
-          <h3 class="font-mono text-xs uppercase tracking-wide text-ink-soft mb-3">Subject</h3>
+          <h3 class="mb-3 font-mono text-xs uppercase tracking-wide text-emerald-800">Subject</h3>
           <div class="flex flex-col gap-1.5">
             <button
               class="premium-interaction border-l-2 border-transparent px-2.5 py-1.5 text-left text-sm"
               :class="
                 activeCategory === 'All'
-                  ? 'border-amber bg-ink text-parchment'
-                  : 'text-ink-soft hover:border-line hover:bg-parchment-dim'
+                  ? 'border-emerald-600 bg-emerald-700 text-white'
+                  : 'text-emerald-800 hover:border-emerald-200 hover:bg-white'
               "
               @click="selectCategory('All')"
             >
@@ -106,8 +106,8 @@ function clearFilters() {
               class="premium-interaction border-l-2 border-transparent px-2.5 py-1.5 text-left text-sm"
               :class="
                 activeCategory === cat
-                  ? 'border-amber bg-ink text-parchment'
-                  : 'text-ink-soft hover:border-line hover:bg-parchment-dim'
+                  ? 'border-emerald-600 bg-emerald-700 text-white'
+                  : 'text-emerald-800 hover:border-emerald-200 hover:bg-white'
               "
               @click="selectCategory(cat)"
             >
@@ -117,14 +117,14 @@ function clearFilters() {
         </div>
 
         <div>
-          <h3 class="font-mono text-xs uppercase tracking-wide text-ink-soft mb-3">Level</h3>
+          <h3 class="mb-3 font-mono text-xs uppercase tracking-wide text-emerald-800">Level</h3>
           <div class="flex flex-col gap-1.5">
             <button
               class="premium-interaction rounded-card px-2.5 py-1.5 text-left text-sm"
               :class="
                 activeLevel === 'All'
-                  ? 'bg-ink text-parchment'
-                  : 'text-ink-soft hover:bg-parchment-dim'
+                  ? 'bg-emerald-700 text-white'
+                  : 'text-emerald-800 hover:bg-white'
               "
               @click="activeLevel = 'All'"
             >
@@ -136,8 +136,8 @@ function clearFilters() {
               class="premium-interaction rounded-card px-2.5 py-1.5 text-left text-sm"
               :class="
                 activeLevel === lvl
-                  ? 'bg-ink text-parchment'
-                  : 'text-ink-soft hover:bg-parchment-dim'
+                  ? 'bg-emerald-700 text-white'
+                  : 'text-emerald-800 hover:bg-white'
               "
               @click="activeLevel = lvl"
             >
@@ -147,7 +147,7 @@ function clearFilters() {
         </div>
 
         <button
-          class="text-xs font-mono text-ink-soft underline hover:text-ink"
+          class="text-xs font-mono text-emerald-700 underline hover:text-emerald-900"
           @click="clearFilters"
         >
           Clear all filters
@@ -156,18 +156,18 @@ function clearFilters() {
 
       <!-- Results -->
       <div>
-        <div class="surface-card mb-3 flex flex-col gap-3 p-3 sm:flex-row sm:items-center">
+        <div class="surface-card mb-3 flex flex-col gap-3 bg-emerald-50/60 p-3 sm:flex-row sm:items-center">
           <input
             v-model="query"
             type="search"
             placeholder="Search title, author, tag…"
             aria-label="Search books"
-            class="min-w-[200px] flex-1 rounded-lg border border-line bg-parchment-dim px-4 py-2.5 text-sm"
+            class="min-w-[200px] flex-1 rounded-lg border border-emerald-200 bg-white px-4 py-2.5 text-sm text-emerald-900"
           />
           <select
             v-model="sortBy"
             aria-label="Sort books"
-            class="cursor-pointer rounded-lg border border-line bg-parchment-dim px-4 py-2.5 text-sm"
+            class="cursor-pointer rounded-lg border border-emerald-200 bg-white px-4 py-2.5 text-sm text-emerald-900"
           >
             <option value="relevance">Sort: Relevance</option>
             <option value="rating">Sort: Highest rated</option>
@@ -176,7 +176,7 @@ function clearFilters() {
           </select>
         </div>
 
-        <p class="font-mono text-xs text-ink-soft mb-4">
+        <p class="mb-4 font-mono text-xs text-emerald-700">
           Showing {{ filteredBooks.length }} of {{ books.length }} books
         </p>
 
@@ -189,7 +189,7 @@ function clearFilters() {
         >
           <BookCard v-for="book in filteredBooks" :key="book.id" :book="book" catalog />
         </TransitionGroup>
-        <p v-else class="empty-state-enter text-ink-soft text-[15px] mt-8">
+        <p v-else class="empty-state-enter mt-8 text-[15px] text-emerald-700">
           No books match your filters. Try clearing them.
         </p>
       </div>

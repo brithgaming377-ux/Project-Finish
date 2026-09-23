@@ -10,15 +10,17 @@ const prompt = ref('')
 const isOpen = ref(false)
 const isLoading = ref(false)
 const route = useRoute()
+const { user } = useAuth()
 const currentBookId = computed(() => {
   if (!route.path.startsWith('/products/')) return undefined
   const id = Number(route.params.id)
   return Number.isInteger(id) ? id : undefined
 })
+const currentRole = computed(() => user.value?.role || 'guest')
 const chatHistory = ref<ChatMessage[]>([
   {
     role: 'assistant',
-    content: 'Hi! I can recommend books, explain subjects, or help you find reading ideas from the E-LIBRARY catalog.'
+    content: 'Hi! I can recommend books, compare titles, explain subjects, guide this page, and help with admin/library workflow decisions.'
   }
 ])
 
@@ -30,7 +32,7 @@ const clearChat = () => {
   chatHistory.value = [
     {
       role: 'assistant',
-      content: 'Hi! I can recommend books, explain subjects, or help you find reading ideas from the E-LIBRARY catalog.'
+      content: 'Hi! I can recommend books, compare titles, explain subjects, guide this page, and help with admin/library workflow decisions.'
     }
   ]
 }
@@ -51,6 +53,8 @@ const sendMessage = async () => {
       body: {
         message: userMessage,
         currentBookId: currentBookId.value,
+        currentPath: route.path,
+        userRole: currentRole.value,
         history: chatHistory.value.slice(0, -1).map((message) => ({
           role: message.role === 'user' ? 'user' : 'assistant',
           content: message.content

@@ -16,7 +16,7 @@ const featured = computed(() => books.value.slice(0, 3))
 const subjectIcons = { technology: Brain, philosophy: BookOpen, science: FlaskConical, leadership: Users, language: Languages, history: Globe2, other: BookOpen }
 const heroSlides = [
   {
-    image: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=2200&q=85',
+    image: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=2200&q=85',
     eyebrow: 'ETEC Center Digital Library',
     title: 'A home for curious minds.',
     description: 'Explore a growing collection of books, subjects, and study-ready resources for the ETEC learning community.'
@@ -114,25 +114,31 @@ function onSearch() {
             >
           </div>
         </div>
-        <div :key="`feature-${activeHeroSlide}`" class="hero-feature-enter hidden border border-white/20 bg-white/10 p-6 backdrop-blur md:block">
-          <p class="font-mono text-[11px] uppercase tracking-[0.16em] text-amber">
+        <div :key="`feature-${activeHeroSlide}`" class="hero-feature-enter hidden rounded-2xl border border-white/20 bg-emerald-950/60 p-6 backdrop-blur md:block">
+          <p class="font-mono text-[11px] uppercase tracking-[0.16em] text-emerald-200">
             Featured this week
           </p>
           <NuxtLink
             v-if="featured[0]"
             :to="`/products/${featured[0].id}`"
-            class="premium-interaction mt-5 block overflow-hidden rounded-xl border border-white/20 bg-white text-ink hover:-translate-y-1 hover:shadow-2xl"
-            ><BookCoverImage
-              :src="featured[0].coverUrl"
-              :fallback="getCoverUrl(featured[0].category)"
-              :alt="featured[0].title"
-              class="h-40 w-full object-cover"
-            />
-            <div class="p-4">
-              <p class="font-display text-xl font-semibold">{{ featured[0].title }}</p>
-              <p class="mt-1 text-sm text-ink-soft">{{ featured[0].author }}</p>
-            </div></NuxtLink
+            class="premium-interaction mt-6 block rounded-xl border border-white/15 bg-white p-5 text-emerald-900 hover:-translate-y-1 hover:shadow-2xl"
           >
+            <div class="grid grid-cols-[5.5rem_1fr] gap-4">
+              <BookCoverImage
+                :src="featured[0].coverUrl"
+                :fallback="getCoverUrl(featured[0].category)"
+                :alt="featured[0].title"
+                :label="featured[0].title"
+                class="h-36 overflow-hidden rounded-lg bg-emerald-900"
+              />
+              <div class="flex min-w-0 flex-col items-start">
+                <span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-emerald-700">{{ featured[0].category }}</span>
+                <p class="mt-5 font-display text-2xl font-semibold leading-tight">{{ featured[0].title }}</p>
+                <p class="mt-2 text-sm text-emerald-700">{{ featured[0].author }}</p>
+                <span class="mt-auto inline-flex items-center rounded-lg bg-emerald-700 px-4 py-2 text-sm font-semibold text-white">Read book</span>
+              </div>
+            </div>
+          </NuxtLink>
         </div>
       </div>
       <div class="hero-controls absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full border border-white/15 bg-ink/25 px-3 py-2 backdrop-blur-md" aria-label="Hero slideshow controls">
@@ -160,17 +166,17 @@ function onSearch() {
         <NuxtLink to="/products" class="ml-auto hidden shrink-0 font-semibold text-campus hover:text-crimson sm:inline-flex sm:items-center sm:gap-1">View collection <ArrowRight class="h-4 w-4" aria-hidden="true" /></NuxtLink>
       </div>
     </section>
-    <RevealOnScroll as="section" class="border-b border-line bg-white" :delay="80">
+    <RevealOnScroll as="section" class="border-b border-emerald-100 bg-white text-emerald-900" :delay="80">
       <div class="mx-auto grid max-w-7xl gap-8 px-6 py-12 md:grid-cols-[1.2fr_.8fr] md:items-end">
         <div>
-          <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-amber-deep">Welcome to E-LIBRARY</p>
-          <h2 class="mt-3 max-w-2xl font-display text-3xl leading-tight text-campus sm:text-4xl">A digital academic home for the ETEC community.</h2>
-          <p class="mt-4 max-w-2xl leading-7 text-ink-soft">Discover course-ready books, build a personal shelf, and move confidently from your next question to a deeper understanding.</p>
+          <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-emerald-700">Welcome to E-LIBRARY</p>
+          <h2 class="mt-3 max-w-2xl font-display text-3xl leading-tight text-emerald-900 sm:text-4xl">A digital academic home for the ETEC community.</h2>
+          <p class="mt-4 max-w-2xl leading-7 text-emerald-700/80">Discover course-ready books, build a personal shelf, and move confidently from your next question to a deeper understanding.</p>
         </div>
-        <div class="grid grid-cols-3 gap-3 border-l border-line pl-6">
-          <div><strong class="block font-display text-2xl text-campus">{{ books.length }}+</strong><span class="mt-1 block text-[10px] uppercase tracking-wider text-ink-soft">Titles</span></div>
-          <div><strong class="block font-display text-2xl text-campus">{{ subjects.length }}</strong><span class="mt-1 block text-[10px] uppercase tracking-wider text-ink-soft">Shelves</span></div>
-          <div><strong class="block font-display text-2xl text-campus">24/7</strong><span class="mt-1 block text-[10px] uppercase tracking-wider text-ink-soft">Access</span></div>
+        <div class="grid grid-cols-3 gap-3 border-l border-emerald-100 pl-6">
+          <div><strong class="block font-display text-2xl text-emerald-800">{{ books.length }}+</strong><span class="mt-1 block text-[10px] uppercase tracking-wider text-emerald-700/75">Titles</span></div>
+          <div><strong class="block font-display text-2xl text-emerald-800">{{ subjects.length }}</strong><span class="mt-1 block text-[10px] uppercase tracking-wider text-emerald-700/75">Shelves</span></div>
+          <div><strong class="block font-display text-2xl text-emerald-800">24/7</strong><span class="mt-1 block text-[10px] uppercase tracking-wider text-emerald-700/75">Access</span></div>
         </div>
       </div>
     </RevealOnScroll>
@@ -193,16 +199,16 @@ function onSearch() {
           v-for="subject in subjectCounts"
           :key="subject.slug"
           :to="`/subjects/${subject.slug}`"
-          class="premium-interaction group rounded-xl border border-line bg-white p-5 hover:-translate-y-1 hover:shadow-card"
+          class="premium-interaction group rounded-xl border border-emerald-100 bg-white p-5 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-card"
           ><div class="flex items-center justify-between">
             <span
               class="flex h-11 w-11 items-center justify-center rounded-xl"
               :style="{ background: subject.color + '18', color: subject.color }"
               ><component :is="subjectIcons[subject.slug as keyof typeof subjectIcons]" class="h-5 w-5" aria-hidden="true" /></span
-            ><ArrowRight class="h-5 w-5 text-ink-soft transition group-hover:translate-x-1" aria-hidden="true" />
+            ><ArrowRight class="h-5 w-5 text-emerald-700 transition group-hover:translate-x-1" aria-hidden="true" />
           </div>
           <p class="mt-7 font-display text-xl font-semibold">{{ subject.name }}</p>
-          <p class="mt-1 text-sm text-ink-soft">{{ subject.count }} titles to explore</p></NuxtLink
+          <p class="mt-1 text-sm text-emerald-700">{{ subject.count }} titles to explore</p></NuxtLink
         >
       </div>
     </RevealOnScroll>

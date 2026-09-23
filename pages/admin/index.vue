@@ -118,7 +118,7 @@ const categoryChartData = computed(() => {
     labels: Object.keys(stats),
     datasets: [{
       data: Object.values(stats),
-      backgroundColor: ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4', '#ec4899', '#84cc16'],
+      backgroundColor: ['#0f766e', '#2563eb', '#d8a74d', '#e8794f', '#7c3aed', '#0891b2', '#65a30d', '#475569'],
       borderWidth: 0
     }]
   }
@@ -171,8 +171,8 @@ const chartData = computed(() => {
   return {
     labels,
     datasets: [
-      { label: 'Borrowed', data: borrowData, borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.1)', fill: true, tension: 0.4, pointRadius: 3 },
-      { label: 'Returned', data: returnData, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', fill: true, tension: 0.4, pointRadius: 3 }
+      { label: 'Borrowed', data: borrowData, borderColor: '#0f766e', backgroundColor: 'rgba(15, 118, 110, 0.1)', fill: true, tension: 0.4, pointRadius: 3 },
+      { label: 'Returned', data: returnData, borderColor: '#d97706', backgroundColor: 'rgba(217, 119, 6, 0.1)', fill: true, tension: 0.4, pointRadius: 3 }
     ]
   }
 })

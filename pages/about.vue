@@ -66,10 +66,10 @@ const stats = computed(() => [
   <div class="page-shell max-w-6xl">
     <header class="mb-12 max-w-[62ch]">
       <p class="page-eyebrow">About E-LIBRARY</p>
-      <h1 class="page-title">
+      <h1 class="page-title text-emerald-900">
         A library that fits in your pocket.
       </h1>
-      <p class="page-description max-w-[62ch] text-base">
+      <p class="page-description max-w-[62ch] text-base text-emerald-800/80">
         Marginalia is a digital library platform that gives students, teachers and researchers
         access to books and educational materials, catalogued and searchable like a university
         library — anytime, anywhere.
@@ -80,10 +80,10 @@ const stats = computed(() => [
       <div
         v-for="s in stats"
         :key="s.label"
-        class="surface-card p-5 text-center"
+        class="surface-card bg-emerald-50/60 p-5 text-center"
       >
-        <p class="font-display font-semibold text-2xl">{{ s.value }}</p>
-        <p class="font-mono text-[11px] uppercase tracking-wide text-ink-soft mt-1">
+        <p class="font-display text-2xl font-semibold text-emerald-900">{{ s.value }}</p>
+        <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-emerald-700">
           {{ s.label }}
         </p>
       </div>
@@ -91,17 +91,17 @@ const stats = computed(() => [
 
     <section class="grid sm:grid-cols-2 gap-8 py-8 border-t border-b border-line">
       <div>
-        <h3 class="text-lg font-semibold mb-2.5">Our vision</h3>
-        <p class="text-ink-soft text-sm">
+        <h3 class="mb-2.5 text-lg font-semibold text-emerald-900">Our vision</h3>
+        <p class="text-sm text-emerald-700">
           To become a trusted, free digital library that lowers the barrier to educational resources
           for anyone with an internet connection.
         </p>
       </div>
       <div>
-        <h3 class="text-lg font-semibold mb-2.5">Our mission</h3>
+        <h3 class="mb-2.5 text-lg font-semibold text-emerald-900">Our mission</h3>
         <ul class="space-y-1.5">
-          <li v-for="item in mission" :key="item" class="text-ink-soft text-sm flex gap-2">
-            <Check class="mt-0.5 h-4 w-4 shrink-0 text-amber-deep" aria-hidden="true" />
+          <li v-for="item in mission" :key="item" class="flex gap-2 text-sm text-emerald-700">
+            <Check class="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" aria-hidden="true" />
             {{ item }}
           </li>
         </ul>
@@ -109,18 +109,18 @@ const stats = computed(() => [
     </section>
 
     <section class="py-12">
-      <h2 class="text-2xl font-display font-semibold mb-6">What you get</h2>
+      <h2 class="mb-6 text-2xl font-display font-semibold text-emerald-900">What you get</h2>
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div
           v-for="s in services"
           :key="s.title"
-          class="surface-card p-5"
+          class="surface-card bg-white/85 p-5"
         >
-          <div class="w-9 h-9 rounded-card bg-amber/10 flex items-center justify-center mb-3.5">
-            <component :is="s.icon" class="h-4.5 w-4.5 text-amber-deep" aria-hidden="true" />
+          <div class="mb-3.5 flex h-9 w-9 items-center justify-center rounded-card bg-emerald-100">
+            <component :is="s.icon" class="h-4.5 w-4.5 text-emerald-700" aria-hidden="true" />
           </div>
-          <h4 class="font-semibold text-[15px] mb-2">{{ s.title }}</h4>
-          <p class="text-sm text-ink-soft">{{ s.desc }}</p>
+          <h4 class="mb-2 text-[15px] font-semibold text-emerald-900">{{ s.title }}</h4>
+          <p class="text-sm text-emerald-700">{{ s.desc }}</p>
         </div>
       </div>
     </section>

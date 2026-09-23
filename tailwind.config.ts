@@ -7,30 +7,30 @@ export default <Partial<Config>>{
     extend: {
       colors: {
         ink: {
-          DEFAULT: '#17192D',
-          soft: '#64677A',
-          light: '#292C47'
+          DEFAULT: '#12372F',
+          soft: '#526B62',
+          light: '#1B5548'
         },
         campus: {
-          DEFAULT: '#12304A',
-          light: '#1C4969',
-          pale: '#EAF0F3'
+          DEFAULT: '#0F766E',
+          light: '#159A8C',
+          pale: '#DFF4EE'
         },
         parchment: {
-          DEFAULT: '#FCFCFD',
-          dim: '#F5F5F7'
+          DEFAULT: '#F4FAF7',
+          dim: '#EAF6F1'
         },
         amber: {
-          DEFAULT: '#C9A227',
-          deep: '#A6821A'
+          DEFAULT: '#D8A74D',
+          deep: '#B57F28'
         },
-        sage: '#3F8F5F',
+        sage: '#278A67',
         crimson: '#8C2638',
         rose: {
           DEFAULT: '#C24444',
           deep: '#A13636'
         },
-        line: '#E7E8EE'
+        line: '#D9E8E3'
       },
       fontFamily: {
         display: ['"DM Serif Display"', 'Georgia', 'serif'],
@@ -41,9 +41,9 @@ export default <Partial<Config>>{
         card: '8px'
       },
       boxShadow: {
-        cover: '0 18px 34px rgba(23, 25, 45, 0.22)',
-        card: '0 14px 32px rgba(23, 25, 45, 0.10)',
-        premium: '0 1px 2px rgba(23, 25, 45, 0.04), 0 18px 36px -14px rgba(23, 25, 45, 0.18)'
+        cover: '0 18px 34px rgba(15, 118, 110, 0.22)',
+        card: '0 14px 32px rgba(15, 118, 110, 0.10)',
+        premium: '0 1px 2px rgba(15, 118, 110, 0.04), 0 18px 36px -14px rgba(15, 118, 110, 0.18)'
       }
     }
   },

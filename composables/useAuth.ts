@@ -63,9 +63,11 @@ export function useAuth() {
 
   async function register(name: string, email: string, password: string): Promise<AuthResult> {
     const normalizedEmail = email.trim().toLowerCase()
-    if (!name.trim() || !normalizedEmail || !password) return { ok: false, error: 'Complete all required fields.' }
+    if (!name.trim() || !normalizedEmail || !password)
+      return { ok: false, error: 'Complete all required fields.' }
     if (!normalizedEmail.includes('@')) return { ok: false, error: 'Enter a valid email address.' }
-    if (password.length < 6) return { ok: false, error: 'Password must contain at least 6 characters.' }
+    if (password.length < 6)
+      return { ok: false, error: 'Password must contain at least 6 characters.' }
 
     try {
       const result = await $fetch<{ ok: boolean; already?: boolean }>('/api/accounts', {
@@ -96,7 +98,12 @@ export function useAuth() {
         return { ok: false, error: 'Email or password is incorrect.' }
       }
 
-      user.value = { name: account.name, email: account.email, role: account.role, avatar: account.avatar }
+      user.value = {
+        name: account.name,
+        email: account.email,
+        role: account.role,
+        avatar: account.avatar
+      }
       saveSession(user.value)
 
       // Load configured owner/admin access for this account before the caller
@@ -114,15 +121,26 @@ export function useAuth() {
     saveSession(null)
   }
 
-  async function updateProfile(name: string, password = '', avatar = ''): Promise<AuthResult> {
+  async function updateProfile(
+    name: string,
+    password = '',
+    avatar = '',
+    currentPassword = ''
+  ): Promise<AuthResult> {
     if (!user.value) return { ok: false, error: 'You must be signed in.' }
     if (!name.trim()) return { ok: false, error: 'Name cannot be empty.' }
-    if (password && password.length < 6) return { ok: false, error: 'Password must contain at least 6 characters.' }
+    if (password && password.length < 6)
+      return { ok: false, error: 'Password must contain at least 6 characters.' }
 
     try {
       await $fetch(`/api/accounts/${encodeURIComponent(user.value.email)}`, {
         method: 'PUT',
-        body: { approverEmail: user.value.email, name: name.trim(), ...(password ? { password } : {}), ...(avatar ? { avatar } : {}) }
+        body: {
+          approverEmail: user.value.email,
+          name: name.trim(),
+          ...(password ? { password, currentPassword } : {}),
+          ...(avatar ? { avatar } : {})
+        }
       })
       user.value = { ...user.value, name: name.trim(), ...(avatar ? { avatar } : {}) }
       saveSession(user.value)
@@ -132,8 +150,17 @@ export function useAuth() {
     }
   }
 
-  const isAdmin = computed(() => isLoggedIn.value && (user.value?.role === 'admin' || user.value?.role === 'super-admin' || adminAccess.isAdminDevice.value))
-  const isOwner = computed(() => isLoggedIn.value && (user.value?.role === 'super-admin' || adminAccess.isOwnerDevice.value))
+  const isAdmin = computed(
+    () =>
+      isLoggedIn.value &&
+      (user.value?.role === 'admin' ||
+        user.value?.role === 'super-admin' ||
+        adminAccess.isAdminDevice.value)
+  )
+  const isOwner = computed(
+    () =>
+      isLoggedIn.value && (user.value?.role === 'super-admin' || adminAccess.isOwnerDevice.value)
+  )
   const isLoggedIn = computed(() => user.value !== null)
 
   return { user, register, login, logout, updateProfile, isAdmin, isOwner, isLoggedIn }

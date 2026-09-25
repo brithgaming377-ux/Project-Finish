@@ -21,6 +21,17 @@ import {
 } from '@lucide/vue'
 import { getCoverUrl } from '~/data/books'
 
+const savedBooksTotal = ref(0)
+
+onMounted(async () => {
+  try {
+    const result = await $fetch<{ total: number }>('/api/library/all')
+    savedBooksTotal.value = result.total || 0
+  } catch {
+    savedBooksTotal.value = 0
+  }
+})
+
 const { books, refresh: refreshBooks, updateBook } = useCatalog()
 const { requests, pending, refresh: refreshRequests, updateStatus } = useRequests()
 const { push: toast } = useToast()
@@ -90,7 +101,7 @@ const totalCopies = computed(() => bookStats.value.totalCopies)
 const availableCopies = computed(() => bookStats.value.availableCopies)
 const borrowedCopies = computed(() => bookStats.value.borrowedCopies)
 const mostPopularBook = computed(() => bookStats.value.mostPopularBook)
-const favoriteCount = computed(() => libraryState.value.saved.length)
+const favoriteCount = computed(() => savedBooksTotal.value)
 
 const newBooks = computed(() => {
   const thirtyDaysAgo = Date.now() - 30 * 86400000

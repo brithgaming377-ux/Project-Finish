@@ -131,7 +131,7 @@
     "requiresBorrow": true,
     "availability": {
       "digitalCopies": 4,
-      "checkedOut": 4
+      "checkedOut": 1
     },
     "rating": 4.7,
     "ratingsCount": 85,
@@ -191,7 +191,7 @@
     "publisher": "Cambridge University Press",
     "language": "English",
     "format": "PDF",
-    "fileUrl": "https://jmvidal.cse.sc.edu/library/easley10a.pdf",
+    "fileUrl": "https://www.stat.berkeley.edu/~aldous/206-SNET/Papers/easley-kleinberg.pdf",
     "isbn": "978-102296296",
     "fileSizeMb": 6.6,
     "callNumber": "QA76121.D3",
@@ -200,7 +200,7 @@
     "requiresBorrow": false,
     "availability": {
       "digitalCopies": 3,
-      "checkedOut": 2
+      "checkedOut": 0
     },
     "rating": 4,
     "ratingsCount": 111,
@@ -258,7 +258,7 @@
     "publisher": "Penguin Classics",
     "language": "English (translated)",
     "format": "EPUB",
-    "fileUrl": "https://www.maximusveritas.com/wp-content/uploads/2017/09/Marcus-Aurelius-Meditations.pdf",
+    "fileUrl": "https://archive.org/cors/meditationsofmar00marc/meditationsofmar00marc.pdf",
     "isbn": "978-103061728",
     "fileSizeMb": 3,
     "callNumber": "B128.E4",
@@ -340,7 +340,7 @@
     "publisher": "Vintage",
     "language": "English (translated)",
     "format": "EPUB",
-    "fileUrl": "https://dn760009.eu.archive.org/0/items/beyondgoodandevi00nietuoft/beyondgoodandevi00nietuoft.pdf",
+    "fileUrl": "https://ia600507.us.archive.org/12/items/nietzsche-beyond-good-evil-kaufmann/Nietzsche%20-%20Beyond%20Good%20%26%20Evil%20%5BKaufmann%5D.pdf",
     "isbn": "978-103827160",
     "fileSizeMb": 3.9,
     "callNumber": "B135.F5",
@@ -349,7 +349,7 @@
     "requiresBorrow": false,
     "availability": {
       "digitalCopies": 5,
-      "checkedOut": 3
+      "checkedOut": 4
     },
     "rating": 3.9,
     "ratingsCount": 148,
@@ -418,7 +418,7 @@
     "publisher": "Oxford World's Classics",
     "language": "English (translated)",
     "format": "PDF",
-    "fileUrl": "/uploads/1789109022587-fdzu80.pdf",
+    "fileUrl": "https://ia802802.us.archive.org/20/items/PlatoTheRepublicCambridgeTomGriffith/Plato%20The%20Republic%20(Cambridge%2C%20Tom%20Griffith).pdf",
     "isbn": "978-104592592",
     "fileSizeMb": 4.7,
     "callNumber": "B142.G6",
@@ -947,7 +947,7 @@
     "requiresBorrow": false,
     "availability": {
       "digitalCopies": 3,
-      "checkedOut": 0
+      "checkedOut": 1
     },
     "rating": 4.1,
     "ratingsCount": 172,
@@ -1019,7 +1019,7 @@
     "requiresBorrow": false,
     "availability": {
       "digitalCopies": 6,
-      "checkedOut": 3
+      "checkedOut": 4
     },
     "rating": 3.9,
     "ratingsCount": 275,
@@ -1307,7 +1307,7 @@
     "requiresBorrow": false,
     "availability": {
       "digitalCopies": 5,
-      "checkedOut": 4
+      "checkedOut": 5
     },
     "rating": 4.1,
     "ratingsCount": 208,
@@ -2790,6 +2790,51 @@
     "fileSizeMb": 3.9,
     "readingTimeHours": 7.8,
     "addedDate": "2026-09-07",
+    "edition": 1,
+    "exchangeable": true,
+    "requiresBorrow": false,
+    "rating": 4,
+    "ratingsCount": 0,
+    "reviews": [],
+    "availability": {
+      "digitalCopies": 5,
+      "checkedOut": 0
+    }
+  },
+  {
+    "id": 41,
+    "title": "Database",
+    "author": "Menghan",
+    "category": "Technology",
+    "pages": 240,
+    "year": 2026,
+    "spineColor": "#1B1F3B",
+    "coverUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX2P_nQAuAO-n3_x21owmZhNJgaIMNuxxr7GXsFh6gNaCEIOaHaz_GKhDR&s=10",
+    "description": "Good for store data",
+    "longDescription": [
+      "Good for store data"
+    ],
+    "tableOfContents": [
+      "Introduction",
+      "Main Content",
+      "Conclusion"
+    ],
+    "tags": [
+      "technology"
+    ],
+    "subjects": [
+      "Technology"
+    ],
+    "callNumber": "QA76387.P41",
+    "level": "Beginner",
+    "publisher": "The best book ",
+    "language": "English",
+    "format": "PDF",
+    "fileUrl": "https://faculty.ksu.edu.sa/sites/default/files/database_management_system-by_raghu_ramakrishnan.pdf",
+    "isbn": "978-131382716-1",
+    "fileSizeMb": 2.7,
+    "readingTimeHours": 5.3,
+    "addedDate": "2026-09-25",
     "edition": 1,
     "exchangeable": true,
     "requiresBorrow": false,

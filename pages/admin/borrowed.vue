@@ -40,6 +40,7 @@ const itemsPerPage = 20
 const selectedRequestId = ref<number | null>(null)
 const extendingId = ref<number | null>(null)
 const returningId = ref<number | null>(null)
+const statusMenuOpen = ref(false)
 const extendDays = ref(14)
 const showNewBorrowModal = ref(false)
 const isSubmittingBorrow = ref(false)
@@ -61,7 +62,7 @@ const uniqueUsers = computed(() => {
 // Compute borrow data with book info and calculated fields
 const borrowDataWithBooks = computed(() => {
   return requests.value
-    .filter(r => r.kind === 'borrow' && r.status === 'approved')
+    .filter(r => r.kind === 'borrow' && ['approved', 'returned'].includes(r.status))
     .map(request => {
       const book = books.value.find(b => b.id === request.bookId)
       const borrowedDate = new Date(request.processedOn || request.requestedOn)
@@ -72,9 +73,9 @@ const borrowDataWithBooks = computed(() => {
       const isOverdue = daysUntilDue < 0
       const isDueSoon = !isOverdue && daysUntilDue <= 3
 
-      let status: 'borrowed' | 'due-soon' | 'overdue' = 'borrowed'
-      if (isOverdue) status = 'overdue'
-      else if (isDueSoon) status = 'due-soon'
+      let status: 'borrowed' | 'due-soon' | 'overdue' | 'returned' = request.status === 'returned' ? 'returned' : 'borrowed'
+      if (request.status === 'approved' && isOverdue) status = 'overdue'
+      else if (request.status === 'approved' && isDueSoon) status = 'due-soon'
 
       return {
         request,
@@ -133,6 +134,20 @@ const filteredBorrowData = computed(() => {
   })
 })
 
+const statusFilterLabel = computed(() => ({
+  all: 'All Status',
+  borrowed: 'Borrowed',
+  'due-soon': 'Due Soon',
+  overdue: 'Overdue',
+  returned: 'Returned'
+}[statusFilter.value]))
+
+function selectStatusFilter(value: typeof statusFilter.value) {
+  statusFilter.value = value
+  currentPage.value = 1
+  statusMenuOpen.value = false
+}
+
 // Pagination
 const totalPages = computed(() => Math.ceil(filteredBorrowData.value.length / itemsPerPage))
 const paginatedData = computed(() => {
@@ -141,7 +156,7 @@ const paginatedData = computed(() => {
 })
 
 // Summary statistics
-const borrowedCount = computed(() => borrowDataWithBooks.value.length)
+const borrowedCount = computed(() => borrowDataWithBooks.value.filter(item => item.request.status === 'approved').length)
 const dueSoonCount = computed(() => borrowDataWithBooks.value.filter(item => item.isDueSoon).length)
 const overdueCount = computed(() => borrowDataWithBooks.value.filter(item => item.isOverdue).length)
 const returnedCount = computed(() => returnedBooks.value.length)
@@ -196,7 +211,13 @@ function getDaysUntilDueColor(daysUntilDue: number): string {
   return 'bg-emerald-50 text-emerald-700 border-emerald-200'
 }
 
-function getDaysUntilDueIcon(daysUntilDue: number) {
+function getStatusColor(status: 'borrowed' | 'due-soon' | 'overdue' | 'returned', daysUntilDue: number): string {
+  if (status === 'returned') return 'bg-slate-50 text-slate-600 border-slate-200'
+  return getDaysUntilDueColor(daysUntilDue)
+}
+
+function getDaysUntilDueIcon(daysUntilDue: number, status: 'borrowed' | 'due-soon' | 'overdue' | 'returned') {
+  if (status === 'returned') return '↩'
   if (daysUntilDue < 0) return '🔴'
   if (daysUntilDue <= 3) return '🟡'
   return '🟢'
@@ -406,16 +427,17 @@ function viewDetails(requestId: number) {
 
       <div class="flex flex-wrap gap-3">
         <!-- Status Filter -->
-        <div class="relative group">
+        <div class="relative">
           <button
             type="button"
+            @click="statusMenuOpen = !statusMenuOpen"
             class="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition"
           >
             <Filter class="h-4 w-4" />
-            Status
+            {{ statusFilterLabel }}
             <ChevronDown class="h-4 w-4" />
           </button>
-          <div class="absolute left-0 top-full mt-1 w-48 rounded-lg border border-slate-200 bg-white shadow-lg z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition">
+          <div v-if="statusMenuOpen" class="absolute left-0 top-full mt-1 w-48 rounded-lg border border-slate-200 bg-white shadow-lg z-10">
             <button
               v-for="option in [
                 { value: 'all' as const, label: 'All Status' },
@@ -426,7 +448,7 @@ function viewDetails(requestId: number) {
               ]"
               :key="option.value"
               type="button"
-              @click="statusFilter = option.value; currentPage = 1"
+              @click="selectStatusFilter(option.value)"
               :class="[
                 'w-full px-4 py-2.5 text-left text-sm hover:bg-blue-50',
                 statusFilter === option.value ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-slate-700',
@@ -552,15 +574,16 @@ function viewDetails(requestId: number) {
                 <td class="px-6 py-4 text-center text-sm font-medium text-slate-900">{{ item.dueDate }}</td>
                 <td class="px-6 py-4 text-center">
                   <span
-                    :class="['inline-flex rounded-full px-2.5 py-1 text-xs font-semibold border', getDaysUntilDueColor(item.daysUntilDue)]"
+                    :class="['inline-flex rounded-full px-2.5 py-1 text-xs font-semibold border', getStatusColor(item.status, item.daysUntilDue)]"
                   >
-                    {{ getDaysUntilDueIcon(item.daysUntilDue) }}
-                    {{ item.status === 'overdue' ? `${item.fineDays}d overdue` : item.status === 'due-soon' ? `${item.daysUntilDue}d left` : 'On time' }}
+                    {{ getDaysUntilDueIcon(item.daysUntilDue, item.status) }}
+                    {{ item.status === 'returned' ? 'Returned' : item.status === 'overdue' ? `${item.fineDays}d overdue` : item.status === 'due-soon' ? `${item.daysUntilDue}d left` : 'On time' }}
                   </span>
                 </td>
                 <td class="px-6 py-4 text-right">
                   <div class="flex items-center justify-end gap-2">
                     <button
+                      v-if="item.status !== 'returned'"
                       type="button"
                       @click="viewDetails(item.request.id)"
                       class="rounded-lg border border-slate-200 p-2 text-slate-600 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition"
@@ -601,6 +624,7 @@ function viewDetails(requestId: number) {
                         <p class="text-xs text-slate-500 uppercase tracking-wide font-semibold mb-1">Actions</p>
                         <div class="flex gap-2">
                           <button
+                            v-if="item.status !== 'returned'"
                             type="button"
                             @click="onExtendDueDate(item.request.id, item.request.bookId, item.dueDate)"
                             :disabled="extendingId === item.request.id"
@@ -610,6 +634,7 @@ function viewDetails(requestId: number) {
                             Extend
                           </button>
                           <button
+                            v-if="item.status !== 'returned'"
                             type="button"
                             @click="onReturnBook(item.request.id, item.request.bookId)"
                             :disabled="returningId === item.request.id"

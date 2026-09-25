@@ -243,20 +243,20 @@ function onSearch() {
         <NuxtLink to="/about" class="text-sm font-semibold text-campus hover:text-crimson">About E-LIBRARY <ArrowRight class="ml-1 inline h-4 w-4 align-[-3px]" /></NuxtLink>
       </div>
       <div class="motion-stagger mt-8 grid gap-px overflow-hidden border border-line bg-line md:grid-cols-3">
-        <article class="library-pillar bg-white p-6 transition hover:bg-campus hover:text-white">
+        <article class="library-pillar group cursor-pointer bg-white p-6 text-ink transition-colors duration-500 hover:bg-[#153A56] active:bg-[#153A56]">
           <p class="font-mono text-[10px] uppercase tracking-[0.16em] text-amber-deep">01 / Discover</p>
-          <h3 class="mt-12 font-display text-2xl">A clearer path to the right book.</h3>
-          <p class="mt-3 text-sm leading-6 text-ink-soft">Search by subject, author, level, or idea across a growing digital collection.</p>
+          <h3 class="mt-12 font-display text-2xl group-hover:text-white">A clearer path to the right book.</h3>
+          <p class="mt-3 text-sm leading-6 text-ink-soft group-hover:text-white/70">Search by subject, author, level, or idea across a growing digital collection.</p>
         </article>
-        <article class="library-pillar bg-white p-6 transition hover:bg-campus hover:text-white">
+        <article class="library-pillar group cursor-pointer bg-white p-6 text-ink transition-colors duration-500 hover:bg-[#153A56] active:bg-[#153A56]">
           <p class="font-mono text-[10px] uppercase tracking-[0.16em] text-amber-deep">02 / Read</p>
-          <h3 class="mt-12 font-display text-2xl">Study deeply, wherever you are.</h3>
-          <p class="mt-3 text-sm leading-6 text-ink-soft">Keep your reading focused with browser-based access and personal shelves.</p>
+          <h3 class="mt-12 font-display text-2xl group-hover:text-white">Study deeply, wherever you are.</h3>
+          <p class="mt-3 text-sm leading-6 text-ink-soft group-hover:text-white/70">Keep your reading focused with browser-based access and personal shelves.</p>
         </article>
-        <article class="library-pillar bg-white p-6 transition hover:bg-campus hover:text-white">
+        <article class="library-pillar group cursor-pointer bg-white p-6 text-ink transition-colors duration-500 hover:bg-[#153A56] active:bg-[#153A56]">
           <p class="font-mono text-[10px] uppercase tracking-[0.16em] text-amber-deep">03 / Share</p>
-          <h3 class="mt-12 font-display text-2xl">Build a stronger learning community.</h3>
-          <p class="mt-3 text-sm leading-6 text-ink-soft">Borrow, exchange, and return resources as your academic journey evolves.</p>
+          <h3 class="mt-12 font-display text-2xl group-hover:text-white">Build a stronger learning community.</h3>
+          <p class="mt-3 text-sm leading-6 text-ink-soft group-hover:text-white/70">Borrow, exchange, and return resources as your academic journey evolves.</p>
         </article>
       </div>
     </RevealOnScroll>

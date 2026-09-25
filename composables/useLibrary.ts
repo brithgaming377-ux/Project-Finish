@@ -1,3 +1,5 @@
+import { getLibraryStorageKey, migrateLegacyLibraryState } from '~/utils/library-storage'
+
 export interface BorrowRecord {
   bookId: number
   borrowedOn: string
@@ -9,38 +11,48 @@ export interface LibraryState {
   borrowed: BorrowRecord[]
 }
 
-const STORAGE_KEY = 'marginalia:library'
+async function loadLibraryState(email: string): Promise<LibraryState> {
+  if (!import.meta.client || !email) return { saved: [], borrowed: [] }
 
-function libraryState() {
-  return useState<LibraryState>('user-library', () => ({ saved: [], borrowed: [] }))
+  try {
+    const data = await $fetch<{ saved?: number[]; borrowed?: BorrowRecord[] }>(`/api/library?email=${encodeURIComponent(email)}`)
+    return {
+      saved: Array.isArray(data.saved) ? data.saved : [],
+      borrowed: Array.isArray(data.borrowed) ? data.borrowed : []
+    }
+  } catch {
+    return { saved: [], borrowed: [] }
+  }
 }
 
-function persist(state: LibraryState) {
-  if (!import.meta.client) return
+async function persist(state: LibraryState, email: string) {
+  if (!import.meta.client || !email) return
+
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+    await $fetch('/api/library', {
+      method: 'POST',
+      body: {
+        email,
+        saved: state.saved,
+        borrowed: state.borrowed
+      }
+    })
   } catch {
-    // ignore
+    // ignore server sync failure
   }
+}
+
+function libraryState(email: string) {
+  return useState<LibraryState>(`user-library:${email || 'guest'}`, () => ({ saved: [], borrowed: [] }))
 }
 
 let hydrated = false
 
-function hydrate(state: ReturnType<typeof libraryState>) {
-  if (!import.meta.client) return
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (raw) {
-      const stored = JSON.parse(raw)
-      state.value = {
-        saved: Array.isArray(stored.saved) ? stored.saved : [],
-        borrowed: Array.isArray(stored.borrowed) ? stored.borrowed : []
-      }
-      persist(state.value)
-    }
-  } catch {
-    // ignore corrupt storage
-  }
+async function hydrate(state: ReturnType<typeof libraryState>, email: string) {
+  if (!import.meta.client || !email) return
+
+  const nextState = await loadLibraryState(email)
+  state.value = nextState
 }
 
 function addDays(iso: string, days: number): string {
@@ -50,36 +62,61 @@ function addDays(iso: string, days: number): string {
 }
 
 export function useLibrary() {
-  const state = libraryState()
+  const { user } = useAuth()
 
-  if (import.meta.client && !hydrated) {
-    hydrated = true
-    hydrate(state)
+  const currentEmail = computed(() => user.value?.email?.trim().toLowerCase() || '')
+  const state = libraryState(currentEmail.value)
+
+  if (import.meta.client && currentEmail.value) {
+    hydrate(state, currentEmail.value)
   }
+
+  watch(currentEmail, async (email) => {
+    if (!email) {
+      state.value = { saved: [], borrowed: [] }
+      return
+    }
+
+    state.value = await loadLibraryState(email)
+  }, { immediate: true })
 
   const isSaved = (id: number) => state.value.saved.includes(id)
   const isBorrowed = (id: number) => state.value.borrowed.some((r) => r.bookId === id)
 
+  async function syncState(nextState: LibraryState) {
+    state.value = nextState
+    if (currentEmail.value) await persist(nextState, currentEmail.value)
+  }
+
   function toggleSave(id: number) {
-    state.value.saved = isSaved(id)
-      ? state.value.saved.filter((x) => x !== id)
-      : [...state.value.saved, id]
-    persist(state.value)
+    const nextState = {
+      ...state.value,
+      saved: isSaved(id)
+        ? state.value.saved.filter((x) => x !== id)
+        : [...state.value.saved, id]
+    }
+    syncState(nextState)
   }
 
   function borrow(id: number, days = 14) {
     if (isBorrowed(id)) return
     const today = new Date().toISOString().slice(0, 10)
-    state.value.borrowed = [
-      ...state.value.borrowed,
-      { bookId: id, borrowedOn: today, dueOn: addDays(today, days) }
-    ]
-    persist(state.value)
+    const nextState = {
+      ...state.value,
+      borrowed: [
+        ...state.value.borrowed,
+        { bookId: id, borrowedOn: today, dueOn: addDays(today, days) }
+      ]
+    }
+    syncState(nextState)
   }
 
   function returnBook(id: number) {
-    state.value.borrowed = state.value.borrowed.filter((r) => r.bookId !== id)
-    persist(state.value)
+    const nextState = {
+      ...state.value,
+      borrowed: state.value.borrowed.filter((r) => r.bookId !== id)
+    }
+    syncState(nextState)
   }
 
   /** Exchange: return one borrowed book and immediately borrow another in its place. */

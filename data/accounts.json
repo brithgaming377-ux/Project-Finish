@@ -14,7 +14,7 @@
     "createdOn": "2026-08-29"
   },
   {
-    "name": "Mai Sokkong",
+    "name": "Ronaldo",
     "email": "kkh70096@gmail.com",
     "password": "password123",
     "role": "admin",
@@ -97,5 +97,26 @@
     "password": "@12345",
     "role": "user",
     "createdOn": "2026-09-20"
+  },
+  {
+    "name": "Nika",
+    "email": "nika1233@gmail.com",
+    "password": "password123",
+    "role": "user",
+    "createdOn": "2026-09-25"
+  },
+  {
+    "name": "Messi",
+    "email": "messi77@gmail.com",
+    "password": "password123",
+    "role": "user",
+    "createdOn": "2026-09-25"
+  },
+  {
+    "name": "Nuna",
+    "email": "nuna123@gmail.com",
+    "password": "passwor123",
+    "role": "user",
+    "createdOn": "2026-09-25"
   }
 ]

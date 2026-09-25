@@ -202,7 +202,7 @@ async function deleteReader(email: string) {
 
 watch(() => section.value, (val) => {
   if (val === 'admins') refreshAdmins()
-  if (val === 'readers') refreshReaders()
+  if (val === 'readers' || val === 'reports') refreshReaders()
 }, { immediate: true })
 const memberForm = reactive({ name: '', email: '', role: 'Student' as 'Student' | 'Teacher' })
 const loanForm = reactive({ memberId: 0, bookId: 0 })
@@ -310,14 +310,23 @@ function resetCurrentSection() {
   toast('This section was reset to defaults.')
 }
 const reportItems = computed(() => [
-  { label: 'Members', value: data.value.members.length, tone: 'blue' },
+  { label: 'Members', value: readerAccounts.value.length, tone: 'blue' },
   { label: 'Catalog titles', value: books.value.length, tone: 'slate' },
   { label: 'Available titles', value: availableBooks.value.length, tone: 'emerald' },
-  { label: 'Active loans', value: activeLoans.value.length, tone: 'amber' },
-  { label: 'Overdue loans', value: overdueLoans.value.length, tone: 'red' },
-  { label: 'Returned loans', value: allRequests.value.filter(request => request.kind === 'borrow' && request.status === 'returned').length, tone: 'violet' },
+  { label: 'Active loans', value: reportActiveLoans.value.length, tone: 'amber' },
+  { label: 'Overdue loans', value: reportOverdueLoans.value.length, tone: 'red' },
+  { label: 'Returned loans', value: reportReturnedLoans.value.length, tone: 'violet' },
   { label: 'Outstanding fines', value: `$${totalFineAmount.value.toFixed(2)}`, tone: 'rose' }
 ])
+const readerAccounts = computed(() => readers.value.filter(reader => reader.role === 'user'))
+const reportBorrowRequests = computed(() => allRequests.value.filter(request => request.kind === 'borrow'))
+const reportActiveLoans = computed(() => reportBorrowRequests.value.filter(request => request.status === 'approved'))
+const reportReturnedLoans = computed(() => reportBorrowRequests.value.filter(request => request.status === 'returned'))
+const reportOverdueLoans = computed(() => reportActiveLoans.value.filter(request => {
+  const dueDate = new Date(request.processedOn || request.requestedOn)
+  dueDate.setDate(dueDate.getDate() + data.value.settings.loanDays)
+  return dueDate.getTime() < Date.now()
+}))
 const reportCategories = computed(() => {
   const counts: Record<string, number> = {}
   books.value.forEach(book => { counts[book.category] = (counts[book.category] || 0) + 1 })
@@ -329,7 +338,7 @@ const reportInventory = computed(() => ({
   paidFines: data.value.fines.filter(fine => fine.paid).length,
   pendingRequests: allRequests.value.filter(request => request.status === 'pending').length
 }))
-function downloadReport() { const rows = [['Metric', 'Value'], ['Members', String(data.value.members.length)], ['Active loans', String(activeLoans.value.length)], ['Overdue loans', String(overdueLoans.value.length)], ['Outstanding fines', `$${totalFineAmount.value.toFixed(2)}`], ['Catalog titles', String(books.value.length)]]; const url = URL.createObjectURL(new Blob([rows.map((row) => row.join(',')).join('\n')], { type: 'text/csv' })); const link = document.createElement('a'); link.href = url; link.download = 'etec-library-report.csv'; link.click(); URL.revokeObjectURL(url); toast('Report downloaded.') }
+function downloadReport() { const rows = [['Metric', 'Value'], ['Members', String(readerAccounts.value.length)], ['Active loans', String(reportActiveLoans.value.length)], ['Overdue loans', String(reportOverdueLoans.value.length)], ['Returned loans', String(reportReturnedLoans.value.length)], ['Outstanding fines', `$${totalFineAmount.value.toFixed(2)}`], ['Catalog titles', String(books.value.length)]]; const url = URL.createObjectURL(new Blob([rows.map((row) => row.join(',')).join('\n')], { type: 'text/csv' })); const link = document.createElement('a'); link.href = url; link.download = 'etec-library-report.csv'; link.click(); URL.revokeObjectURL(url); toast('Report downloaded.') }
 if (!title.value) await navigateTo('/admin')
 </script>
 
